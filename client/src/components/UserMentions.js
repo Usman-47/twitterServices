@@ -34,6 +34,8 @@ const UserMentions = ({ currentUser, data }) => {
   const [rewardToken, setRewardToken] = useState("");
   const [userCreatedTweets, setUserCreatedTweets] = useState("");
   const [rewardTokenForClaim, setRewardTokenForClaim] = useState("");
+  const [tweetTextForTweetCreation, setTweetTextForTweetCreation] =
+    useState("");
   const [userCreatedTweetAt, setUserCreatedTweetAt] = useState("");
   const [rewardFrequencyToClaimReward, setRewardFrequencyToClaimReward] =
     useState("");
@@ -162,6 +164,7 @@ const UserMentions = ({ currentUser, data }) => {
               rewardToken,
               tweetId,
               projectName,
+              tweetText: tweetTextForTweetCreation,
               tweetCreatedAt: moment().unix(),
             },
             twitterId: currentUser?.twitterId,
@@ -563,15 +566,28 @@ const UserMentions = ({ currentUser, data }) => {
       alert("Something went wrong");
     }
   };
+
+  useEffect(() => {
+    if (tweetForReward) {
+      mentionUserTweet.map((tweet) => {
+        if (tweet.id === tweetForReward) {
+          setTweetTextForTweetCreation(tweet?.text);
+        }
+      });
+    }
+  }, [tweetForReward]);
   return (
     <>
-   
       {/* <div>Project: {projectName}</div> */}
       <br />
       <br />
 
       <div className="mb-5">
-        <label className="form-label" htmlFor="userType" style={{color:"white"}}>
+        <label
+          className="form-label"
+          htmlFor="userType"
+          style={{ color: "white" }}
+        >
           Reward Token
         </label>
         {data?.pool ? (
@@ -598,7 +614,11 @@ const UserMentions = ({ currentUser, data }) => {
       </div>
       {mentionUserTweet?.length > 0 ? (
         <div className="mb-5">
-          <label className="form-label" htmlFor="userType" style={{color:"white"}}>
+          <label
+            className="form-label"
+            htmlFor="userType"
+            style={{ color: "white" }}
+          >
             Select Your Tweet For Reward
           </label>
           <select
@@ -634,7 +654,11 @@ const UserMentions = ({ currentUser, data }) => {
       ) : null}
       {userCreatedTweets.length > 0 ? (
         <div className="mb-5">
-          <label className="form-label" htmlFor="userType" style={{color:"white"}}>
+          <label
+            className="form-label"
+            htmlFor="userType"
+            style={{ color: "white" }}
+          >
             Select Your Tweet For Claim Reward
           </label>
           {userCreatedTweets ? (
@@ -654,7 +678,9 @@ const UserMentions = ({ currentUser, data }) => {
               {userCreatedTweets &&
                 userCreatedTweets?.map((tweet) => (
                   <>
-                    <option value={tweet.tweetId}>{tweet.tweetId}</option>
+                    <option value={tweet.tweetId}>
+                      {tweet.tweetText ? tweet.tweetText : tweet.tweetId}
+                    </option>
                   </>
                 ))}
             </select>
@@ -676,7 +702,6 @@ const UserMentions = ({ currentUser, data }) => {
           );
           // }
         })}
-        
     </>
   );
 };
