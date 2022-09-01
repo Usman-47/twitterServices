@@ -577,9 +577,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                 className="magic_eden_desc"
                 sx={{ fontSize: "13.6045px", padding: "10px" }}
               >
-                This impressive paella is a perfect party dish and a fun meal to
-                cook together with your guests. Add 1 cup of frozen peas along
-                with the.
+                {data?.tweetText}
               </Typography>
 
               <CardActions
@@ -591,12 +589,21 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                 }}
                 disableSpacing
               >
-                <IconButton
-                  onClick={likeSpecificTweet}
-                  aria-label="add to favorites"
-                >
-                  <FavoriteIcon />
-                </IconButton>
+                {isTweetLike ? (
+                  <IconButton
+                    onClick={likeSpecificTweet}
+                    aria-label="add to favorites"
+                  >
+                    <FavoriteIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => alert("You have already like the tweet")}
+                    aria-label="add to favorites"
+                  >
+                    <Icon color="red" icon="ant-design:heart-filled" />
+                  </IconButton>
+                )}
                 <IconButton onClick={retweetATweet} aria-label="share">
                   <Icon icon="ant-design:retweet-outlined" />
                 </IconButton>
