@@ -38,6 +38,7 @@ const CreateInvoice = () => {
   const [stateValues, setStateValues] = useState(initialState);
   const [projectName, setProjectName] = useState();
   const [isRaid, setIsRaid] = useState(false);
+  const [clientPublicKey, setClientPublicKey] = useState(false);
 
   const solConnection = new web3.Connection(
     web3.clusterApiUrl("devnet"),
@@ -67,6 +68,7 @@ const CreateInvoice = () => {
     console.log(res?.data, "hgjfddfd");
     if (res?.data?.invoiceFound[0]?.pool) {
       setIsRaid(res?.data?.invoiceFound[0]?.pool);
+      setClientPublicKey(res?.data?.invoiceFound[0]?.invoiceCreaterPublicKey);
     } else {
       alert("No Tweet Found");
     }
@@ -92,7 +94,7 @@ const CreateInvoice = () => {
       </>
     );
   }
-  const createTweet = async () => {
+  const createTweet = async (tweetId) => {
     console.log(publicKey);
     // usman's account
     // const mintAddress = new PublicKey("J6K5HMGJ4MhaCngQE1HULHeN4mwAEQ1jQZN98mEY58nz")
@@ -101,15 +103,12 @@ const CreateInvoice = () => {
     // my accounts
     // const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
     const mintAddress = NATIVE_MINT;
-    const clientAddress = new PublicKey(
-      "Apex9vESFs3AUhkzMssbRo1Dcx7ysbKHp6WqXQe2ugQV"
-    );
+    const clientAddress = new PublicKey(clientPublicKey);
     const id = parseInt(Math.random() * 250);
     const id2 = parseInt(Math.random() * 250);
     console.log(id, "id");
     console.log(id2, "id2");
     // const tweetId = "11dtsaar3441";
-    const tweetId = tweetValue;
     if (publicKey) {
       // let userForLikeAddress = anchor.web3.Keypair.generate();
       const userForLikeAddress = await PublicKey.createWithSeed(
@@ -189,7 +188,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforlike-${tweetValue}`,
+          seed: `usersforlike-${tweetId}`,
           newAccountPubkey: userForLikeAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -198,7 +197,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforretweet-${tweetValue}`,
+          seed: `usersforretweet-${tweetId}`,
           newAccountPubkey: userForRetweetAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -207,7 +206,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforcomment-${tweetValue}`,
+          seed: `usersforcomment-${tweetId}`,
           newAccountPubkey: userForCommentAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -249,6 +248,10 @@ const CreateInvoice = () => {
   const SubmitForm = async (ev) => {
     try {
       ev.preventDefault();
+      if (!clientPublicKey) {
+        toast.error("Client publickey is not found");
+        return;
+      }
       if (!isRaid) {
         toast.error("You can not add the tweet");
         return;
@@ -272,14 +275,13 @@ const CreateInvoice = () => {
         dispatch({ type: "loadingStop" });
         return;
       }
-      /// temporary testing
-      var transactionData;
-      transactionData = await initializeUserPoolForRaid();
-      if (transactionData === undefined) {
+
+      let tx = await createTweet(tweetId);
+      if (tx === undefined) {
         dispatch({ type: "loadingStop" });
         return;
       }
-      let result = await solConnection.confirmTransaction(transactionData.tx);
+      let result = await solConnection.confirmTransaction(tx);
       const body = {
         tweets: {
           tweetUrl,
