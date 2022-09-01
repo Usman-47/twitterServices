@@ -248,7 +248,7 @@ const Tweets = (props) => {
           width: { background: "black", sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
-      >
+      > 
       <Typography component="div">
               <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
                 <Typography onClick={handleClick}>
