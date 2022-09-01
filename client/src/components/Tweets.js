@@ -42,7 +42,7 @@ import TabPanel from '@mui/lab/TabPanel';
 // import Typography from "@mui/material/Typography";
 import ComboBox from "./All";
 import OtherProjects from "./OtherProjects";
-
+import Rewards from "./Rewards";
 
 
 
@@ -412,7 +412,7 @@ const Tweets = (props) => {
           </>
         ) : selectedComponent === "Profile" ? (
           <Profledescription />
-        ) : selectedComponent === "Setting" ? (
+        ) : selectedComponent === "Rewards" ? <Rewards/> : selectedComponent === "Setting" ? (
           <Setting />
         ) : selectedComponent === "Stats" ? (
           <Progressbr />
