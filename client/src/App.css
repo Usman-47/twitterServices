@@ -100,7 +100,7 @@
 [type="reset"]:not(:disabled),
 [type="submit"]:not(:disabled),
 button:not(:disabled) {
-  color: #ffffff !important;
+  /* color: #ffffff !important; */
 }
 #privateToggler {
   top: 10;
@@ -361,6 +361,7 @@ button:not(:disabled) {
   margin-right: 29px !important; ;
   margin-top: 96px !important;
   font-size: small !important; */
+  
 }
 .icon {
   display: flex;
@@ -828,7 +829,8 @@ border-top-left-radius: 25px !important;
     width: 80% !important;
   }
   .btn {
-    width: 80% !important;
+    /* width: 80% !important;
+    margin: auto 0 !important; */
   }
   .headings {
     font-size: 7px !important;

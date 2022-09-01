@@ -33,6 +33,7 @@ import NothingToShow from "../../Others/NothingToShow";
 import { ADMIN, MANAGER } from "../../../../helpers/UserRoles";
 import useUserFunc from "../../../../hooks/useUserFunc";
 import { connect } from "react-redux";
+import moment from 'moment'
 
 //  intialValue = {
 //   sellerName,
@@ -48,6 +49,7 @@ const CreateInvoice = () => {
   const initialState = {
     amount: "",
     startTime: "",
+    startTimes: "",
     tweetRewards: "",
     rewardFrequency: "day",
     category: ["", "", "", "", "", "", ""],
@@ -474,6 +476,20 @@ const CreateInvoice = () => {
       category: temp,
     }));
   };
+  function handleChanges(event) {
+    setStateValues((prev) => ({
+                    ...prev,
+                    startTimes:event.target.value,
+                  }))
+                  setStateValues((prev) => ({
+                    ...prev,
+                    startTime:moment().unix( event.target.value).toString(),
+                 
+                  }))
+                     
+              
+              }
+              console.log(stateValues.startTime,"date")           
 
   return (
     <>
@@ -501,17 +517,18 @@ const CreateInvoice = () => {
               Start Time
             </label>
             <input
-              type="datetime-local"
+             type="datetime-local"
               id="timeToclaim"
               placeholder="Start Time"
               className="form-control"
-              value={stateValues.startTime}
-              onChange={(e) =>
-                setStateValues((prev) => ({
-                  ...prev,
-                  startTime: e.target.value,
-                }))
-              }
+              value={stateValues.startTimes}
+              // onChange={(e) =>
+              //   setStateValues((prev) => ({
+              //     ...prev,
+              //     startTime: e.target.value,
+              //   }))
+              // }
+              onChange={handleChanges}
             />
           </div>
 
@@ -689,6 +706,7 @@ const CreateInvoice = () => {
             <button
               className="btn btn-outline-primary w-100"
               type="button"
+              
               onClick={(ev) => SubmitForm(ev)}
             >
               Submit
