@@ -346,22 +346,72 @@ const Tweets = (props) => {
             <UserDashboard />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
-              <Grid container spacing={2}>
+             
+              <TabContext value={value}>
+                          <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
+                            <TabList
+                              sx={{ gap: "5px" }}
+                              onChange={handleChange}
+                              aria-label="lab API tabs example"
+                            >
+                              <Tab
+                                className="dashboard_tabs"
+                                sx={{ color: "white" }}
+                                label="LIVE"
+                                value="1"
+                              />
+                              <Tab
+                                className="dashboard_tabs"
+                                sx={{ color: "white" }}
+                                label="CLOSED"
+                                value="2"
+                              />
+                            </TabList>
+                          </Box>
                 {getAllInvoices?.map((data) => (
                   <>
                     {data?.isRaid === false ? (
                       <>
-                        <OtherProjects
+                      <Box
+                        className="tabs_container"
+                        sx={{
+                          width: "95%",
+                          margin: "0 auto",
+                          typography: "body1",
+                        }}
+                      >
+                       
+
+                          <TabPanel sx={{ color: "white" }} value="2">
+                            Item One
+                          </TabPanel>
+                          
+                          <TabPanel
+                            sx={{
+                              color: "white",
+                              padding: "0 !important",
+                              marginTop: "40px",
+                            }}
+                            value="1"
+                          >
+                          <Grid container spacing={2}>
+                          <OtherProjects
+                          
                           currentUsers={props?.auth}
                           datas={data}
                         />
+                        </Grid>
+                          </TabPanel>
+                          
+                      </Box>
 
                         {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                       </>
                     ) : null}
                   </>
                 ))}
-              </Grid>
+                </TabContext>
+             
             </>
           ) : selectedComponent === "Raid to Earn" ? (
             <>
