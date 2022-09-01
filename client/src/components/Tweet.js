@@ -57,6 +57,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   const [isTweetRetweeted, setIsTweetRetweeted] = useState();
   const [allReplyOfATweet, setAllReplyOfATweet] = useState();
   const [amount, setAmount] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
 
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
@@ -82,6 +83,10 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
       setProjectName(projectDetail.projectName);
     }
   }, [projectDetail]);
+
+  const handleModal = (data) => {
+    setOpenModal(data);
+  };
 
   // <<<<<<< HEAD
   // ==========for table =========
@@ -596,7 +601,10 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                   <Icon icon="ant-design:retweet-outlined" />
                 </IconButton>
                 <IconButton aria-label="share">
-                  <Icon icon="fa-regular:comment-dots" />
+                  <Icon
+                    onClick={() => setOpenModal(true)}
+                    icon="fa-regular:comment-dots"
+                  />
                 </IconButton>
                 <IconButton aria-label="share">
                   <ShareIcon />
@@ -758,7 +766,12 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
       </Grid>
 
       {allReplyOfATweet && (
-        <ThreadModal allReplyOfATweet={allReplyOfATweet} data={data} />
+        <ThreadModal
+          allReplyOfATweet={allReplyOfATweet}
+          data={data}
+          openModal={openModal ? openModal : false}
+          handleModal={handleModal}
+        />
       )}
     </>
   );

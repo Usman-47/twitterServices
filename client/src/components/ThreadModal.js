@@ -32,13 +32,25 @@ const style = {
   maxHeight: "90vh",
 };
 
-export default function ThreadModal({ allReplyOfATweet, data }) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+export default function ThreadModal({
+  allReplyOfATweet,
+  data,
+  openModal,
+  handleModal,
+}) {
+  const [open, setOpen] = React.useState();
   const handleClose = () => setOpen(false);
+  React.useEffect(() => {
+    setOpen(openModal);
+  }, [openModal]);
+
+  React.useEffect(() => {
+    if (open === false) {
+      handleModal(false);
+    }
+  }, [open]);
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
