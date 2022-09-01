@@ -1,0 +1,50 @@
+const mongoose = require("mongoose");
+const schema = mongoose.Schema;
+
+const userSchema = schema({
+  twitterId: {
+    type: String,
+    required: true,
+  },
+  displayName: {
+    type: String,
+    required: true,
+  },
+  userName: {
+    type: String,
+    required: true,
+  },
+  publicKey: {
+    type: String,
+  },
+  accessToken: {
+    type: String,
+    required: true,
+  },
+  accessTokenSecret: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    enum: ["admin", "manager", "user"],
+    default: "user",
+  },
+  isVerified: {
+    type: Boolean,
+    default: true, //need to change later to false
+  },
+  rewardStatus: [
+    {
+      isRewardpaid: { type: Boolean, default: false },
+      tweetId: { type: String },
+      rewardToken: { type: String },
+      projectName: { type: String },
+      tweetCreatedAt: { type: String },
+      paidTime: { type: String },
+    },
+  ],
+});
+
+const User = mongoose.model("User", userSchema, "userCollection");
+module.exports = User;

@@ -1,0 +1,965 @@
+
+@font-face {
+  font-family: "raleway";
+  src: url("./assets/fonts/Raleway-VariableFont_wght.ttf") format("truetype");
+}
+@font-face {
+  font-family: "lato";
+  src: url("./assets/fonts/lato/Lato-Black.ttf") format("truetype");
+}
+
+*{
+  font-family: raleway;
+}
+
+.signup-background {
+  background-color: aquamarine !important;
+}
+
+.navBar-background {
+  background-color: #7fffd4 !important;
+}
+
+.active_icon{
+  width: 5px;
+height: 5px;
+left: 3px;
+background: #5DCA37;
+box-shadow: 0px 0px 4px
+}
+
+.raid_btn{
+  background: linear-gradient(180deg, #018EC5 0%, #37B9EA 100%);
+box-shadow: inset -6px -6px 8px rgba(5, 97, 132, 0.7);
+border-radius: 8px;
+}
+.dashboard_list{
+  background-color: #00ACEE;
+ margin-left: 20px !important;
+}
+.dasbboard_icons{
+  min-width: 35px !important;
+}
+/* =============== */
+
+
+.penta {
+-webkit-clip-path: polygon(24.5% 0, 100% 0, 100% 94%, 94% 100%, 4% 100%, 0 95%, 0 18%);
+clip-path: polygon(24.5% 0, 100% 0, 100% 98%, 97% 100%, 4% 100%, 0 98%, 0 15.7%);
+  /* position: relative !important; */
+  /* position: absolute; */
+/* width: 390px; */
+height: 601px;
+left: 0px;
+top: 0px;
+/* overflow-y: scroll; */
+/* overflow-x:unset; */
+}
+
+.triangle{
+  -webkit-clip-path: polygon(0 1%, 0% 100%, 100% 0);
+clip-path: polygon(0 1%, 0% 100%, 100% 0);
+position: absolute;
+/* width: 81.63px; */
+width: 20.5%;
+height: 81.63px;
+/* height: 20%; */
+left: 15px;
+top: 16px;
+
+/* Purple/purple-400 */
+
+background: #9C4EFF;
+}
+
+/* ===================== */
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+  height: 0.15rem !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+  color: #FFFFFF !important;
+  font-size: 0.8rem !important;
+  line-height: 0.5rem !important;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+  color: #FFFFFF !important;
+}
+#privateToggler {
+  top: 10;
+  left: 3;
+}
+
+#steps_to_folow{
+  font-size: 40px;
+}
+
+#headings{
+  background-color: #00ACEE !important;
+  border-color: #00ACEE !important;
+}
+.sidebar-links:hover {
+  color: #00ACEE;
+  border-radius: 5%;
+}
+
+
+.invoiceLogoSize {
+  height: 100px;
+  width: auto;
+}
+
+.sign_in_twitter{
+  border-top-right-radius: 20px;
+}
+/* home screen style  */
+
+.MenuItem{
+  /* background-image: url(${Images.LandingPageimage}); */
+  height: '100vh';
+  background-size:"100% 100%";
+  padding-top: '20px';
+  background-repeat:"no-repeat";
+}
+.banner{
+  background-image: url('../src/assets/images/LandingPageimage.png');
+  height: 100vh;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+}
+.check_icon{
+  font-size: 30px;
+  color: #00ACEE;
+}
+/* .check_icon:visited{
+  color: black !important;
+  background-color: #333333 !important;
+}
+.check_icon:focus{
+  color: black !important;
+} */
+.check_icon:active{
+  color: black !important;
+}
+.tableContainer{
+  overflow-x: auto !important;
+  width: 100% !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+.pub_key{
+  max-width: 125px;
+  min-width: 125px;
+  padding: 0 !important;
+  overflow-x: auto;
+  white-space: nowrap;
+  text-align: center !important;
+}
+.back {
+  /* background-image: url(${Images.twetback}); */
+  background-size:"100% 100%";
+  background-repeat:"no-repeat";
+  padding-top:"60px";
+  padding-bottom:"60px";
+  padding-left:"20px";
+  padding-right:"20px";
+  color:"white";
+}
+.picture{
+  /* background-image: url(${Images.picture}); */
+  background-size:"100% 100%";
+ 
+  background-repeat:"no-repeat";
+  padding-top:"60px";
+  padding-bottom:"60px";
+  margin-top:"60px";
+  margin-bottom:"40px";
+  color:"white";
+}
+.backs {
+ 
+  padding-top:"60px";
+  padding-bottom:"60px";
+  padding-left:"20px";
+  padding-right:"20px";
+  color:"black";
+}
+
+.FontFamilyGet{
+  font-family:'Raleway';
+}
+.formbuton {
+  background-color: "#00ACEE";
+  color: "#FFFFFF";
+  padding: "10px 20px";
+  
+
+  border-top-left-radius: "30px";
+  border-bottom-right-radius: "30px";
+  
+}
+.formbutons {
+  background-color: "#00ACEE";
+  color: "#FFFFFF";
+  padding: "10px 0px";
+  margin-left:"15px !important";
+  
+
+  border-top-left-radius: "30px";
+  border-bottom-right-radius: "30px";
+  
+}
+.Paragraph {
+  font-size: 45px;
+}
+.secondoverflow-hidden{
+  margin-top:"50px";
+}
+
+.gridcenter{
+  position: "absolute" ;
+  top: "50%";
+  left: "50%";
+  transform:" translate(-50%, -50%)";
+
+}
+
+
+
+/* ================home style end =============== */
+
+/* ------------------------------------------------------------------------------------------ */
+
+
+.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root{
+  font-size: 0.7rem !important;
+}
+.signup_list{
+  font-size: 0.7rem !important;
+}
+.choose_reward{
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+}
+.home_text{
+  font-family: raleway;
+  font-size: 40px;
+  color: #333333;
+  margin-bottom: 0px !important;
+
+}
+.main_container{
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.css-pwngrv-MuiPaper-root-MuiCard-root{
+  color:black !important;
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap'); */
+
+.registeration{
+  background-color: #00ACEE !important;
+  color: #FFFFFF;
+  border-top-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+  font-family: Poppins !important;
+}
+.card_des{
+  font-family: Poppins !important;
+  font-weight: 500 !important;
+}
+.card_title{
+  margin: 10px 0 10px 0;
+  font-family: raleway !important;
+  font-weight: 600 !important;
+}
+.reward_text{
+  font-family: raleway !important;
+  font-weight: 600 !important;
+}
+.reward_desc{
+  font-family: Poppins !important;
+  margin-bottom: 20px !important;
+}
+.formback{
+  background-image: url("../src/assets/images/formimg.png");
+  background-repeat: no-repeat;
+  padding: 20px;
+  min-height: auto;
+  background-size: 100% 100%;
+  max-width: 500px !important;
+  margin-bottom: 12px !important;  
+}
+.signup_main_container{
+  margin-left: -9px !important;
+}
+.signuptypgraph{
+  background: #F9F9F9;
+  padding: 0px 5px 10px 10px;
+  width: 100% !important;
+}
+/* .radiotext{
+ 
+  font-size: 100px !important;
+} */
+.MuiFormControlLabel-label{
+  font-size: 12px !important;
+  
+}
+.formbutonn{
+  margin-bottom: 12px !important;
+}
+.sidebar{
+  background-color: black;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.css-cveggr-MuiListItemIcon-root{
+  color: white !important;
+}
+.divider{
+  background: #333333;
+  margin-left:22px !important;
+  margin-right :22px !important;
+}
+.divider2{
+  background: #333333;
+  margin-left:22px !important;
+  margin-right :22px !important;
+  margin-top: 34px !important;
+  margin-bottom: 34px !important;
+}
+.list{
+  margin-top: 150px !important;
+  margin-bottom: 150px !important;
+}
+.signin_twitter_div{
+  width: 50%;
+}
+.btn{
+  width: 40%;
+  border-top-left-radius:15px ;
+  border-bottom-right-radius:15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-color:  "#00ACEE" !important;
+  border: 2px solid #00ACEE;
+  text-align: center;
+  /* font-size: small !important; */
+  /* display: flex;
+  justify-content: center;
+  background-color: black;
+  margin-left: 29px !important;
+  margin-right: 29px !important; ;
+  margin-top: 96px !important;
+  font-size: small !important; */
+}
+.icon{
+  display: flex;
+  justify-content: center;
+ padding: 5px !important;
+
+}
+.icons{
+ 
+ margin-left: 4px !important;
+ margin-right: 4px !important;
+ font-size: large!important;
+ 
+
+}
+.break{
+  border-right: 1px solid lightgray;
+}
+.root{
+  padding: 0!important;
+}
+.iconwidth{
+  min-width: 38px !important;
+}
+.header{
+  background-color: #ECECEC !important;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+.imagebanner{
+width: 100% !important;
+
+border-top-left-radius: 10px !important;
+border-top-right-radius: 10px !important;
+   
+   
+}
+.flexrow{
+  display: flex;
+  justify-content: space-between;
+ 
+}
+.profiledetail{
+  display: flex;
+ 
+}
+.profileimages{
+margin-top: -60px !important;
+margin-left: 10px !important;
+
+  /* transform: translate(10%,-40%) !important; */
+}
+
+.editprofiles{
+  border-top-left-radius:15px !important ;
+  border-bottom-right-radius:15px !important;
+  padding-left: 0px;
+  padding-right: 0px;
+  /* margin-bottom: 15px !important; */
+  background-color: #00ACEE !important;
+  font-size: small !important;
+}
+.sharebutton{
+  color: gray !important;
+  font-size:30px;
+  /* margin-left: 5px !important; */
+  }
+
+  .search_and_voice{
+    display: flex;
+  }
+.sharebuttons{
+  color: white !important;
+  min-width: 45px !important;
+}
+.sharebuttonn{
+  color: white !important;
+  font-size:30px;
+  margin-left: 5px !important;
+  background-color:black;
+  border-radius: 5px !important;
+}
+.btnedit{
+  margin-right: 70px !important;
+  margin-top: 5px !important; 
+
+}
+.maindetail{
+  
+ 
+  background: #F9F9F9;
+
+}
+.tablet{
+ 
+  border: 2px solid  !important;
+}
+.tabsicon{
+  border-bottom: 2px solid black !important ;
+
+}
+.iconbar{
+  color: #00ACEE;
+  font-size: 60px !important;
+}
+.dropdown{
+  border:  black !important;
+  border-radius: 5px !important;
+  margin-bottom: 4% !important;
+ 
+
+}
+.tabtext{
+  font-weight: bold !important;
+  font-size: large !important;
+  /* color: black !important; */
+ text-transform: none !important;
+
+}
+.profilename{
+  font-weight: bold !important;
+   color: black !important;
+ text-transform: none !important;
+}
+.placeholder{
+  font-style: normal;
+}
+.iconback{
+  background-color:gray;
+  padding-top: 5px !important;
+  padding-bottom: 2px !important;
+  border-radius: 5px !important;
+}
+.myprofile{
+  font-weight: bold !important;
+  margin-left: 5px !important;
+}
+.voice{
+  background-color: #00ACEE !important;
+  padding: 2px !important;
+  border-radius: 30px !important;
+  font-size: 30px !important;
+}
+.profileavatar{
+  margin-right: 10px !important;
+  margin-left: 5px !important;
+}
+
+.progress{
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.appBar_main{
+  width: 100%;
+  /* background-color: aqua; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.listtext{
+  font-weight: bold!important;
+}
+.settingcontent{
+  font-weight: bold !important;
+  font-size: large !important;
+  /* color: black !important; */
+ text-transform: none !important;
+ background-color:white !important;
+ padding: 14px;
+ width: 100% !important;
+}
+.walletbtn{
+ 
+  padding-left: 0px;
+  padding-right: 0px;
+ margin-bottom: 15px !important;
+  
+  
+  /* justify-content: center; */
+  background-color: #00ACEE !important;
+  
+ 
+ 
+  font-size: small !important;
+}
+.downloadbtn{
+  padding-left: 0px;
+  padding-right: 0px;
+ margin-bottom: 15px !important;
+  
+  
+  /* justify-content: center; */
+  background-color: gainsboro !important;
+  
+ 
+ 
+  font-size: small !important;
+  color: black !important;
+
+}
+.downloadicon{
+  font-size: large !important;
+  margin-right: 5px !important;
+}
+
+/* stats style  */
+
+
+/* header style  */
+.header_left{
+  /* margin-left: 170px !important; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header_right{
+  margin-right: 165px !important;
+}
+.wallet-icon{
+  font-size: 55px;
+}
+.header-icon{
+  font-size: 30px;
+}
+.wallet-btn{
+  border-top-left-radius: 18px !important;
+  border-bottom-right-radius: 18px !important;
+  background: #00ACEE !important;
+  text-transform: capitalize !important; 
+  /* font-size: 12px !important; */
+  width: 155px !important;
+}
+
+/* ======= userDashboard stytle =============  */
+  .dashboard_tabs{
+    background-color: #2C2B2B !important;
+    margin-right: 10px !important;
+    font-family: lato !important;
+  }
+
+
+/* ============== userDashboard style end ============ */
+
+@media screen and (max-width: 768px) {
+  .side_bar{
+    position: absolute !important;
+  }
+  .pub_key{
+    max-width: 80px !important;
+    min-width: 80px !important;
+  }
+  .sharebuttons{
+    
+    min-width: 20px !important;
+  }
+  .editprofiles{
+    font-size: 7px !important;
+  }
+  .form-label{
+    font-size: 10px !important;
+    color: white !important;
+  }
+  #form-label{
+    font-size: 10px !important;
+    
+  }
+  .allUser_public_key{
+    font-size: 7px !important;
+  }
+  .style_font{
+    font-size: 10px !important;
+  }
+ 
+  .profile_img{
+    width: 80px !important;
+    height: 80px !important;
+  }  
+  .profileimages{
+    margin-top: -40px !important;
+  }
+  .profilename{
+    font-size: 16px !important;
+  }
+  .sub_profilename{
+    font-size: 12px !important;
+  }
+ 
+}
+@media screen and (max-width: 600px) {
+ 
+  .dashboard_tabs{
+    font-size: 12px !important;
+  }
+  .footer-img{
+    /* display: none !important; */
+    width: 30% !important;
+    
+  }
+  #footer_para{
+    font-size: 14px !important;
+  }
+ 
+  #reward_pro_para{
+    font-size: 10px !important;
+  }
+  
+  .registeration{
+    font-size: 10px !important;
+  }
+  .wallet-btn{
+    padding: 10px !important;
+    font-size: 8px !important;
+    width: 80px !important;
+  }
+  .profile_img{
+    width: 80px !important;
+    height: 80px !important;
+  }  
+  .settingcontent{
+    padding: 5px !important;
+  }
+  
+  .profilename{
+    font-size: 16px !important;
+  }
+  .sub_profilename{
+    font-size: 12px !important;
+  }
+
+  .sidebar_items{
+    display: none !important;
+  }
+  .iconwidth{
+    margin: 0 auto !important;
+    font-size: 20px !important;
+    justify-content: center !important;
+  }
+  
+  .btnedit{
+    margin-right: 10px !important;
+    margin-top: 5px !important; 
+  }
+  .btn{
+    font-size: 8px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important; ;
+  }
+
+  .appbar_icons{
+    display: none;
+  }
+  .tabtext{
+    font-size: 8px !important;
+    min-width: unset !important;
+    max-width: 60px !important;
+  }
+  /* .tab_main{
+    width: 80%;
+  } */
+
+  .signuptext{
+    font-size: 20px !important;
+    text-align: center;
+  }
+  
+}
+
+/* @media (min-width: 601px) {
+.search_and_voice{
+  transform: translateX(60%);
+}
+} */
+
+@media (min-width: 600px) and (max-width: 700px) {
+  .serchbar{
+    width: 170px !important;
+   }
+   #steps_to_folow{
+    font-size: 30px !important;
+  }
+  .home_text{
+    font-size: 20px !important;
+  }
+  .home_img{
+    width: 200px !important;
+  }
+  
+  
+}
+
+@media screen and (max-width: 465px) {
+  .dashboard_tabs{
+    font-size: 10px !important;
+  }
+  .table_container{
+    padding: 10px !important;
+  }
+  
+  .css-ag7rrr-MuiTypography-root{
+    font-size: 1rem !important;
+  }
+
+#steps_to_folow{
+ font-size: 20px !important;
+}
+  .signin_twitter_div{
+    width: 100% !important;
+  }
+  .btn{
+    width: 100% !important;
+  }
+  .btnedit{
+   /* width: 90px; */
+   font-size: 7px !important;
+  }
+  .add_pool_table_text{
+    font-size: 8px !important;
+  }
+  .setting_table_heads{
+    font-size: 10px !important;
+  }
+  .serchbar{
+    width: 150px !important;
+   }
+   .wallet-icon{
+    font-size: 25px;
+  }
+  .header-icon{
+    font-size: 16px;
+  }
+  .header_left{
+    margin-left: unset !important;
+  }
+  .header_right{
+    margin-right: unset !important;
+  }
+  #formbuton{
+    font-size: 12px !important;
+  }
+  
+  }
+
+  @media (max-width: 409px) {
+    .dashboard_tabs{
+      font-size: 8px !important;
+    }
+    .tabs_container{
+      width: 100% !important;
+    }
+    .iconBtn{
+      font-size: 8px !important;
+    }
+    .magic_eden{
+      font-size: 14px !important;
+    }
+    .magic_eden_desc{
+      font-size: 10px !important;
+    }
+
+    .card_header{
+      margin-left: 14px !important;
+    }
+    
+  }
+
+  @media (max-width: 1200px) {
+    .community_plan{
+      font-size: 12px !important;
+    }
+    .signin_twitter_div{
+      width: 80% !important;
+    }
+    .btn{
+      width: 80% !important;
+    }
+    .headings{
+      font-size: 7px !important;
+    }
+    .add_pool_table_text{
+      font-size: 10px;
+    }
+    .home_text{
+      font-size: 30px;
+    }
+   
+    .header_right{
+      margin-right: unset !important;
+    }
+    
+ 
+    
+    }
+    @media (max-width: 899px) {
+      .search_div{
+        width: 100% !important;
+        margin: 0 auto !important;
+        margin-top: 20px !important;
+      }
+      .user_avatar{
+        width: 30px !important;
+        height: 30px !important;
+      }
+      .welcome_admin{
+        font-size: 14px !important;
+      }
+      .project_info{
+        font-size: 18px !important;
+      }
+      .signuptext{
+        font-size: 35px;
+        text-align: center;
+      }
+      .signup_wallet{
+        margin-top: 5px !important;
+        width: 50% !important;
+      }
+      .home_text{
+        font-size: 25px;
+        text-align: center;
+        margin-bottom: 20px !important;
+      }
+     
+      .wallet-btn-div{
+        display: flex;
+        justify-content: center !important;
+        margin-bottom: 20px !important;
+      }
+      .home_img{
+        width: 300px !important;
+      }
+   
+      
+      }
+
+      @media (min-width: 769px) and (max-width: 958px) {
+        #form-label{
+          font-size: 14px !important;
+        }
+        .allUser_public_key{
+          font-size: 10px !important;
+        }
+        
+      }
+
+      @media (min-width: 768px) {
+        .menu_btn{
+          display: none;
+        }
+        
+      }
+
+/* -------------------------------------------------------------------------------------- */
+
+@media print {
+  .invoiceLogoSize {
+    width: 120px;
+  }
+}
+
+.mouseCursorChanger {
+  cursor: pointer;
+}
+.mouseCursorChanger:hover {
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* =========== modal scroll ========= */
+.flexcroll{ width:400px;
+  /* height:200px; */
+  overflow:scroll;
+ 
+ }
+.flexcroll{
+scrollbar-face-color: #367CD2;
+scrollbar-shadow-color: #FFFFFF;
+scrollbar-highlight-color: #FFFFFF;
+scrollbar-3dlight-color: #FFFFFF;
+scrollbar-darkshadow-color: #FFFFFF;
+scrollbar-track-color: #FFFFFF;
+scrollbar-arrow-color: #FFFFFF;
+}
+
+/* Let's get this party started */
+.flexcroll::-webkit-scrollbar {
+width: 8px;
+
+}
+
+/* Track */
+.flexcroll::-webkit-scrollbar-track {
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+-webkit-border-radius: 10px;
+border-radius: 10px;
+
+}
+
+/* Handle */
+.flexcroll::-webkit-scrollbar-thumb {
+-webkit-border-radius: 10px;
+border-radius: 10px;
+background:#47DDFC;
+
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
