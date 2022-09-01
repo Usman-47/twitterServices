@@ -501,7 +501,7 @@ const CreateInvoice = () => {
               Start Time
             </label>
             <input
-              type="text"
+              type="datetime-local"
               id="timeToclaim"
               placeholder="Start Time"
               className="form-control"
