@@ -147,7 +147,7 @@ const Tweets = (props) => {
                   <Icon icon="bx:at" />
                 ) : index === 2 || index === 3 ? (
                   <Icon icon="la:retweet" />
-                ) : (
+                ) : index===4 ? <Icon icon="arcticons:rewards" />: (
                   "icon"
                 )}
               </ListItemIcon>
@@ -254,7 +254,7 @@ const Tweets = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="div">
+          <Typography sx={{marginLeft:"auto"}} component="div">
               <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
                 <Typography onClick={handleClick}>
                   <Stack direction="row">

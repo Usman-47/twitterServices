@@ -524,6 +524,9 @@ button:not(:disabled) {
 
   font-size: small !important;
 }
+.iconBtn{
+  color: white !important;
+}
 .downloadbtn {
   padding-left: 0px;
   padding-right: 0px;
