@@ -133,6 +133,7 @@ const Tweets = (props) => {
           "Mention to Earn",
           "Raid to Earn",
           "Sweep to Earn",
+          "Rewards",
           "Stats",
           "Profile",
           "Setting",
@@ -240,45 +241,23 @@ const Tweets = (props) => {
    
     <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
       <CssBaseline />
-      {/* <AppBar
+      
+        <AppBar
         position="fixed"
         sx={{
-          width: { background: "#ECECEC", sm: `calc(100% - ${drawerWidth}px)` },
+          width: { background: "black", sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <Icon icon="dashicons:menu" />
-          </IconButton>
-
-          <Typography component="div" className="appBar_main">
-            <Typography>
-              <Button className="go_back" style={{ color: "#00ACEE" }}>
-                {" "}
-                <Icon
-                  style={{ fontSize: "20px", color: "#00ACEE" }}
-                  icon="eva:arrow-ios-back-outline"
-                />
-                Go back
-              </Button>
-            </Typography>
-
-            <Typography component="div">
-              <Typography component="div" display={"flex"} alignItems="center">
-                <Typography className="profileavatar" onClick={handleClick}>
+      <Typography component="div">
+              <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
+                <Typography onClick={handleClick}>
                   <Stack direction="row">
                     <Avatar
                       className="user_avatar"
                       alt="Cindy Baker"
                       
-                      sx={{ width: 40, height: 40 }}
+                      sx={{ width: 40, height: 40, }}
                     />
                   </Stack>
                 </Typography>
@@ -302,11 +281,9 @@ const Tweets = (props) => {
                   <WalletDisconnectButton />
                 </Menu>
               </Typography>
-            </Typography>
-          </Typography>
-         
-        </Toolbar>
-      </AppBar> */}
+      </Typography>
+    </AppBar>
+          
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
