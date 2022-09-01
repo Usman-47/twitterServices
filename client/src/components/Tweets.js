@@ -42,7 +42,7 @@ import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
 import ComboBox from "./All";
 import OtherProjects from "./OtherProjects";
-
+import Rewards from "./Rewards";
 // ====================
 
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
@@ -61,7 +61,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import MenuIcon from '@mui/icons-material/Menu';
 import UserDashboard from "./userDashoard";
 import Profledescription from "./Profledescription";
 import Setting from "./Setting";
@@ -129,6 +129,7 @@ const Tweets = (props) => {
           "Mention to Earn",
           "Raid to Earn",
           "Sweep to Earn",
+          "Rewards",
           "Stats",
           "Profile",
           "Setting",
@@ -235,14 +236,25 @@ const Tweets = (props) => {
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
         <CssBaseline />
-        {/* <AppBar
+       
+      <AppBar
         position="fixed"
         sx={{
-          width: { background: "#ECECEC", sm: `calc(100% - ${drawerWidth}px)` },
+          width: {background:"black", sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-      <Typography component="div">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography component="div">
               <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
                 <Typography onClick={handleClick}>
                   <Stack direction="row">
@@ -275,10 +287,8 @@ const Tweets = (props) => {
                 </Menu>
               </Typography>
             </Typography>
-          </Typography>
-         
         </Toolbar>
-      </AppBar> */}
+      </AppBar>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -424,7 +434,7 @@ const Tweets = (props) => {
                 </>
               ))}
             </>
-          ) : selectedComponent === "Profile" ? (
+          ) : selectedComponent === "Rewards" ? <Rewards/>: selectedComponent === "Profile" ? (
             <Profledescription />
           ) : selectedComponent === "Setting" ? (
             <Setting />
