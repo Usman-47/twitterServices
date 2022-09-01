@@ -242,32 +242,9 @@ const Tweets = (props) => {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <Icon icon="dashicons:menu" />
-          </IconButton>
-
-          <Typography component="div" className="appBar_main">
-            <Typography>
-              <Button className="go_back" style={{ color: "#00ACEE" }}>
-                {" "}
-                <Icon
-                  style={{ fontSize: "20px", color: "#00ACEE" }}
-                  icon="eva:arrow-ios-back-outline"
-                />
-                Go back
-              </Button>
-            </Typography>
-
-            <Typography component="div">
-              <Typography component="div" display={"flex"} alignItems="center">
-                <Typography className="profileavatar" onClick={handleClick}>
+      <Typography component="div">
+              <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
+                <Typography onClick={handleClick}>
                   <Stack direction="row">
                     <Avatar
                       className="user_avatar"
