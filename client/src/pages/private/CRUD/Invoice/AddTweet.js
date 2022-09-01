@@ -49,20 +49,11 @@ const CreateInvoice = () => {
     cloneWindow["solana"],
     anchor.Provider.defaultOptions()
   );
-  var program;
-  if (isRaid) {
-    program = new anchor.Program(
-      IDLFORRAID,
-      "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs",
-      provider
-    );
-  } else {
-    program = new anchor.Program(
-      IDL,
-      "6GfMewRfdC6ArLcg2oNbwq9mfE87UorRYRvGJApbVGrk",
-      provider
-    );
-  }
+  const program = new anchor.Program(
+    IDLFORRAID,
+    "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs",
+    provider
+  );
 
   const [{ token, loading }] = useStatesFunc();
   const [dispatch] = useDispatchFunc();
@@ -73,6 +64,7 @@ const CreateInvoice = () => {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVERURL}/api/public/invoicePool/${id}`
     );
+    console.log(res?.data, "hgjfddfd");
     if (res?.data?.invoiceFound[0]?.pool) {
       setIsRaid(res?.data?.invoiceFound[0]?.pool);
     } else {
@@ -100,179 +92,78 @@ const CreateInvoice = () => {
       </>
     );
   }
+  const createTweet = async () => {
+    console.log(publicKey);
+    // usman's account
+    // const mintAddress = new PublicKey("J6K5HMGJ4MhaCngQE1HULHeN4mwAEQ1jQZN98mEY58nz")
+    // const clientAddress = new PublicKey('3yhMnW4ge7oBZGqxLj2Fug3UvWTjx9cpaFd1rcymVEnx');
 
-  const initializeUserPool = async () => {
-    let limit = 1;
-    if (stateValues.rewardFrequency === "week") {
-      limit = 7;
-    } else if (stateValues.rewardFrequency === "month") {
-      limit = 30;
-    }
-    const mintAddress = new PublicKey(stateValues?.splToken);
-    const startTime = stateValues.startTime;
-    const timeLimit = limit;
-    const funds = stateValues.amount * 1000000000; //
-    if (publicKey) {
-      const [globalAuth, globalBump] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [Buffer.from("global-authority")],
-          // new anchor.BN(47).toArrayLike(Buffer)],
-          program.programId
-        );
-      console.log(globalAuth.toString(), "globalAuth");
-
-      const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      console.log(poolAddress.toString(), "poolAddress");
-
-      let clientAta = (
-        await PublicKey.findProgramAddress(
-          [
-            provider.wallet.publicKey.toBuffer(),
-            TOKEN_PROGRAM_ID.toBuffer(),
-            mintAddress.toBuffer(), // mint address
-          ],
-          ASSOCIATED_TOKEN_PROGRAM_ID
-        )
-      )[0];
-
-      console.log(clientAta.toString(), "associatedTokenAccountPubkey");
-      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("poolAta"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      console.log(poolAta.toString(), "poolAta");
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        provider.wallet.publicKey,
-        { mint: mintAddress }
-      );
-
-      let instructions = [];
-      if (userAtaCheck.value.length === 0) {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintAddress,
-              clientAta,
-              provider.wallet.publicKey,
-              provider.wallet.publicKey
-            ),
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("wrapped");
-        }
-      } else {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-        }
-      }
-      try {
-        const tx = await program.rpc.initializeUserPool(
-          projectName,
-          startTime,
-          new anchor.BN(timeLimit),
-          new anchor.BN(funds),
-          {
-            accounts: {
-              client: provider.wallet.publicKey,
-              globalAuthority: globalAuth,
-              pool: poolAddress,
-              poolAta: poolAta,
-              poolMint: mintAddress,
-              clientAta: clientAta,
-              systemProgram: SystemProgram.programId,
-              tokenProgram: TOKEN_PROGRAM_ID,
-              rent: SYSVAR_RENT_PUBKEY,
-            },
-            instructions,
-          }
-        );
-        console.log(tx, "tx");
-        return { tx, poolAddress: poolAddress.toString() };
-      } catch (err) {
-        console.log(err, "err");
-      }
-    }
-  };
-
-  const initializeUserPoolForRaid = async () => {
-    let limit = 1;
-    if (stateValues.rewardFrequency === "week") {
-      limit = 7;
-    } else if (stateValues.rewardFrequency === "month") {
-      limit = 30;
-    }
+    // my accounts
     // const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
-    const mintAddress = new PublicKey(stateValues?.splToken);
-    const startTime = stateValues.startTime;
-    const timeLimit = limit;
-    const funds = stateValues.amount * 1000000000; // 10 SPL
+    const mintAddress = NATIVE_MINT;
+    const clientAddress = new PublicKey(
+      "Apex9vESFs3AUhkzMssbRo1Dcx7ysbKHp6WqXQe2ugQV"
+    );
+    const id = parseInt(Math.random() * 250);
+    const id2 = parseInt(Math.random() * 250);
+    console.log(id, "id");
+    console.log(id2, "id2");
+    // const tweetId = "11dtsaar3441";
+    const tweetId = tweetValue;
     if (publicKey) {
-      const [globalAuth, globalBump] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [Buffer.from("global-authority")],
-          // new anchor.BN(47).toArrayLike(Buffer)],
-          program.programId
-        );
-      console.log(globalAuth.toString(), "globalAuth");
+      // let userForLikeAddress = anchor.web3.Keypair.generate();
+      const userForLikeAddress = await PublicKey.createWithSeed(
+        provider.wallet.publicKey,
+        `usersforlike-${tweetId}`,
+        program.programId
+      );
+      console.log(userForLikeAddress.toString(), "usersforretweet");
+      const userForRetweetAddress = await PublicKey.createWithSeed(
+        provider.wallet.publicKey,
+        `usersforretweet-${tweetId}`,
+        program.programId
+      );
+      console.log(userForRetweetAddress.toString(), "usersforcomment");
+      const userForCommentAddress = await PublicKey.createWithSeed(
+        provider.wallet.publicKey,
+        `usersforcomment-${tweetId}`,
+        program.programId
+      );
+      console.log(userForCommentAddress.toString(), "usersforlike");
+      const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("tweets"),
+          // provider.wallet.publicKey.toBuffer(),
+          Buffer.from(tweetId),
+          Buffer.from(projectName),
+        ],
+        program.programId
+      );
 
       const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
         [
           anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
+          clientAddress.toBuffer(),
           mintAddress.toBuffer(),
           Buffer.from(projectName),
         ],
         program.programId
       );
-      console.log(poolAddress.toString(), "poolAddress");
 
-      const [poolSolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
-          //  mintAddress.toBuffer(),
-          //  Buffer.from(projectName),
-        ],
-        SystemProgram.programId
+      const [globalAuth, globalBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [Buffer.from("global-authority")],
+          // new anchor.BN(id).toArrayLike(Buffer)],
+          program.programId
+        );
+      const prizeTokenAccount = await solConnection.getTokenAccountsByOwner(
+        provider.wallet.publicKey,
+        { mint: mintAddress }
       );
-      console.log(poolSolAddress.toString(), "poolSolAddress");
 
-      let clientAta = (
+      // console.log(prizeTokenAccount.value[0].pubkey.toString())
+
+      let associatedTokenAccountPubkey = (
         await PublicKey.findProgramAddress(
           [
             provider.wallet.publicKey.toBuffer(),
@@ -282,97 +173,76 @@ const CreateInvoice = () => {
           ASSOCIATED_TOKEN_PROGRAM_ID
         )
       )[0];
-      console.log(mintAddress.toString(), "mint Address");
-      console.log(NATIVE_MINT == mintAddress, "Mint native");
-      // let temp = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, NATIVE_MINT, provider.wallet.publicKey)
-      // console.log(temp.toString(), "temp")
 
-      console.log(clientAta.toString(), "associatedTokenAccountPubkey");
-      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("poolAta"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
+      console.log(
+        associatedTokenAccountPubkey.toString(),
+        "associatedTokenAccountPubkey"
       );
-      // const walletCTemp = Keypair.generate();
-      console.log(poolAta.toString(), "poolAta");
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        provider.wallet.publicKey,
-        { mint: mintAddress }
+      console.log(tweetAta.toString(), bump, "tweetAta");
+      console.log(poolAddress.toString(), "poolAddress");
+      console.log(
+        await solConnection.getMinimumBalanceForRentExemption(336),
+        "lamports"
       );
 
-      let instructions = [];
-      if (userAtaCheck.value.length === 0) {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintAddress,
-              clientAta,
-              provider.wallet.publicKey,
-              provider.wallet.publicKey
-            ),
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("wrapped");
+      let instructions = [
+        SystemProgram.createAccountWithSeed({
+          fromPubkey: provider.wallet.publicKey,
+          basePubkey: provider.wallet.publicKey, // clientAddress
+          seed: `usersforlike-${tweetValue}`,
+          newAccountPubkey: userForLikeAddress,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
+          space: 336,
+          programId: program.programId,
+        }),
+        SystemProgram.createAccountWithSeed({
+          fromPubkey: provider.wallet.publicKey,
+          basePubkey: provider.wallet.publicKey, // clientAddress
+          seed: `usersforretweet-${tweetValue}`,
+          newAccountPubkey: userForRetweetAddress,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
+          space: 336,
+          programId: program.programId,
+        }),
+        SystemProgram.createAccountWithSeed({
+          fromPubkey: provider.wallet.publicKey,
+          basePubkey: provider.wallet.publicKey, // clientAddress
+          seed: `usersforcomment-${tweetValue}`,
+          newAccountPubkey: userForCommentAddress,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
+          space: 336,
+          programId: program.programId,
+        }),
+      ];
+
+      const tx = await program.rpc.createTweet(
+        globalBump,
+        projectName,
+        tweetId,
+        {
+          accounts: {
+            user: provider.wallet.publicKey,
+            client: clientAddress,
+            tweetData: tweetAta,
+            usersForLike: userForLikeAddress,
+            usersForRetweet: userForRetweetAddress,
+            usersForComment: userForCommentAddress,
+            globalAuthority: globalAuth,
+            pool: poolAddress,
+            // userAta: prizeTokenAccount.value[0].pubkey,
+            poolMint: mintAddress,
+            // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+            systemProgram: SystemProgram.programId,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            rent: SYSVAR_RENT_PUBKEY,
+          },
+          instructions,
         }
-      } else {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("else");
-        }
-      }
-      try {
-        const tx = await program.rpc.initializeUserPool(
-          projectName,
-          startTime,
-          new anchor.BN(timeLimit),
-          new anchor.BN(funds),
-          {
-            accounts: {
-              client: provider.wallet.publicKey,
-              globalAuthority: globalAuth,
-              pool: poolAddress,
-              // poolSol: poolSolAddress,
-              poolAta: poolAta,
-              poolMint: mintAddress,
-              clientAta: clientAta,
-              systemProgram: SystemProgram.programId,
-              tokenProgram: TOKEN_PROGRAM_ID,
-              rent: SYSVAR_RENT_PUBKEY,
-            },
-            instructions,
-          }
-        );
-        console.log(tx, "tx");
-        return { tx, poolAddress: poolAddress.toString() };
-      } catch (err) {
-        console.log(err, "err");
-      }
+      );
+      console.log(tx, "tx");
+      return tx;
+    } else {
+      alert("connect wallet");
     }
   };
 
@@ -404,21 +274,12 @@ const CreateInvoice = () => {
       }
       /// temporary testing
       var transactionData;
-      // if (isRaid) {
-      //   transactionData = await initializeUserPoolForRaid();
-      //   if (transactionData === undefined) {
-      //     dispatch({ type: "loadingStop" });
-      //     return;
-      //   }
-      //   let result = await solConnection.confirmTransaction(transactionData.tx);
-      // } else {
-      //   transactionData = await initializeUserPool();
-      //   if (transactionData === undefined) {
-      //     dispatch({ type: "loadingStop" });
-      //     return;
-      //   }
-      //   let result = await solConnection.confirmTransaction(transactionData.tx);
-      // }
+      transactionData = await initializeUserPoolForRaid();
+      if (transactionData === undefined) {
+        dispatch({ type: "loadingStop" });
+        return;
+      }
+      let result = await solConnection.confirmTransaction(transactionData.tx);
       const body = {
         tweets: {
           tweetUrl,
