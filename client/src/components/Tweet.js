@@ -1,10 +1,32 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import {
+  useWalletModal,
+  WalletMultiButton,
+  WalletDisconnectButton,
+} from "@solana/wallet-adapter-react-ui";
+import * as solanaWeb3 from "@solana/web3.js";
+import * as anchor from "@project-serum/anchor";
+import { web3 } from "@project-serum/anchor";
+import {
+  TOKEN_PROGRAM_ID,
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  Token,
+  NATIVE_MINT,
+} from "@solana/spl-token";
+import {
+  PublicKey,
+  SystemProgram,
+  SYSVAR_RENT_PUBKEY,
+  Transaction,
+  Keypair,
+} from "@solana/web3.js";
+import IDL from "./twitter_program_for_raid.json";
 
 // -----table imports ---------
 import { styled } from "@mui/material/styles";
-import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { Icon } from "@iconify/react";
@@ -14,35 +36,52 @@ import ThreadModal from "./ThreadModal";
 // =======
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-// import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
-// import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Grid from "@mui/material/Grid";
-// import { Icon } from "@iconify/react";
-// >>>>>>> 7db99f87208a75b0139e6c4325eca3ceaa372c93
 // ====================
 
-const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
+const Tweet = ({ currentUser, data, projectDetail }) => {
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
   const [isTweetLike, setIsTweetLike] = useState();
+  const [projectName, setProjectName] = useState();
   const [isTweetRetweeted, setIsTweetRetweeted] = useState();
   const [allReplyOfATweet, setAllReplyOfATweet] = useState();
+  const [amount, setAmount] = useState(1);
 
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
+
+  const solConnection = new web3.Connection(
+    web3.clusterApiUrl("devnet"),
+    "processed"
+  );
+  let cloneWindow = window;
+  let provider = new anchor.Provider(
+    solConnection,
+    cloneWindow["solana"],
+    anchor.Provider.defaultOptions()
+  );
+  const program = new anchor.Program(
+    IDL,
+    "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs",
+    provider
+  );
+
+  useEffect(() => {
+    if (projectDetail) {
+      setProjectName(projectDetail.projectName);
+    }
+  }, [projectDetail]);
 
   // <<<<<<< HEAD
   // ==========for table =========
@@ -86,10 +125,6 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
     ),
   ];
 
-  // =======================
-  // =======
-
-  // >>>>>>> 7db99f87208a75b0139e6c4325eca3ceaa372c93
   const checkTweetLiked = async () => {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVERURL}/tweet/getTweetliked/${data?.tweetId}`
@@ -172,8 +207,224 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
     }
   };
 
+  const LikeTweet = async (number) => {
+    console.log(publicKey);
+    if (!publicKey) {
+      toast.error("Public not found");
+      return;
+    }
+    const mintAddress = NATIVE_MINT;
+    const clientAddress = new PublicKey(projectDetail?.invoiceCreaterPublicKey);
+
+    const id = parseInt(Math.random() * 250);
+    const id2 = parseInt(Math.random() * 250);
+    const tweetId = data?.tweetId;
+    if (publicKey) {
+      let seed = `usersforlike-${tweetId}`;
+      if (number === 1) {
+        seed = `usersforlike-${tweetId}`;
+      }
+      if (number === 2) {
+        seed = `usersforretweet-${tweetId}`;
+      }
+      if (number === 3) {
+        seed = `usersforcomment-${tweetId}`;
+      }
+      // let userForLikeAddress = anchor.web3.Keypair.generate();
+      const userForLikeAddress = await PublicKey.createWithSeed(
+        clientAddress,
+        seed,
+        program.programId
+      );
+      console.log(userForLikeAddress.toString(), "usersforlike");
+      const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("tweets"),
+          // provider.wallet.publicKey.toBuffer(),
+          Buffer.from(tweetId),
+          Buffer.from(projectName),
+        ],
+        program.programId
+      );
+
+      const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("pool"),
+          clientAddress.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
+        program.programId
+      );
+
+      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("poolAta"),
+          clientAddress.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
+        program.programId
+      );
+
+      const [globalAuth, globalBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [Buffer.from("global-authority")],
+          // new anchor.BN(id).toArrayLike(Buffer)],
+          program.programId
+        );
+      const prizeTokenAccount = await solConnection.getTokenAccountsByOwner(
+        provider.wallet.publicKey,
+        { mint: mintAddress }
+      );
+
+      // console.log(prizeTokenAccount.value[0].pubkey.toString())
+
+      let userAta = (
+        await PublicKey.findProgramAddress(
+          [
+            provider.wallet.publicKey.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            mintAddress.toBuffer(), // mint address
+          ],
+          ASSOCIATED_TOKEN_PROGRAM_ID
+        )
+      )[0];
+
+      console.log(userAta.toString(), "associatedTokenAccountPubkey");
+      console.log(tweetAta.toString(), bump, "tweetAta");
+      console.log(poolAddress.toString(), "poolAddress");
+      console.log(poolAta.toString(), "poolAta");
+      console.log(
+        await solConnection.getMinimumBalanceForRentExemption(336),
+        "lamports"
+      );
+
+      // let instructions = [SystemProgram.createAccountWithSeed(
+      //   {
+      //     fromPubkey: provider.wallet.publicKey,
+      //     basePubkey: provider.wallet.publicKey,
+      //     seed: tweetValue,
+      //     newAccountPubkey: userForLikeAddress,
+      //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
+      //     space: 336,
+      //     programId: program.programId,
+      //   }
+      // )]
+      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
+        provider.wallet.publicKey,
+        { mint: mintAddress }
+      );
+      let instructions = [];
+      if (userAtaCheck.value.length === 0) {
+        console.log("2nd condition");
+        instructions.push(
+          Token.createAssociatedTokenAccountInstruction(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            mintAddress,
+            userAta,
+            provider.wallet.publicKey,
+            provider.wallet.publicKey
+          )
+        );
+      }
+
+      if (number === 1) {
+        const tx = await program.rpc.likeTweet(
+          globalBump,
+          projectName,
+          tweetId,
+          new anchor.BN(amount),
+          {
+            accounts: {
+              user: provider.wallet.publicKey,
+              client: clientAddress,
+              // tweetData: tweetAta,
+              globalAuthority: globalAuth,
+              // pool: poolAddress,
+              usersForLike: userForLikeAddress,
+              poolAta: poolAta,
+              userAta: userAta,
+              poolMint: mintAddress,
+              // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+              // systemProgram: SystemProgram.programId,
+              tokenProgram: TOKEN_PROGRAM_ID,
+              // rent: SYSVAR_RENT_PUBKEY,
+            },
+            instructions,
+          }
+        );
+        console.log(tx, "tx");
+        return tx;
+      }
+      if (number === 2) {
+        const tx = await program.rpc.retweet(
+          globalBump,
+          projectName,
+          tweetId,
+          new anchor.BN(amount),
+          {
+            accounts: {
+              user: provider.wallet.publicKey,
+              client: clientAddress,
+              // tweetData: tweetAta,
+              globalAuthority: globalAuth,
+              // pool: poolAddress,
+              usersForRetweet: userForLikeAddress,
+              poolAta: poolAta,
+              userAta: userAta,
+              poolMint: mintAddress,
+              // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+              // systemProgram: SystemProgram.programId,
+              tokenProgram: TOKEN_PROGRAM_ID,
+              // rent: SYSVAR_RENT_PUBKEY,
+            },
+            instructions,
+          }
+        );
+        console.log(tx, "tx");
+        return tx;
+      }
+      if (number === 3) {
+        const tx = await program.rpc.commentTweet(
+          globalBump,
+          projectName,
+          tweetId,
+          new anchor.BN(amount),
+          {
+            accounts: {
+              user: provider.wallet.publicKey,
+              client: clientAddress,
+              // tweetData: tweetAta,
+              globalAuthority: globalAuth,
+              // pool: poolAddress,
+              usersForComment: userForLikeAddress,
+              poolAta: poolAta,
+              userAta: userAta,
+              poolMint: mintAddress,
+              // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+              // systemProgram: SystemProgram.programId,
+              tokenProgram: TOKEN_PROGRAM_ID,
+              // rent: SYSVAR_RENT_PUBKEY,
+            },
+            instructions,
+          }
+        );
+        console.log(tx, "tx");
+        return tx;
+      }
+    } else {
+      alert("connect wallet");
+    }
+  };
+
   const likeSpecificTweet = async () => {
     try {
+      if (!data?.tweetId || !projectName) {
+        toast.error("Tweet id or project name not found");
+        return;
+      }
       let body = {
         userId: currentUser?.twitterId,
         accessToken: currentUser?.accessToken,
@@ -184,6 +435,8 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
         body
       );
       if (res?.data?.data) {
+        let tx = await LikeTweet(1);
+        let result = await solConnection.confirmTransaction(tx);
         setIsTweetLike(true);
       }
     } catch (error) {
@@ -202,12 +455,15 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
         `${process.env.REACT_APP_SERVERURL}/tweet/replyToTweetWithTweetId/${data?.tweetId}`,
         body
       );
-      console.log(res?.data?.data);
+      if (res?.data?.data) {
+        let tx = await LikeTweet(3);
+        let result = await solConnection.confirmTransaction(tx);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(isTweetRetweeted, "isTweetRetweeted");
+
   const retweetATweet = async () => {
     try {
       let body = {
@@ -220,6 +476,8 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
         body
       );
       if (res?.data?.data) {
+        let tx = await LikeTweet(2);
+        let result = await solConnection.confirmTransaction(tx);
         setIsTweetRetweeted(true);
       }
     } catch (error) {
@@ -286,8 +544,8 @@ const Tweet = ({ currentUser, data, invoiceCreater, currentUsers, datas }) => {
               //     <MoreVertIcon />
               //   </IconButton>
               // }
-              title={datas?.projectName}
-              subheader={datas?.projectTwitterUsername}
+              title={projectName}
+              subheader={projectDetail?.projectTwitterUsername}
             />
 
             <Typography

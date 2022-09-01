@@ -5,7 +5,7 @@ import Tweet from "./Tweet";
 
 // ====================
 
-const Pool = ({ currentUser, pool, invoiceCreater }) => {
+const Pool = ({ currentUser, pool, invoiceCreater, projectDetail }) => {
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
 
@@ -34,7 +34,7 @@ const Pool = ({ currentUser, pool, invoiceCreater }) => {
             <Tweet
               data={data}
               currentUser={currentUser}
-              invoiceCreater={invoiceCreater}
+              projectDetail={projectDetail}
             />
           ))}
       </>

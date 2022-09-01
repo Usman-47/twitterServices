@@ -35,16 +35,13 @@ import Divider from "@mui/material/Divider";
 
 // ======= tabs imports =======
 // import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
 import ComboBox from "./All";
 import OtherProjects from "./OtherProjects";
-
-
-
 
 // ====================
 
@@ -72,10 +69,9 @@ import Progressbr from "./Progressbr";
 import Cardsupport from "./Cardsupport";
 import useDispatchFunc from "../hooks/useDispatchFunc";
 
-
 const drawerWidth = 240;
 const Tweets = (props) => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -237,10 +233,9 @@ const Tweets = (props) => {
 
   return (
     <>
-   
-    <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
-      <CssBaseline />
-      {/* <AppBar
+      <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
+        <CssBaseline />
+        {/* <AppBar
         position="fixed"
         sx={{
           width: { background: "#ECECEC", sm: `calc(100% - ${drawerWidth}px)` },
@@ -307,143 +302,162 @@ const Tweets = (props) => {
          
         </Toolbar>
       </AppBar> */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                background: "#262626",
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                background: "#262626",
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
           sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              background: "#262626",
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              background: "#262626",
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
-        {selectedComponent === "Dashboard" ? (
-          <UserDashboard />
-        ) : selectedComponent === "Mention to Earn" ? (
-          <>
-          <Grid container spacing={2}>
-            {getAllInvoices?.map((data) => (
-              <>
-                {data?.isRaid === false ? (
-                  
-                    <>
-                    
-                    <OtherProjects currentUsers={props?.auth} datas={data}/>
-                    
+          <Toolbar />
+          {selectedComponent === "Dashboard" ? (
+            <UserDashboard />
+          ) : selectedComponent === "Mention to Earn" ? (
+            <>
+              <Grid container spacing={2}>
+                {getAllInvoices?.map((data) => (
+                  <>
+                    {data?.isRaid === false ? (
+                      <>
+                        <OtherProjects
+                          currentUsers={props?.auth}
+                          datas={data}
+                        />
 
-                      {/* <UserMentions currentUser={props?.auth} data={data} /> */}
-                    </>
-                   
-                ) : null}
-               
-              </>
-            ))}
-            </Grid>
-          </>
-        ) : selectedComponent === "Raid to Earn" ? (
-          <>
-            {getAllInvoices?.map((data) => (
-              <>
-                {data?.isRaid ? (
-                  
-                  <div
-                  
-
-                    style={{
-                      marginTop: 50,
-                      padding: "30px",
-                      // border: "2px solid #00ACEE",
-                      // borderRadius: "20px",
-                    }}
-                  >
-                   <Box className='tabs_container' sx={{ width:"95%",  margin:"0 auto", typography: 'body1', }}>
+                        {/* <UserMentions currentUser={props?.auth} data={data} /> */}
+                      </>
+                    ) : null}
+                  </>
+                ))}
+              </Grid>
+            </>
+          ) : selectedComponent === "Raid to Earn" ? (
+            <>
+              {getAllInvoices?.map((data) => (
+                <>
+                  {data?.isRaid ? (
+                    <div
+                      style={{
+                        marginTop: 50,
+                        padding: "30px",
+                        // border: "2px solid #00ACEE",
+                        // borderRadius: "20px",
+                      }}
+                    >
+                      <Box
+                        className="tabs_container"
+                        sx={{
+                          width: "95%",
+                          margin: "0 auto",
+                          typography: "body1",
+                        }}
+                      >
                         <TabContext value={value}>
-                          <Box sx={{ borderBottom: 1, borderColor: '#00ACEE' }}>
-                            <TabList sx={{gap:"5px"}} onChange={handleChange} aria-label="lab API tabs example">
-                              <Tab className="dashboard_tabs" sx={{color:"white"}} label= "LIVE" value="1" />
-                              <Tab className="dashboard_tabs" sx={{color:"white"}} label="CLOSED" value="2" />
-                              
+                          <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
+                            <TabList
+                              sx={{ gap: "5px" }}
+                              onChange={handleChange}
+                              aria-label="lab API tabs example"
+                            >
+                              <Tab
+                                className="dashboard_tabs"
+                                sx={{ color: "white" }}
+                                label="LIVE"
+                                value="1"
+                              />
+                              <Tab
+                                className="dashboard_tabs"
+                                sx={{ color: "white" }}
+                                label="CLOSED"
+                                value="2"
+                              />
                             </TabList>
                           </Box>
-                 
-                          <TabPanel sx={{color:"white"}} value="2">Item One</TabPanel>
-                        
-                          <TabPanel sx={{color:"white", padding:"0 !important", marginTop:"40px"}} value="1">
-                          <Grid container spacing={2}>
-                          {data?.isRaid &&
-                          data?.pool?.map((pool) => (
-                            <>
-                              <Pool
-                                currentUser={props?.auth}
-                                pool={pool}
-                                invoiceCreater={data?.invoiceCreater?.twitterId}
-                              />
-                            </>
-                          ))}
-                          </Grid>
-                        
+
+                          <TabPanel sx={{ color: "white" }} value="2">
+                            Item One
                           </TabPanel>
-                          
+
+                          <TabPanel
+                            sx={{
+                              color: "white",
+                              padding: "0 !important",
+                              marginTop: "40px",
+                            }}
+                            value="1"
+                          >
+                            <Grid container spacing={2}>
+                              {data?.isRaid &&
+                                data?.pool?.map((pool) => (
+                                  <>
+                                    <Pool
+                                      currentUser={props?.auth}
+                                      pool={pool}
+                                      projectDetail={data}
+                                    />
+                                  </>
+                                ))}
+                            </Grid>
+                          </TabPanel>
                         </TabContext>
-                </Box>
-                      
-                  
-                   
-                  </div>
-                ) : null}
-              </>
-            ))}
-          </>
-        ) : selectedComponent === "Profile" ? (
-          <Profledescription />
-        ) : selectedComponent === "Setting" ? (
-          <Setting />
-        ) : selectedComponent === "Stats" ? (
-          <Progressbr />
-        ) : (
-          <Cardsupport />
-        )}
+                      </Box>
+                    </div>
+                  ) : null}
+                </>
+              ))}
+            </>
+          ) : selectedComponent === "Profile" ? (
+            <Profledescription />
+          ) : selectedComponent === "Setting" ? (
+            <Setting />
+          ) : selectedComponent === "Stats" ? (
+            <Progressbr />
+          ) : (
+            <Cardsupport />
+          )}
+        </Box>
       </Box>
-    </Box>
     </>
   );
 };
