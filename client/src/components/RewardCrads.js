@@ -9,9 +9,9 @@ import { Divider, Grid } from "@mui/material";
 import { minHeight } from "@mui/system";
 export default function RewardCards() {
   const array = [
-    { title: "Solana Wallet", src:"solana.png" },
-    { title: "Ethereum Wallet" , src:"ethereum.png" },
-    { title: "Twitter" , src:"twitter.png"},
+    { title: "Solana Wallet", src:"solana.png", btnText:"Select Solana Wallet" },
+    { title: "Ethereum Wallet" , src:"ethereum.png", btnText:"Select Ethereum Wallet" },
+    { title: "Twitter" , src:"twitter.png", btnText:"Connect Your Tweeter"},
   ];
 
   return (
@@ -43,7 +43,7 @@ export default function RewardCards() {
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
                   <Button className="rewardCards_solana_btn" size="large">
-                    Select Solana wallet
+                    {item.btnText}
                   </Button>
                   {/* <Button size="small">Learn More</Button> */}
                 </CardActions>

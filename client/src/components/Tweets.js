@@ -105,24 +105,7 @@ const Tweets = (props) => {
       </Typography>
       {/* <Divider /> */}
 
-      <List>
-        {[
-          <Button
-            style={{ color: "white", borderColor: "none" }}
-            variant="outlined"
-          >
-            Unlink from twitter
-          </Button>,
-        ].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              href={`${process.env.REACT_APP_SERVERURL}/api/logout`}
-            >
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+   
       <List>
         {[
           "Dashboard",
@@ -267,6 +250,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
+                // sx={{background:"black"}}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -283,6 +267,26 @@ const Tweets = (props) => {
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem>
+                  {/* <List> */}
+                      {[
+                        <Button
+                          style={{ color: "white", borderColor: "none" }}
+                          variant="contained"
+                        >
+                          Unlink from twitter
+                        </Button>,
+                      ].map((text, index) => (
+                        <ListItem key={text} disablePadding>
+                          <ListItemButton
+                            href={`${process.env.REACT_APP_SERVERURL}/api/logout`}
+                          >
+                            <ListItemText primary={text} />
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    {/* </List> */}
+                  </MenuItem>
                   <WalletDisconnectButton />
                 </Menu>
               </Typography>

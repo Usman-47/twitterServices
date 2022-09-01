@@ -86,19 +86,20 @@ const OtherProjects = ({ currentUsers, datas }) => {
                     background: "#636363",
                     borderBottomLeftRadius: "10px",
                     borderBottomRightRadius: "10px",
+                    color:"white"
                   }}
                   disableSpacing
                 >
-                  <IconButton aria-label="add to favorites">
+                  <IconButton className="iconBtn"  aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
-                  <IconButton aria-label="share">
+                  <IconButton className="iconBtn" aria-label="share">
                     <Icon icon="ant-design:retweet-outlined" />
                   </IconButton>
-                  <IconButton aria-label="share">
+                  <IconButton className="iconBtn" aria-label="share">
                     <Icon icon="fa-regular:comment-dots" />
                   </IconButton>
-                  <IconButton aria-label="share">
+                  <IconButton className="iconBtn" aria-label="share">
                     <ShareIcon />
                   </IconButton>
                 </CardActions>
@@ -247,10 +248,10 @@ const OtherProjects = ({ currentUsers, datas }) => {
               </CardContent>
               <CardActions sx={{ justifyContent: "center" }} disableSpacing>
                 <IconButton aria-label="add to favorites">
-                  <Icon icon="akar-icons:twitter-fill" />
+                  <Icon color="white" icon="akar-icons:twitter-fill" />
                 </IconButton>
                 <IconButton aria-label="share">
-                  <Icon icon="akar-icons:discord-fill" />
+                  <Icon color="white" icon="akar-icons:discord-fill" />
                 </IconButton>
               </CardActions>
             </Card>
