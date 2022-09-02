@@ -174,16 +174,31 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   };
 
   useEffect(() => {
-    if (retweetStatus) {
-      retweetStatus?.map((status) => {
-        if (status?.username === currentUser.userName) {
+    var tweetIsRetweeted = false;
+    if (data?.tweetId) {
+      currentUser?.raidStatus?.retweetStatus?.map((tweetStatus) => {
+        if (tweetStatus === data?.tweetId) {
+          setIsTweetRetweeted(true);
+          tweetIsRetweeted = true;
+        }
+      });
+    }
+    if (!tweetIsRetweeted) {
+      var tweetRetweetStatus = false;
+      if (retweetStatus) {
+        retweetStatus?.map((status) => {
+          if (status?.username === currentUser.userName) {
+            tweetRetweetStatus = true;
+          }
+        });
+        if (tweetRetweetStatus) {
           setIsTweetRetweeted(true);
         } else {
           setIsTweetRetweeted(false);
         }
-      });
+      }
     }
-  }, [retweetStatus]);
+  }, [retweetStatus, currentUser, data?.tweetId]);
 
   useEffect(() => {
     if (data?.tweetId) {
@@ -447,39 +462,39 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
         toast.error("Tweet id or project name not found");
         return;
       }
-      // let body = {
-      //   userId: currentUser?.twitterId,
-      //   accessToken: currentUser?.accessToken,
-      //   accessTokenSecret: currentUser?.accessTokenSecret,
-      // };
-      // const res = await axios.post(
-      //   `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
-      //   body
-      // );
-      // if (res?.data?.data) {
-      // let tx = await LikeTweet(1);
-      // let result = await solConnection.confirmTransaction(tx);
-
-      const body = {
-        likeStatus: {
-          tweetId: data?.tweetId,
-          projectName,
-          time: moment().unix(),
-        },
-        twitterId: currentUser.twitterId,
+      let body = {
+        userId: currentUser?.twitterId,
+        accessToken: currentUser?.accessToken,
+        accessTokenSecret: currentUser?.accessTokenSecret,
       };
-      const response = await axios.patch(
-        `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
-        body,
-        {
-          headers: {
-            Authorization: `BEARER ${currentUser.token}`,
-          },
-        }
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
+        body
       );
+      if (res?.data?.data) {
+        let tx = await LikeTweet(1);
+        let result = await solConnection.confirmTransaction(tx);
 
-      setIsTweetLike(true);
-      // }
+        const body = {
+          likeStatus: {
+            tweetId: data?.tweetId,
+            projectName,
+            time: moment().unix(),
+          },
+          twitterId: currentUser.twitterId,
+        };
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${currentUser.token}`,
+            },
+          }
+        );
+
+        setIsTweetLike(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -499,6 +514,24 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
       if (res?.data?.data) {
         let tx = await LikeTweet(3);
         let result = await solConnection.confirmTransaction(tx);
+
+        const body = {
+          replyStatus: {
+            tweetId: data?.tweetId,
+            projectName,
+            time: moment().unix(),
+          },
+          twitterId: currentUser.twitterId,
+        };
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${currentUser.token}`,
+            },
+          }
+        );
       }
     } catch (error) {
       console.log(error);
@@ -519,6 +552,24 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
       if (res?.data?.data) {
         let tx = await LikeTweet(2);
         let result = await solConnection.confirmTransaction(tx);
+
+        const body = {
+          retweetStatus: {
+            tweetId: data?.tweetId,
+            projectName,
+            time: moment().unix(),
+          },
+          twitterId: currentUser?.twitterId,
+        };
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${currentUser.token}`,
+            },
+          }
+        );
         setIsTweetRetweeted(true);
       }
     } catch (error) {
@@ -640,9 +691,18 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                     <Icon color="red" icon="ant-design:heart-filled" />
                   </IconButton>
                 )}
-                <IconButton onClick={retweetATweet} aria-label="share">
-                  <Icon icon="ant-design:retweet-outlined" />
-                </IconButton>
+                {!isTweetRetweeted ? (
+                  <IconButton onClick={retweetATweet} aria-label="share">
+                    <Icon icon="ant-design:retweet-outlined" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => alert("You have already retweet the tweet")}
+                    aria-label="share"
+                  >
+                    <Icon icon="ant-design:retweet-outlined" />
+                  </IconButton>
+                )}
                 <IconButton aria-label="share">
                   <Icon
                     onClick={() => setOpenModal(true)}

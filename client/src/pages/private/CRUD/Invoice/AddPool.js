@@ -33,7 +33,7 @@ import NothingToShow from "../../Others/NothingToShow";
 import { ADMIN, MANAGER } from "../../../../helpers/UserRoles";
 import useUserFunc from "../../../../hooks/useUserFunc";
 import { connect } from "react-redux";
-import moment from 'moment'
+import moment from "moment";
 
 //  intialValue = {
 //   sellerName,
@@ -341,15 +341,12 @@ const CreateInvoice = () => {
               provider.wallet.publicKey,
               provider.wallet.publicKey
             ),
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
+
             SystemProgram.transfer({
               fromPubkey: provider.wallet.publicKey,
               toPubkey: clientAta,
               lamports: funds,
             }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
             Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
           );
           console.log("wrapped");
@@ -357,15 +354,11 @@ const CreateInvoice = () => {
       } else {
         if (NATIVE_MINT.toString() === mintAddress.toString()) {
           instructions.push(
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
             SystemProgram.transfer({
               fromPubkey: provider.wallet.publicKey,
               toPubkey: clientAta,
               lamports: funds,
             }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
             Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
           );
           console.log("else");
@@ -382,7 +375,6 @@ const CreateInvoice = () => {
               client: provider.wallet.publicKey,
               globalAuthority: globalAuth,
               pool: poolAddress,
-              // poolSol: poolSolAddress,
               poolAta: poolAta,
               poolMint: mintAddress,
               clientAta: clientAta,
@@ -400,7 +392,6 @@ const CreateInvoice = () => {
       }
     }
   };
-
   const SubmitForm = async (ev) => {
     try {
       ev.preventDefault();
@@ -426,7 +417,7 @@ const CreateInvoice = () => {
         navigate(0);
         return;
       }
-      /// temporary testing
+
       var transactionData;
       if (isRaid) {
         transactionData = await initializeUserPoolForRaid();
@@ -478,18 +469,15 @@ const CreateInvoice = () => {
   };
   function handleChanges(event) {
     setStateValues((prev) => ({
-                    ...prev,
-                    startTimes:event.target.value,
-                  }))
-                  setStateValues((prev) => ({
-                    ...prev,
-                    startTime:moment().unix( event.target.value).toString(),
-                 
-                  }))
-                     
-              
-              }
-              console.log(stateValues.startTime,"date")           
+      ...prev,
+      startTimes: event.target.value,
+    }));
+    setStateValues((prev) => ({
+      ...prev,
+      startTime: moment().unix(event.target.value).toString(),
+    }));
+  }
+  console.log(stateValues.startTime, "date");
 
   return (
     <>
@@ -517,7 +505,7 @@ const CreateInvoice = () => {
               Start Time
             </label>
             <input
-             type="datetime-local"
+              type="datetime-local"
               id="timeToclaim"
               placeholder="Start Time"
               className="form-control"
@@ -706,7 +694,6 @@ const CreateInvoice = () => {
             <button
               className="btn btn-outline-primary w-100"
               type="button"
-              
               onClick={(ev) => SubmitForm(ev)}
             >
               Submit
