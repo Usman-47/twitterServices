@@ -31,6 +31,13 @@ module.exports = (app) => {
       };
       const token = signToken(tokenPayload);
 
+      var raidStatus;
+      if (!req.user.raidStatus) {
+        raidStatus = "";
+      } else {
+        raidStatus = req.user.raidStatus;
+      }
+
       if (req.user.rewardStatus) {
         res.send({
           token,
@@ -42,6 +49,7 @@ module.exports = (app) => {
           userName: req.user.userName,
           twitterId: req.user.twitterId,
           rewardStatus: req.user.rewardStatus,
+          raidStatus,
           accessToken: req.user.accessToken,
           accessTokenSecret: req.user.accessTokenSecret,
         });
@@ -55,6 +63,7 @@ module.exports = (app) => {
           id: req.user.twitterId,
           userName: req.user.userName,
           twitterId: req.user.twitterId,
+          raidStatus,
           accessToken: req.user.accessToken,
           accessTokenSecret: req.user.accessTokenSecret,
         });
@@ -146,6 +155,87 @@ module.exports = (app) => {
           new: true,
         }
       );
+      if (!userStatusUpdated) {
+        res.send("User Not Found");
+      } else {
+        res.send(userStatusUpdated);
+      }
+    } catch (err) {
+      console.log(err, "Error");
+    }
+  });
+
+  app.patch("/api/updateRaidRewardStatus", async (req, res) => {
+    try {
+      console.log("jkshdfkjsdf");
+      const tokenHeader = req.headers.authorization;
+
+      if (!tokenHeader) {
+        return res.status(404).send({
+          msg: "No tokenHeader available, route only for authorised user",
+          type: "error",
+        });
+      }
+      const token = tokenHeader.split(" ")[1];
+      if (!token) {
+        return res
+          .status(404)
+          .send({ msg: "token tampered, please sign in", type: "error" });
+      }
+      const payLoad = verifyToken(token);
+      if (!payLoad || typeof payLoad === "string") {
+        return res
+          .status(401)
+          .send({ msg: "Request denied, please sign in", type: "error" });
+      }
+      var userStatusUpdated;
+      if (req.body.likeStatus) {
+        userStatusUpdated = await User.findOneAndUpdate(
+          {
+            twitterId: req.body.twitterId,
+          },
+
+          {
+            $push: {
+              "raidStatus.likeStatus": req.body.likeStatus,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      } else if (req.body.retweetStatus) {
+        userStatusUpdated = await User.findOneAndUpdate(
+          {
+            twitterId: req.body.twitterId,
+          },
+          {
+            $push: {
+              "raidStatus.retweetStatus": req.body.retweetStatus,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      } else if (req.body.replyStatus) {
+        userStatusUpdated = await User.findOneAndUpdate(
+          {
+            twitterId: req.body.twitterId,
+          },
+          {
+            $push: {
+              "raidStatus.replyStatus": req.body.replyStatus,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      } else {
+        console.log("wronng data");
+      }
+
       if (!userStatusUpdated) {
         res.send("User Not Found");
       } else {
