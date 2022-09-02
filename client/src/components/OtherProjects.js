@@ -33,7 +33,7 @@ const OtherProjects = ({ currentUsers, datas }) => {
     return (
       <>
         <Grid item xs={12} md={6} lg={4} sx={{ position: "relative", }}>
-          <div className="penta gon ">
+          <div className="penta gon">
             <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
 
               <CardHeader
@@ -256,8 +256,7 @@ const OtherProjects = ({ currentUsers, datas }) => {
               </CardActions>
             </Card>
           </div>
-
-          <div className="triangle"></div>
+          <div className="triangle"><img sx={{marginLeft:"15px", marginTop:"15px" }} src="Group.png" alt="" /></div>
         </Grid>
 
       </>

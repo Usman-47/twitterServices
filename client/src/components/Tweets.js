@@ -346,7 +346,14 @@ const Tweets = (props) => {
             <UserDashboard />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
-             
+            <Box
+                        className="tabs_container"
+                        sx={{
+                          width: "95%",
+                          margin: "0 auto",
+                          typography: "body1",
+                        }}
+                      >
               <TabContext value={value}>
                           <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
                             <TabList
@@ -368,10 +375,12 @@ const Tweets = (props) => {
                               />
                             </TabList>
                           </Box>
+                          
                 {getAllInvoices?.map((data) => (
                   <>
                     {data?.isRaid === false ? (
                       <>
+
                       <Box
                         className="tabs_container"
                         sx={{
@@ -394,12 +403,11 @@ const Tweets = (props) => {
                             }}
                             value="1"
                           >
-                          <Grid container spacing={2}>
+                         <Grid container spacing={2}>
                           <OtherProjects
-                          
-                          currentUsers={props?.auth}
-                          datas={data}
-                        />
+                           currentUsers={props?.auth}
+                           datas={data}
+                          />
                         </Grid>
                           </TabPanel>
                           
@@ -410,7 +418,9 @@ const Tweets = (props) => {
                     ) : null}
                   </>
                 ))}
+                
                 </TabContext>
+                </Box>
              
             </>
           ) : selectedComponent === "Raid to Earn" ? (
