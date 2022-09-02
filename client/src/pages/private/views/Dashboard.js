@@ -66,7 +66,7 @@ const Dashboard = (props) => {
     if (role !== USER) {
       return (
         <>
-          <div className="container-fluid">
+          <div className="container-fluid bg-black">
             <div className="row">
               {/* this is sidebar */}
 
