@@ -4,14 +4,14 @@ const MainScreenTemplate = ({ role }) => {
   const [count, setCount] = useState();
   return (
     <>
-      <div className="col container p-md-5 py-2 my-5 border border-1 border-info rounded-3 bg-light">
-        <div className="p-4 bg-white">
-          <div className="display-2 my-3 p-md-3 col text-secondary text-center welcome_admin">
+      <div className="col container p-md-5 py-2 my-5 border border-1 rounded-3" style={{background:"#333333",}}>
+        <div className="p-4" style={{background:"#333333"}}>
+          <div className="display-2 my-3 p-md-3 col text-white text-center welcome_admin">
             Welcome {role.toUpperCase()}
           </div>
           <div className="col my-2 p-md-3 mx-auto d-flex justify-content-center ">
-            <div className="p-md-5 p-4 bg-dark text-center text-light mx-auto shadow">
-              <div className="fw-bolder lead">Total Tweets : {count} </div>
+            <div className="p-md-5 p-4 bg-black border border-1 rounded-3 text-center text-light mx-auto shadow">
+              <div className="fw-bolder  lead">Total Tweets : {count} </div>
             </div>
           </div>
         </div>

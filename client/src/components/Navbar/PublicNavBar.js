@@ -43,7 +43,7 @@ const PublicNavBar = ({ setShowSideBar, showSideBar }) => {
                 <Icon className="header-icon text-white" icon="ant-design:user-outlined" />
               </Grid>
               <Grid item xs={3}>
-                {/* <Button style={{padding:"3px 25px 3px 25px"}} className='wallet-btn' variant='contained'> Wallet</Button> */}
+               
                 <WalletMultiButton className="wallet-btn" />
               </Grid>
             </Grid>

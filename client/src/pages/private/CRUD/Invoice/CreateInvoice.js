@@ -92,9 +92,10 @@ const CreateInvoice = () => {
   };
   return (
     <>
-      <div className="container my-5 border border-1 border-info rounded-3 p-3">
+      <div className="container my-5 border border-1 rounded-3 p-3" style={{background:"#333333"}}>
         <FormGroup>
           <FormControlLabel
+          className="text-white"
             control={
               <Switch
                 checked={isRaid}
@@ -106,7 +107,7 @@ const CreateInvoice = () => {
             label="IsRaid"
           />
         </FormGroup>
-        <form className="p-md-3 ">
+        <form className="p-md-3 text-white">
           {/* invoiceLogo */}
           <div className="mb-3">
             <label className="form-label">Project Name</label>
@@ -192,7 +193,7 @@ const CreateInvoice = () => {
             )}
 
             <button
-              className="btn btn-info border-info text-white w-100"
+              className="btn btn-dark border-white text-white w-100"
               type="button"
               onClick={(ev) => SubmitForm(ev)}
             >

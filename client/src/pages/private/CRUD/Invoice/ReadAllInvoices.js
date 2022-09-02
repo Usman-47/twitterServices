@@ -37,10 +37,10 @@ const ReadAllInvoices = () => {
   }
   return (
     <>
-      <div className=" container  p-md-5 border border-1 border-info rounded-3 bg-light my-3 text-dark fw-bold ">
-        <div className="bg-white p-md-4">
+      <div className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold " style={{background:"#333333"}}>
+        <div className="p-md-4">
           <div className="col border border-1">
-            <table className="table table-hover">
+            <table className="table table-hover text-white">
               <thead>
                 <tr>
                   <th className="form-label">Project Name </th>

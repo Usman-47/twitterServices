@@ -93,8 +93,8 @@ const UpdateInvoice = (props) => {
   return (
     <>
       {state && (
-        <div className="container my-5 p-3 border border-1 border-info rounded-3">
-          <form className="p-md-3 ">
+        <div className="container my-5 p-3 border border-1 rounded-3" style={{background:"#333333"}}>
+          <form className="p-md-3 text-white ">
             <div className="mb-5">
               <label className="form-label" htmlFor="invoiceLogoImg">
                 Project Name
@@ -171,9 +171,9 @@ const UpdateInvoice = (props) => {
               />
             </div>
 
-            <div className="my-5  col">
+            <div className="my-5 col">
               <button
-                className="btn btn-info border-info text-white w-100"
+                className="btn btn-dark border-dark text-white w-100"
                 type="button"
                 onClick={(ev) => submitForm(ev)}
               >

@@ -63,8 +63,8 @@ const DeleteInvoice = () => {
           Click to navigate
         </button>
       </div>
-      <div className="p-5 my-3 card bg-light border border-1 border-info rounded-3 d-flex justify-content-center">
-        <h1 className="display-1 p-5">Successfully Project Deleted...</h1>
+      <div className="p-5 my-3 card border rounded-3 d-flex justify-content-center" style={{background:"#333333"}}>
+        <h5 className="display-1 p-5 text-white text-center">Successfully Project Deleted...</h5>
       </div>
     </div>
   );

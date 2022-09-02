@@ -38,11 +38,11 @@ const ReadAllInvoices = () => {
   }
   return (
     <>
-      <div className=" container border border-1 border-info rounded-3 bg-light p-md-5   my-3 text-dark fw-bold ">
+      <div className=" container border border-1  rounded-3 p-md-5 my-3 fw-bold " style={{background:"#333333"}}>
         <div className="col">
           <div className="m-3">
             <button
-              className="btn btn-info border-info text-white w-100 my-2"
+              className="btn btn-dark border-dark text-white w-100 my-2"
               onClick={() =>
                 navigate(`/app/invoice/readOne/readAllPool/addPool/${id}`)
               }
@@ -50,8 +50,8 @@ const ReadAllInvoices = () => {
               Add Pool
             </button>
           </div>
-          <div className="bg-white p-4">
-          <table className="table border border-1 table-hover">
+          <div className="bg-dark p-4">
+          <table className="table text-white border border-1 table-hover">
             <thead>
               <tr>
                 <th>Amount </th>

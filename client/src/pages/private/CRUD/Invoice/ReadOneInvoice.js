@@ -42,15 +42,15 @@ const ReadOneInvoice = () => {
 
   return (
     <div>
-      <div className="border border-1 border-info rounded-3 my-5 container ">
+      <div className="border border-1 rounded-3 my-5 container" style={{background:"#333333"}}>
         <div className="">
-          <div className="display-2 p-3 m-3 text-center text-secondary">
+          <div className="display-2 p-3 m-3 text-center text-white">
             Project Info
           </div>
           <div className="d-flex flex-column flex-md-row ms-auto justify-content-evenly align-content-center row p-md-5 py-2 ">
             <div className="col-8 col-md-6 m-3">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn btn-dark border-dark text-white w-100 my-2"
                 onClick={() =>
                   navigate(`/app/invoice/readOne/readAllPool/${id}`)
                 }
@@ -60,7 +60,7 @@ const ReadOneInvoice = () => {
             </div>
             <div className="col-8 col-md-6 m-3">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn btn-dark border-dark text-white w-100 my-2"
                 onClick={() => navigate(`/app/invoice/update/${id}`)}
               >
                 Update Project
@@ -68,7 +68,7 @@ const ReadOneInvoice = () => {
             </div>
             <div className="col-8 col-md-6 m-3">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn btn-dark border-dark text-white w-100 my-2"
                 onClick={() => navigate(`/app/invoice/delete/${id}`)}
               >
                 Delete Project

@@ -21,7 +21,7 @@ const SidebarTemplate = ({ navArray, setShowSideBar }) => {
         }}
         className={
           sidebar
-            ? "side_bar col-5 col-md-3 col-lg-2 border  bg-black text-white fixed"
+            ? "side_bar col-8 col-sm-5 col-md-4 col-lg-3 col-xl-2 border  bg-black text-white fixed"
             : "d-none"
         }
       >
@@ -54,7 +54,7 @@ const SidebarTemplate = ({ navArray, setShowSideBar }) => {
                     // onClick={() => setShowSideBar(false)}
                   >
                     <NavLink
-                      sx={{ color: "white" }}
+                      sx={{ color: "white", display:"flex" }}
                       className={({ isActive }) =>
                         isActive
                           ? "nav-link active #0dcaf0 fw-bold"
