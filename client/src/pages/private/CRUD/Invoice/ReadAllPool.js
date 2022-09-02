@@ -51,30 +51,26 @@ const ReadAllInvoices = () => {
             </button>
           </div>
           <div className="bg-dark p-4">
-          <table className="table text-white border border-1 table-hover">
-            <thead>
-              <tr>
-                <th>Amount </th>
-                <th>Start Time </th>
-                <th>Tweet Url</th>
-                <th>Reward Frequency</th>
-                <th>Reward Token</th>
-                <th>Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              {state &&
+         
+          <div style={{overflowX:"auto"}}>
+          <table class="table table-dark table-hover">
+                <thead>
+                  <tr>
+                    
+                    <th scope="col">Amount</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">Tweet Url</th>
+                    <th scope="col">Reward Frequency</th>
+                    <th scope="col">Reward Token</th>
+                    <th scope="col">Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {state &&
                 state.map((invoiceObj) => (
-                  <tr
-                    key={invoiceObj._id}
-                    className="text-break mouseCursorChanger"
-                    onClick={() =>
-                      navigate(
-                        `/app/invoice/readOne/readAllPool/readOnePool/${invoiceObj._id}`
-                      )
-                    }
-                  >
-                    <td>{invoiceObj.amount}</td>
+                  <tr>
+                    
+                  <td>{invoiceObj.amount}</td>
                     <td>{invoiceObj.startTime}</td>
                     <td>{invoiceObj.tweetUrl}</td>
                     <td>{invoiceObj.rewardFrequency}</td>
@@ -83,9 +79,11 @@ const ReadAllInvoices = () => {
                       <td>{data}</td>
                     ))}
                   </tr>
-                ))}
-            </tbody>
-          </table>
+                 
+                  ))}
+                </tbody>
+              </table>
+              </div>
           </div>
         </div>
       </div>
