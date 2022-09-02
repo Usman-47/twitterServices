@@ -123,19 +123,19 @@ const CreateInvoice = () => {
       // let userForLikeAddress = anchor.web3.Keypair.generate();
       const userForLikeAddress = await PublicKey.createWithSeed(
         provider.wallet.publicKey,
-        `usersforlike-${tweetId}`,
+        `like-${tweetId}`,
         program.programId
       );
       console.log(userForLikeAddress.toString(), "usersforlike");
       const userForRetweetAddress = await PublicKey.createWithSeed(
         provider.wallet.publicKey,
-        `usersforretweet-${tweetId}`,
+        `retweet-${tweetId}`,
         program.programId
       );
       console.log(userForRetweetAddress.toString(), "usersforretweet");
       const userForCommentAddress = await PublicKey.createWithSeed(
         provider.wallet.publicKey,
-        `usersforcomment-${tweetId}`,
+        `comment-${tweetId}`,
         program.programId
       );
       console.log(userForCommentAddress.toString(), "usersforcomment");
@@ -198,7 +198,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforlike-${tweetId}`,
+          seed: `like-${tweetId}`,
           newAccountPubkey: userForLikeAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -207,7 +207,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforretweet-${tweetId}`,
+          seed: `retweet-${tweetId}`,
           newAccountPubkey: userForRetweetAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -216,7 +216,7 @@ const CreateInvoice = () => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: provider.wallet.publicKey,
           basePubkey: provider.wallet.publicKey, // clientAddress
-          seed: `usersforcomment-${tweetId}`,
+          seed: `comment-${tweetId}`,
           newAccountPubkey: userForCommentAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,

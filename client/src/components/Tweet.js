@@ -257,15 +257,15 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
     const id2 = parseInt(Math.random() * 250);
     const tweetId = data?.tweetId;
     if (publicKey) {
-      let seed = `usersforlike-${tweetId}`;
+      let seed = `like-${tweetId}`;
       if (number === 1) {
-        seed = `usersforlike-${tweetId}`;
+        seed = `like-${tweetId}`;
       }
       if (number === 2) {
-        seed = `usersforretweet-${tweetId}`;
+        seed = `retweet-${tweetId}`;
       }
       if (number === 3) {
-        seed = `usersforcomment-${tweetId}`;
+        seed = `comment-${tweetId}`;
       }
       // let userForLikeAddress = anchor.web3.Keypair.generate();
       const userForLikeAddress = await PublicKey.createWithSeed(
@@ -868,7 +868,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
         <div className="triangle"></div>
       </Grid>
 
-      {allReplyOfATweet && (
+      {true && (
         <ThreadModal
           allReplyOfATweet={allReplyOfATweet}
           data={data}
