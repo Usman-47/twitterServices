@@ -415,18 +415,7 @@ const Tweets = (props) => {
             </>
           ) : selectedComponent === "Raid to Earn" ? (
             <>
-              {getAllInvoices?.map((data) => (
-                <>
-                  {data?.isRaid ? (
-                    <div
-                      style={{
-                        marginTop: 50,
-                        padding: "30px",
-                        // border: "2px solid #00ACEE",
-                        // borderRadius: "20px",
-                      }}
-                    >
-                      <Box
+            <Box
                         className="tabs_container"
                         sx={{
                           width: "95%",
@@ -455,6 +444,18 @@ const Tweets = (props) => {
                               />
                             </TabList>
                           </Box>
+              {getAllInvoices?.map((data) => (
+                <>
+                  {data?.isRaid ? (
+                    <div
+                      style={{
+                        marginTop: 50,
+                        padding: "30px",
+                        // border: "2px solid #00ACEE",
+                        // borderRadius: "20px",
+                      }}
+                    >
+                     
 
                           <TabPanel sx={{ color: "white" }} value="2">
                             Item One
@@ -481,12 +482,16 @@ const Tweets = (props) => {
                                 ))}
                             </Grid>
                           </TabPanel>
-                        </TabContext>
-                      </Box>
+                       
+                      
                     </div>
                   ) : null}
+                 
                 </>
               ))}
+             
+              </TabContext>
+               </Box>
             </>
           ) : selectedComponent === "Rewards" ? <Rewards/>: selectedComponent === "Profile" ? (
             <Profledescription />
