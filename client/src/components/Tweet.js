@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import moment from "moment";
+
 import { toast } from "react-toastify";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
@@ -138,16 +140,31 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   };
 
   useEffect(() => {
-    if (getTweetLikes) {
-      getTweetLikes.map((tweet) => {
-        if (tweet?.username === currentUser.userName) {
+    var isTweetLiked = false;
+    if (data?.tweetId) {
+      currentUser?.raidStatus?.likeStatus?.map((tweetStatus) => {
+        if (tweetStatus === data?.tweetId) {
+          setIsTweetLike(true);
+          isTweetLiked = true;
+        }
+      });
+    }
+    if (!isTweetLiked) {
+      var tweetLikeStatus = false;
+      if (getTweetLikes) {
+        getTweetLikes.map((tweet) => {
+          if (tweet?.username === currentUser.userName) {
+            tweetLikeStatus = true;
+          }
+        });
+        if (tweetLikeStatus) {
           setIsTweetLike(true);
         } else {
           setIsTweetLike(false);
         }
-      });
+      }
     }
-  }, [getTweetLikes]);
+  }, [getTweetLikes, currentUser, data?.tweetId]);
 
   const checkTweetRetweet = async () => {
     const res = await axios.get(
@@ -430,20 +447,39 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
         toast.error("Tweet id or project name not found");
         return;
       }
-      let body = {
-        userId: currentUser?.twitterId,
-        accessToken: currentUser?.accessToken,
-        accessTokenSecret: currentUser?.accessTokenSecret,
+      // let body = {
+      //   userId: currentUser?.twitterId,
+      //   accessToken: currentUser?.accessToken,
+      //   accessTokenSecret: currentUser?.accessTokenSecret,
+      // };
+      // const res = await axios.post(
+      //   `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
+      //   body
+      // );
+      // if (res?.data?.data) {
+      // let tx = await LikeTweet(1);
+      // let result = await solConnection.confirmTransaction(tx);
+
+      const body = {
+        likeStatus: {
+          tweetId: data?.tweetId,
+          projectName,
+          time: moment().unix(),
+        },
+        twitterId: currentUser.twitterId,
       };
-      const res = await axios.post(
-        `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
-        body
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${currentUser.token}`,
+          },
+        }
       );
-      if (res?.data?.data) {
-        let tx = await LikeTweet(1);
-        let result = await solConnection.confirmTransaction(tx);
-        setIsTweetLike(true);
-      }
+
+      setIsTweetLike(true);
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -589,7 +625,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                 }}
                 disableSpacing
               >
-                {isTweetLike ? (
+                {!isTweetLike ? (
                   <IconButton
                     onClick={likeSpecificTweet}
                     aria-label="add to favorites"

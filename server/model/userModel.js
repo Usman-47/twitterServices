@@ -45,6 +45,29 @@ const userSchema = schema({
       paidTime: { type: String },
     },
   ],
+  raidStatus: {
+    likeStatus: [
+      {
+        tweetId: { type: String },
+        projectName: { type: String },
+        paidTime: { type: String },
+      },
+    ],
+    retweetStatus: [
+      {
+        tweetId: { type: String },
+        projectName: { type: String },
+        paidTime: { type: String },
+      },
+    ],
+    replyStatus: [
+      {
+        tweetId: { type: String },
+        projectName: { type: String },
+        paidTime: { type: String },
+      },
+    ],
+  },
 });
 
 const User = mongoose.model("User", userSchema, "userCollection");

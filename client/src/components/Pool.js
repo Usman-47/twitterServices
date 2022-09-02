@@ -9,23 +9,6 @@ const Pool = ({ currentUser, pool, invoiceCreater, projectDetail }) => {
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
 
-  // =======================
-
-  // useEffect(() => {
-  //   if (currentUser && publicKey) {
-  //     let data = {
-  //       twitterId: currentUser.twitterId,
-  //       publicKey: publicKey.toString(),
-  //     };
-  //     axios
-  //       .patch(
-  //         `${process.env.REACT_APP_SERVERURL}/api/addUserWalletPublicKey`,
-  //         data
-  //       )
-  //       .then((response) => console.log(response, "responseresponse"));
-  //   }
-  // }, [publicKey, currentUser]);
-
   if (publicKey && currentUser) {
     return (
       <>
