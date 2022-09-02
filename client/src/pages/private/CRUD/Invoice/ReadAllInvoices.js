@@ -38,15 +38,15 @@ const ReadAllInvoices = () => {
   return (
     <>
       <div className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold " style={{background:"#333333"}}>
-        <div className="p-md-4">
-          <div className="col border border-1">
+        <div className="px-md-4 pt-2 pb-2">
+          <div className="col border border-1" style={{overflowX:"auto"}}>
             <table className="table table-hover text-white">
               <thead>
                 <tr>
-                  <th className="form-label">Project Name </th>
-                  <th className="form-label">Project twitter username </th>
-                  <th className="form-label">Discord for project contact </th>
-                  <th className="form-label">Creator Address For mint </th>
+                  <th >Project Name</th>
+                  <th >Project twitter username </th>
+                  <th >Discord for project contact </th>
+                  <th >Creator Address For mint </th>
                 </tr>
               </thead>
               <tbody>
@@ -59,14 +59,14 @@ const ReadAllInvoices = () => {
                         navigate(`/app/invoice/readOne/${invoiceObj._id}`)
                       }
                     >
-                      <td className="form-label">{invoiceObj.projectName}</td>
-                      <td className="form-label">
+                      <td >{invoiceObj.projectName}</td>
+                      <td >
                         {invoiceObj.projectTwitterUsername}
                       </td>
-                      <td className="form-label">
+                      <td >
                         {invoiceObj.discordForProjectContact}
                       </td>
-                      <td className="form-label">
+                      <td >
                         {invoiceObj.mintCreatorAddress}
                       </td>
                     </tr>
