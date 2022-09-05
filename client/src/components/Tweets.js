@@ -346,7 +346,9 @@ const Tweets = (props) => {
             <UserDashboard />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
-            <Box
+           
+            
+                    <Box
                         className="tabs_container"
                         sx={{
                           width: "95%",
@@ -354,9 +356,9 @@ const Tweets = (props) => {
                           typography: "body1",
                         }}
                       >
-              <TabContext value={value}>
+                      <TabContext value={value}>
                           <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
-                            <TabList
+                          <TabList
                               sx={{ gap: "5px" }}
                               onChange={handleChange}
                               aria-label="lab API tabs example"
@@ -375,53 +377,55 @@ const Tweets = (props) => {
                               />
                             </TabList>
                           </Box>
-                          
-                {getAllInvoices?.map((data) => (
-                  <>
-                    {data?.isRaid === false ? (
-                      <>
+                          <Grid container spacing={2}>
+                        {getAllInvoices?.map((data) => (
+                          <>
+                        
+                            {data?.isRaid === false ? (
+                              <>
+                            
+                              <Box
+                                className="tabs_container"
+                                sx={{
+                                  width: "95%",
+                                  margin: "0 auto",
+                                  typography: "body1",
+                                }}
+                              >
+                              
 
-                      <Box
-                        className="tabs_container"
-                        sx={{
-                          width: "95%",
-                          margin: "0 auto",
-                          typography: "body1",
-                        }}
-                      >
-                       
-
-                          <TabPanel sx={{ color: "white" }} value="2">
-                            Item One
-                          </TabPanel>
+                                  <TabPanel sx={{ color: "white" }} value="2">
+                                    Item One
+                                  </TabPanel>
+                                  
+                                  <TabPanel
+                                    sx={{
+                                      color: "white",
+                                      padding: "0 !important",
+                                      marginTop: "40px",
+                                    }}
+                                    value="1"
+                                  >
+                                
+                                  <OtherProjects
+                                    currentUsers={props?.auth}
+                                    datas={data}
+                                  />
+                             
+                                  </TabPanel>
+                                  
+                              </Box>
+                            
+                                {/* <UserMentions currentUser={props?.auth} data={data} /> */}
+                              </>
+                            ) : null}
                           
-                          <TabPanel
-                            sx={{
-                              color: "white",
-                              padding: "0 !important",
-                              marginTop: "40px",
-                            }}
-                            value="1"
-                          >
-                         <Grid container spacing={2}>
-                          <OtherProjects
-                           currentUsers={props?.auth}
-                           datas={data}
-                          />
+                          </>
+                        ))}
                         </Grid>
-                          </TabPanel>
-                          
-                      </Box>
-
-                        {/* <UserMentions currentUser={props?.auth} data={data} /> */}
-                      </>
-                    ) : null}
-                  </>
-                ))}
-                
-                </TabContext>
+                  </TabContext>
                 </Box>
-             
+                
             </>
           ) : selectedComponent === "Raid to Earn" ? (
             <>

@@ -693,7 +693,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                 )}
                 {!isTweetRetweeted ? (
                   <IconButton onClick={retweetATweet} aria-label="share">
-                    <Icon icon="ant-design:retweet-outlined" />
+                    <Icon color="green" icon="ant-design:retweet-outlined" />
                   </IconButton>
                 ) : (
                   <IconButton

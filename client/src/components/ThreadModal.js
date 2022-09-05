@@ -279,7 +279,7 @@ export default function ThreadModal({
                   // title="Sarah Parker"
                   // subheader="@saraparker079"
                 >
-                  {" "}
+                 
                   <Avatar
                     sx={{
                       bgcolor: red[500],
@@ -292,8 +292,8 @@ export default function ThreadModal({
                   </Avatar>
                   <Typography sx={{ px: 2 }}>
                     <Typography sx={{ fontSize: "24px" }}>
-                      {" "}
-                      Tweet Your Reply...{" "}
+                      
+                      Tweet Your Reply...
                     </Typography>
                   </Typography>
                 </Typography>
