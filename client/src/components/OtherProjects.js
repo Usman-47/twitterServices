@@ -18,214 +18,219 @@ import { Icon } from "@iconify/react";
 // import Divider from '@mui/material/Divider';
 import Button from "@mui/material/Button";
 import UserMentions from "./UserMentions";
-const moment = require('moment');
-
-
+const moment = require("moment");
 
 const OtherProjects = ({ currentUsers, datas }) => {
-  
-  
-  console.log(moment.unix(datas?.pool[0]?.startTime).fromNow(),"caed2")
-  
   const [currentUserr, setcurrentUser] = React.useState(currentUsers);
   const [dataa, setdata] = React.useState(datas);
- 
-    return (
-      <>
-        <Grid item xs={12} md={6} lg={4} sx={{ position: "relative", }}>
-          <div className="penta gon">
-            <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
 
-              <CardHeader
+  return (
+    <>
+      <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
+        <div className="penta gon">
+          <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
+            <CardHeader
               className="card_header"
-                sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
-                  </Avatar>
-                }
-                // action={
-                //   <IconButton aria-label="settings">
-                //     <MoreVertIcon />
-                //   </IconButton>
-                // }
-                title={datas?.projectName}
-                subheader={datas?.projectTwitterUsername}
-              />
-          
-              <Typography
-                variant="body2"
-                color="white"
-                sx={{
-                  textAlign: "center",
-                  background: "#545454",
-                  margin: "20px",
-                  borderRadius: "10px",
-                  padding: "10px 0px 0 0px",
-                }}
-              >
-                <Typography sx={{ display: "flex", justifyContent: "center" }}>
-                  <Typography
+              sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
+              avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  R
+                </Avatar>
+              }
+              // action={
+              //   <IconButton aria-label="settings">
+              //     <MoreVertIcon />
+              //   </IconButton>
+              // }
+              title={datas?.projectName}
+              subheader={datas?.projectTwitterUsername}
+            />
+
+            <Typography
+              variant="body2"
+              color="white"
+              sx={{
+                textAlign: "center",
+                background: "#545454",
+                margin: "20px",
+                borderRadius: "10px",
+                padding: "10px 0px 0 0px",
+              }}
+            >
+              <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography
                   className="magic_eden"
-                    variant="h5"
-                    sx={{ fontSize: "19.4351px", justifyContent: "end" }}
+                  variant="h5"
+                  sx={{ fontSize: "19.4351px", justifyContent: "end" }}
+                >
+                  Magic Eden
+                </Typography>
+              </Typography>
+              <Typography
+                className="magic_eden_desc"
+                sx={{ fontSize: "13.6045px", padding: "10px" }}
+              >
+                This impressive paella is a perfect party dish and a fun meal to
+                cook together with your guests. Add 1 cup of frozen peas along
+                with the.
+              </Typography>
+
+              <CardActions
+                sx={{
+                  justifyContent: "space-between",
+                  background: "#636363",
+                  borderBottomLeftRadius: "10px",
+                  borderBottomRightRadius: "10px",
+                  color: "white",
+                }}
+                disableSpacing
+              >
+                <IconButton className="iconBtn" aria-label="add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton className="iconBtn" aria-label="share">
+                  <Icon icon="ant-design:retweet-outlined" />
+                </IconButton>
+                <IconButton className="iconBtn" aria-label="share">
+                  <Icon icon="fa-regular:comment-dots" />
+                </IconButton>
+                <IconButton className="iconBtn" aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+              </CardActions>
+            </Typography>
+
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
                   >
-                    Magic Eden
-                  </Typography>
-                 
-                </Typography>
-                <Typography className="magic_eden_desc" sx={{ fontSize: "13.6045px", padding: "10px" }}>
-                  This impressive paella is a perfect party dish and a fun meal
-                  to cook together with your guests. Add 1 cup of frozen peas
-                  along with the.
-                </Typography>
+                    <Icon icon="bi:clock-history" /> Date
+                  </IconButton>
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    <Typography className="active_icon"></Typography>
+                    {datas?.pool[0]?.startTime ? (
+                      <>
+                        Active (Starts in{" "}
+                        {moment.unix(datas?.pool[0]?.startTime).fromNow()})
+                      </>
+                    ) : (
+                      "Not Started yet"
+                    )}
+                  </IconButton>
+                </CardActions>
 
                 <CardActions
                   sx={{
                     justifyContent: "space-between",
-                    background: "#636363",
-                    borderBottomLeftRadius: "10px",
-                    borderBottomRightRadius: "10px",
-                    color:"white"
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
                   }}
                   disableSpacing
                 >
-                  <IconButton className="iconBtn"  aria-label="add to favorites">
-                    <FavoriteIcon />
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
+                  >
+                    <Icon icon="arcticons:rewards" /> Reward
                   </IconButton>
-                  <IconButton className="iconBtn" aria-label="share">
-                    <Icon icon="ant-design:retweet-outlined" />
-                  </IconButton>
-                  <IconButton className="iconBtn" aria-label="share">
-                    <Icon icon="fa-regular:comment-dots" />
-                  </IconButton>
-                  <IconButton className="iconBtn" aria-label="share">
-                    <ShareIcon />
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    0.025 (SOL)
                   </IconButton>
                 </CardActions>
-              </Typography>
 
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  <CardActions
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
                     sx={{
-                      justifyContent: "space-between",
-                      borderBottom: "1px solid gray",
-                      padding: "unset !important",
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
                     }}
-                    disableSpacing
+                    aria-label="add to favorites"
                   >
-                    <IconButton
-                    className="iconBtn"
-                      sx={{
-                        fontSize: "13px",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                      aria-label="add to favorites"
-                    >
-                      <Icon icon="bi:clock-history" /> Date
-                    </IconButton>
+                    <Icon icon="bi:clock-history" /> Claimed Rewards
+                  </IconButton>
 
-                    <IconButton
+                  <IconButton
                     className="iconBtn"
-                      sx={{ fontSize: "12px", gap: "5px" }}
-                      aria-label="share"
-                    >
-                      <Typography className="active_icon"></Typography>{datas?.pool[0]?.startTime ? <>Active
-                      (Starts in {moment.unix(datas?.pool[0]?.startTime).fromNow()})</> : "Not Started yet"}
-                    </IconButton>
-                  </CardActions>
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    20 (SOL)
+                  </IconButton>
+                </CardActions>
 
-                  <CardActions
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
                     sx={{
-                      justifyContent: "space-between",
-                      borderBottom: "1px solid gray",
-                      padding: "unset !important",
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
                     }}
-                    disableSpacing
+                    aria-label="add to favorites"
                   >
-                    <IconButton
-                    className="iconBtn"
-                      sx={{
-                        fontSize: "13px",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                      aria-label="add to favorites"
-                    >
-                      <Icon icon="arcticons:rewards" /> Reward
-                    </IconButton>
+                    <Icon icon="charm:at-sign" /> Total Mentions
+                  </IconButton>
 
-                    <IconButton
+                  <IconButton
                     className="iconBtn"
-                      sx={{ fontSize: "12px", gap: "5px" }}
-                      aria-label="share"
-                    >
-                      0.025 (SOL)
-                    </IconButton>
-                  </CardActions>
-
-                  <CardActions
-                    sx={{
-                      justifyContent: "space-between",
-                      borderBottom: "1px solid gray",
-                      padding: "unset !important",
-                    }}
-                    disableSpacing
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
                   >
-                    <IconButton
-                    className="iconBtn"
-                      sx={{
-                        fontSize: "13px",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                      aria-label="add to favorites"
-                    >
-                      <Icon icon="bi:clock-history" /> Claimed Rewards
-                    </IconButton>
-
-                    <IconButton
-                    className="iconBtn"
-                      sx={{ fontSize: "12px", gap: "5px" }}
-                      aria-label="share"
-                    >
-                      20 (SOL)
-                    </IconButton>
-                  </CardActions>
-
-                  <CardActions
-                    sx={{
-                      justifyContent: "space-between",
-                      borderBottom: "1px solid gray",
-                      padding: "unset !important",
-                    }}
-                    disableSpacing
-                  >
-                    <IconButton
-                    className="iconBtn"
-                      sx={{
-                        fontSize: "13px",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                      aria-label="add to favorites"
-                    >
-                      <Icon icon="charm:at-sign" /> Total Mentions
-                    </IconButton>
-
-                    <IconButton
-                    className="iconBtn"
-                      sx={{ fontSize: "12px", gap: "5px" }}
-                      aria-label="share"
-                    >
-                      155
-                    </IconButton>
-                   
-                  </CardActions>
-                  {currentUserr&&<UserMentions currentUser={currentUserr} data={dataa} />}
-{currentUserr?"":
+                    155
+                  </IconButton>
+                </CardActions>
+                {currentUserr && (
+                  <UserMentions currentUser={currentUserr} data={dataa} />
+                )}
+                {currentUserr ? (
+                  ""
+                ) : (
                   <Typography
                     sx={{
                       display: "flex",
@@ -243,25 +248,29 @@ const OtherProjects = ({ currentUsers, datas }) => {
                       Raid
                     </Button>
                   </Typography>
-}
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ justifyContent: "center" }} disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <Icon color="white" icon="akar-icons:twitter-fill" />
-                </IconButton>
-                <IconButton aria-label="share">
-                  <Icon color="white" icon="akar-icons:discord-fill" />
-                </IconButton>
-              </CardActions>
-            </Card>
-          </div>
-          <div className="triangle"><img sx={{marginLeft:"15px", marginTop:"15px" }} src="Group.png" alt="" /></div>
-        </Grid>
-
-      </>
-    );
-
+                )}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <Icon color="white" icon="akar-icons:twitter-fill" />
+              </IconButton>
+              <IconButton aria-label="share">
+                <Icon color="white" icon="akar-icons:discord-fill" />
+              </IconButton>
+            </CardActions>
+          </Card>
+        </div>
+        <div className="triangle">
+          <img
+            sx={{ marginLeft: "15px", marginTop: "15px" }}
+            src="Group.png"
+            alt=""
+          />
+        </div>
+      </Grid>
+    </>
+  );
 };
 
 export default OtherProjects;

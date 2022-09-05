@@ -14,7 +14,7 @@ import Reply from "./Reply";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
-import InputBase from '@mui/material/InputBase';
+import InputBase from "@mui/material/InputBase";
 import "../App.css";
 
 const style = {
@@ -38,8 +38,10 @@ export default function ThreadModal({
   data,
   openModal,
   handleModal,
+  handleReplyData,
 }) {
   const [open, setOpen] = React.useState();
+  const [replyData, setReplyData] = React.useState();
   const handleClose = () => setOpen(false);
   React.useEffect(() => {
     setOpen(openModal);
@@ -50,6 +52,15 @@ export default function ThreadModal({
       handleModal(false);
     }
   }, [open]);
+
+  const handleReplySubmit = (e) => {
+    if (!replyData) {
+      alert("empty tweet not allowed");
+      return;
+    }
+    handleReplyData(replyData);
+    setReplyData("");
+  };
   return (
     <div>
       <Modal
@@ -280,7 +291,6 @@ export default function ThreadModal({
                   // title="Sarah Parker"
                   // subheader="@saraparker079"
                 >
-                 
                   <Avatar
                     sx={{
                       bgcolor: red[500],
@@ -292,20 +302,18 @@ export default function ThreadModal({
                     R
                   </Avatar>
                   <Typography sx={{ px: 2 }}>
-                    {/* <Typography sx={{ fontSize: "24px" }}>
-                      
-                      Tweet Your Reply...
-                    </Typography> */}
                     <InputBase
-                     
-                      sx={{ ml: 1, flex: 1,  color:"white" }}
+                      sx={{ ml: 1, flex: 1, color: "white" }}
                       placeholder="Tweet Your Reply..."
-                      inputProps={{ 'aria-label': 'search google maps' }}
+                      inputProps={{ "aria-label": "search google maps" }}
+                      value={replyData}
+                      onChange={(e) => setReplyData(e.target.value)}
                     />
                   </Typography>
                 </Typography>
                 <Button
                   sx={{ background: "#00ACEE", borderRadius: "40px", px: 2 }}
+                  onClick={handleReplySubmit}
                 >
                   Reply
                 </Button>

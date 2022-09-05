@@ -388,6 +388,7 @@ const UserMentions = ({ currentUser, data }) => {
     );
     setMentionUserFallowers(res?.data?.data?.length);
   };
+
   useEffect(() => {
     if (currentUser?.twitterId && rewardTokenForClaim) {
       getCurrentUserFollower();
@@ -459,7 +460,7 @@ const UserMentions = ({ currentUser, data }) => {
       userCreatedTweets?.map((tweet) => {
         if (userSelectTweetForClaim === tweet.tweetId) {
           setRewardTokenForClaim(tweet?.rewardToken);
-          setUserCreatedTweetAt(tweet?.tweetCreatedAt);
+          setUserCreatedTweetAt(parseInt(tweet?.tweetCreatedAt));
         }
       });
     }
@@ -474,9 +475,13 @@ const UserMentions = ({ currentUser, data }) => {
       parseInt(rewardClaimTime) + rewardFrequencyToClaimReward >
       moment().unix()
     ) {
-      alert("early claim is not allowed");
+      alert("early claim is not allowed after the claim of another tweet");
       return;
     }
+    console.log(
+      userCreatedTweetAt + rewardFrequencyToClaimReward,
+      moment().unix()
+    );
     if (userCreatedTweetAt + rewardFrequencyToClaimReward > moment().unix()) {
       alert("you tweet must be old enough");
       return;
