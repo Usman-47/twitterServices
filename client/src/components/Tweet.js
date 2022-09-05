@@ -706,12 +706,14 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                 )}
                 <IconButton aria-label="share">
                   <Icon
+                  color="white"
                     onClick={() => setOpenModal(true)}
                     icon="fa-regular:comment-dots"
                   />
                 </IconButton>
                 <IconButton aria-label="share">
-                  <ShareIcon />
+                  
+                  <Icon color="white" icon="ci:share" />
                 </IconButton>
               </CardActions>
             </Typography>
@@ -857,10 +859,10 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
             </CardContent>
             <CardActions sx={{ justifyContent: "center" }} disableSpacing>
               <IconButton aria-label="add to favorites">
-                <Icon icon="akar-icons:twitter-fill" />
+                <Icon color="white" icon="akar-icons:twitter-fill" />
               </IconButton>
               <IconButton aria-label="share">
-                <Icon icon="akar-icons:discord-fill" />
+                <Icon color="white" icon="akar-icons:discord-fill" />
               </IconButton>
             </CardActions>
           </Card>

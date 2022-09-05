@@ -86,7 +86,10 @@
 
   background: #9c4eff;
 }
-
+.mail_logo{
+  /* left: 50px !important; */
+  transform: translate(8px, 10px);
+}
 /* ===================== */
 
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
@@ -662,7 +665,8 @@ color: white !important;
 }
 @media screen and (max-width: 600px) {
   .dashboard_tabs {
-    font-size: 12px !important;
+    font-size: 10px !important;
+    padding: 5px !important;
   }
   .footer-img {
     /* display: none !important; */
@@ -743,6 +747,10 @@ color: white !important;
 } */
 
 @media (min-width: 600px) and (max-width: 700px) {
+  .dashboard_tabs {
+    font-size: 10px !important;
+    padding: 5px !important;
+  }
   .serchbar {
     width: 170px !important;
   }

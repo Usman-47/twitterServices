@@ -256,7 +256,7 @@ const OtherProjects = ({ currentUsers, datas }) => {
               </CardActions>
             </Card>
           </div>
-          <div className="triangle"><img sx={{marginLeft:"15px", marginTop:"15px" }} src="Group.png" alt="" /></div>
+          <div className="triangle"><img className="mail_logo" src="Group.png" alt="" /></div>
         </Grid>
 
       </>

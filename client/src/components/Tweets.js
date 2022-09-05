@@ -250,7 +250,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                // sx={{background:"black"}}
+                
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -268,7 +268,7 @@ const Tweets = (props) => {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem>
-                  {/* <List> */}
+                 
                       {[
                         <Button
                           style={{ color: "white", borderColor: "none" }}
@@ -285,7 +285,7 @@ const Tweets = (props) => {
                           </ListItemButton>
                         </ListItem>
                       ))}
-                    {/* </List> */}
+                   
                   </MenuItem>
                   <WalletDisconnectButton />
                 </Menu>

@@ -93,7 +93,7 @@ export default function Reply({ reply }) {
                   </Typography>
                 </Typography>
               </Typography>
-              <Fab size="small" sx={{ background: "#545454" }} aria-label="add">
+              <Fab size="small" sx={{ background: "#545454", color:"white" }} aria-label="add">
                 <MoreHorizIcon />
               </Fab>
             </Typography>
@@ -103,29 +103,31 @@ export default function Reply({ reply }) {
           </Typography>
         </Typography>
 
+        
         <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            background: "#1C1C1C",
-            paddingRight: "70px",
-            paddingLeft: "70px",
-          }}
-          disableSpacing
-        >
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <Icon icon="ant-design:retweet-outlined" />
-          </IconButton>
-          <IconButton aria-label="share">
-            <Icon icon="fa-regular:comment-dots" />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </Typography>
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                background: "#1C1C1C",
+                paddingRight: "20px",
+                paddingLeft: "20px",
+              
+              }}
+              disableSpacing
+            >
+              <IconButton aria-label="add to favorites">
+              <Icon color="rgb(249, 24, 128)" icon="ant-design:heart-filled" />
+              </IconButton>
+              <IconButton aria-label="share">
+                <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
+              </IconButton>
+              <IconButton aria-label="share">
+                <Icon color="white" icon="fa-regular:comment-dots" />
+              </IconButton>
+              <IconButton aria-label="share">
+              <Icon color="white" icon="ci:share" />
+              </IconButton>
+            </Typography>
       </Typography>
     </div>
   );

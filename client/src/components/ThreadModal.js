@@ -152,7 +152,7 @@ export default function ThreadModal({
                 </Typography>
                 <Fab
                   size="small"
-                  sx={{ background: "#545454" }}
+                  sx={{ background: "#545454", color:"white" }}
                   aria-label="add"
                 >
                   <MoreHorizIcon />
@@ -225,20 +225,21 @@ export default function ThreadModal({
                 background: "#1C1C1C",
                 paddingRight: "20px",
                 paddingLeft: "20px",
+              
               }}
               disableSpacing
             >
               <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
+              <Icon color="rgb(249, 24, 128)" icon="ant-design:heart-filled" />
               </IconButton>
               <IconButton aria-label="share">
-                <Icon icon="ant-design:retweet-outlined" />
+                <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
               </IconButton>
               <IconButton aria-label="share">
-                <Icon icon="fa-regular:comment-dots" />
+                <Icon color="white" icon="fa-regular:comment-dots" />
               </IconButton>
               <IconButton aria-label="share">
-                <ShareIcon />
+              <Icon color="white" icon="ci:share" />
               </IconButton>
             </Typography>
           </Typography>
@@ -305,7 +306,7 @@ export default function ThreadModal({
                   </Typography>
                 </Typography>
                 <Button
-                  sx={{ background: "#00ACEE", borderRadius: "40px", px: 2 }}
+                  sx={{ background: "#00ACEE", borderRadius: "40px", color:"white", px: 2 }}
                 >
                   Reply
                 </Button>
