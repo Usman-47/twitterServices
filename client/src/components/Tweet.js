@@ -285,10 +285,9 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
     }
 
     reward = reward * 1000000000;
-    console.log(reward, "rewardreward");
     console.log(publicKey);
     if (!publicKey) {
-      toast.error("Public not found");
+      toast.error("PublicKey not found");
       return;
     }
     const mintAddress = NATIVE_MINT;

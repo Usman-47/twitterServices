@@ -169,7 +169,6 @@ module.exports = (app) => {
 
   app.patch("/api/updateRaidRewardStatus", async (req, res) => {
     try {
-      console.log("jkshdfkjsdf");
       const tokenHeader = req.headers.authorization;
 
       if (!tokenHeader) {
