@@ -377,14 +377,8 @@ const Tweets = (props) => {
                               />
                             </TabList>
                           </Box>
-                          <Grid container spacing={2}>
-                        {getAllInvoices?.map((data) => (
-                          <>
-                        
-                            {data?.isRaid === false ? (
-                              <>
-                            
-                              <Box
+
+                          <Box
                                 className="tabs_container"
                                 sx={{
                                   width: "95%",
@@ -406,15 +400,27 @@ const Tweets = (props) => {
                                     }}
                                     value="1"
                                   >
+                                  
+                                  </TabPanel>
+                                  
+                              </Box>
+                        
+                  </TabContext>
+                </Box>
+                <Grid container spacing={2}>
+                        {getAllInvoices?.map((data) => (
+                          <>
+                        
+                            {data?.isRaid === false ? (
+                              <>
+                            
+                             
                                 
                                   <OtherProjects
                                     currentUsers={props?.auth}
                                     datas={data}
                                   />
                              
-                                  </TabPanel>
-                                  
-                              </Box>
                             
                                 {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                               </>
@@ -423,8 +429,6 @@ const Tweets = (props) => {
                           </>
                         ))}
                         </Grid>
-                  </TabContext>
-                </Box>
                 
             </>
           ) : selectedComponent === "Raid to Earn" ? (

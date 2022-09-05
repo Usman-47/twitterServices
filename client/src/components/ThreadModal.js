@@ -14,6 +14,7 @@ import Reply from "./Reply";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
+import InputBase from '@mui/material/InputBase';
 import "../App.css";
 
 const style = {
@@ -291,10 +292,16 @@ export default function ThreadModal({
                     R
                   </Avatar>
                   <Typography sx={{ px: 2 }}>
-                    <Typography sx={{ fontSize: "24px" }}>
+                    {/* <Typography sx={{ fontSize: "24px" }}>
                       
                       Tweet Your Reply...
-                    </Typography>
+                    </Typography> */}
+                    <InputBase
+                     
+                      sx={{ ml: 1, flex: 1,  color:"white" }}
+                      placeholder="Tweet Your Reply..."
+                      inputProps={{ 'aria-label': 'search google maps' }}
+                    />
                   </Typography>
                 </Typography>
                 <Button

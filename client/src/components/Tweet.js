@@ -620,6 +620,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
 
   return (
     <>
+      <Grid container spacing={2}>
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
         <div className="penta gon ">
           <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
@@ -688,19 +689,19 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                     onClick={() => alert("You have already like the tweet")}
                     aria-label="add to favorites"
                   >
-                    <Icon color="red" icon="ant-design:heart-filled" />
+                    <Icon color="rgb(249, 24, 128)" icon="ant-design:heart-filled" />
                   </IconButton>
                 )}
                 {!isTweetRetweeted ? (
                   <IconButton onClick={retweetATweet} aria-label="share">
-                    <Icon color="green" icon="ant-design:retweet-outlined" />
+                    <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
                   </IconButton>
                 ) : (
                   <IconButton
                     onClick={() => alert("You have already retweet the tweet")}
                     aria-label="share"
                   >
-                    <Icon color="green" icon="ant-design:retweet-outlined" />
+                    <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
                   </IconButton>
                 )}
                 <IconButton aria-label="share">
@@ -866,6 +867,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
         </div>
 
         <div className="triangle"></div>
+      </Grid>
       </Grid>
 
       {true && (
