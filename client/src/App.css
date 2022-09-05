@@ -155,6 +155,7 @@ button:not(:disabled) {
 .check_icon:focus{
   color: black !important;
 } */
+
 .check_icon:active {
   color: black !important;
 }
@@ -843,7 +844,7 @@ color: white !important;
   .headings {
     font-size: 7px !important;
   }
-  .add_pool_table_text {
+  .add_pool_container_text {
     font-size: 10px;
   }
   .home_text {
@@ -907,6 +908,13 @@ color: white !important;
   .menu_btn {
     display: none;
   }
+}
+
+@media (min-width:769px) and (max-width:1000px) {
+  .add_pool_container{
+  max-width: 470px !important;
+}
+  
 }
 
 /* -------------------------------------------------------------------------------------- */
