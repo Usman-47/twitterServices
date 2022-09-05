@@ -50,7 +50,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import Grid from "@mui/material/Grid";
 // ====================
 
-const Tweet = ({ currentUser, data, projectDetail }) => {
+const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
@@ -58,7 +58,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   const [projectName, setProjectName] = useState();
   const [isTweetRetweeted, setIsTweetRetweeted] = useState();
   const [allReplyOfATweet, setAllReplyOfATweet] = useState();
-  const [amount, setAmount] = useState(1);
+  const [currentUserFallowers, setCurrentUserFallowers] = useState();
   const [openModal, setOpenModal] = useState(false);
 
   const { wallet, connect, sendTransaction, connecting, publicKey } =
@@ -80,6 +80,23 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
     provider
   );
 
+  const getCurrentUserFollower = async () => {
+    if (!currentUser?.twitterId) {
+      alert("Please sigin first");
+      return;
+    }
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`
+    );
+    setCurrentUserFallowers(res?.data?.data?.length);
+  };
+
+  useEffect(() => {
+    if (currentUser?.twitterId) {
+      getCurrentUserFollower();
+    }
+  }, [currentUser?.twitterId]);
+
   useEffect(() => {
     if (projectDetail) {
       setProjectName(projectDetail.projectName);
@@ -88,6 +105,10 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
 
   const handleModal = (data) => {
     setOpenModal(data);
+  };
+
+  const handleReplyData = async (data) => {
+    await replyToSpecificTweet(data);
   };
 
   // <<<<<<< HEAD
@@ -245,6 +266,26 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   };
 
   const LikeTweet = async (number) => {
+    var reward = 0;
+
+    if (currentUserFallowers >= 2 && currentUserFallowers <= 99) {
+      reward = rewardCategory[0];
+    } else if (currentUserFallowers >= 100 && currentUserFallowers <= 299) {
+      reward = rewardCategory[1];
+    } else if (currentUserFallowers >= 300 && currentUserFallowers <= 499) {
+      reward = rewardCategory[2];
+    } else if (currentUserFallowers >= 500 && currentUserFallowers <= 999) {
+      reward = rewardCategory[3];
+    } else if (currentUserFallowers >= 1000 && currentUserFallowers <= 4999) {
+      reward = rewardCategory[4];
+    } else if (currentUserFallowers >= 5000 && currentUserFallowers <= 9999) {
+      reward = rewardCategory[5];
+    } else if (currentUserFallowers >= 10000) {
+      reward = rewardCategory[6];
+    }
+
+    reward = reward * 1000000000;
+    console.log(reward, "rewardreward");
     console.log(publicKey);
     if (!publicKey) {
       toast.error("Public not found");
@@ -372,7 +413,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
           globalBump,
           projectName,
           tweetId,
-          new anchor.BN(amount),
+          new anchor.BN(reward),
           {
             accounts: {
               user: provider.wallet.publicKey,
@@ -400,7 +441,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
           globalBump,
           projectName,
           tweetId,
-          new anchor.BN(amount),
+          new anchor.BN(reward),
           {
             accounts: {
               user: provider.wallet.publicKey,
@@ -428,7 +469,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
           globalBump,
           projectName,
           tweetId,
-          new anchor.BN(amount),
+          new anchor.BN(reward),
           {
             accounts: {
               user: provider.wallet.publicKey,
@@ -500,10 +541,10 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
     }
   };
 
-  const replyToSpecificTweet = async () => {
+  const replyToSpecificTweet = async (reply) => {
     try {
       let body = {
-        tweetReply: "testing Reply",
+        tweetReply: reply,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -593,15 +634,15 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
     }
   }, [data?.tweetId]);
 
-  const checkIsUserQuoteTheTweet = async () => {
-    let result = await checkQuoteTweets();
-    if (result) {
-      setQuoteTweets(result);
-    } else {
-      // alert("no one Quote your tweet");
-      return;
-    }
-  };
+  // const checkIsUserQuoteTheTweet = async () => {
+  //   let result = await checkQuoteTweets();
+  //   if (result) {
+  //     setQuoteTweets(result);
+  //   } else {
+  //     // alert("no one Quote your tweet");
+  //     return;
+  //   }
+  // };
 
   useEffect(() => {
     let isUserExist = false;
@@ -621,241 +662,252 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
   return (
     <>
       <Grid container spacing={2}>
-      <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
-        <div className="penta gon ">
-          <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
-            <CardHeader
-              className="card_header"
-              sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
-              avatar={
-                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                  R
-                </Avatar>
-              }
-              // action={
-              //   <IconButton aria-label="settings">
-              //     <MoreVertIcon />
-              //   </IconButton>
-              // }
-              title={projectName}
-              subheader={projectDetail?.projectTwitterUsername}
-            />
+        <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
+          <div className="penta gon ">
+            <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
+              <CardHeader
+                className="card_header"
+                sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
+                avatar={
+                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    R
+                  </Avatar>
+                }
+                // action={
+                //   <IconButton aria-label="settings">
+                //     <MoreVertIcon />
+                //   </IconButton>
+                // }
+                title={projectName}
+                subheader={projectDetail?.projectTwitterUsername}
+              />
 
-            <Typography
-              variant="body2"
-              color="white"
-              sx={{
-                textAlign: "center",
-                background: "#545454",
-                margin: "20px",
-                borderRadius: "10px",
-                padding: "10px 0px 0 0px",
-              }}
-            >
-              <Typography sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography
-                  className="magic_eden"
-                  variant="h5"
-                  sx={{ fontSize: "19.4351px", justifyContent: "end" }}
-                >
-                  Magic Eden
-                </Typography>
-              </Typography>
               <Typography
-                className="magic_eden_desc"
-                sx={{ fontSize: "13.6045px", padding: "10px" }}
-              >
-                {data?.tweetText}
-              </Typography>
-
-              <CardActions
+                variant="body2"
+                color="white"
                 sx={{
-                  justifyContent: "space-between",
-                  background: "#636363",
-                  borderBottomLeftRadius: "10px",
-                  borderBottomRightRadius: "10px",
+                  textAlign: "center",
+                  background: "#545454",
+                  margin: "20px",
+                  borderRadius: "10px",
+                  padding: "10px 0px 0 0px",
                 }}
-                disableSpacing
               >
-                {!isTweetLike ? (
-                  <IconButton
-                    onClick={likeSpecificTweet}
-                    aria-label="add to favorites"
+                <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                  <Typography
+                    className="magic_eden"
+                    variant="h5"
+                    sx={{ fontSize: "19.4351px", justifyContent: "end" }}
                   >
-                    <FavoriteIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    onClick={() => alert("You have already like the tweet")}
-                    aria-label="add to favorites"
-                  >
-                    <Icon color="rgb(249, 24, 128)" icon="ant-design:heart-filled" />
-                  </IconButton>
-                )}
-                {!isTweetRetweeted ? (
-                  <IconButton onClick={retweetATweet} aria-label="share">
-                    <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    onClick={() => alert("You have already retweet the tweet")}
-                    aria-label="share"
-                  >
-                    <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
-                  </IconButton>
-                )}
-                <IconButton aria-label="share">
-                  <Icon
-                  color="white"
-                    onClick={() => setOpenModal(true)}
-                    icon="fa-regular:comment-dots"
-                  />
-                </IconButton>
-                <IconButton aria-label="share">
-                  
-                  <Icon color="white" icon="ci:share" />
-                </IconButton>
-              </CardActions>
-            </Typography>
-
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                <CardActions
-                  sx={{
-                    justifyContent: "space-between",
-                    borderBottom: "1px solid gray",
-                    padding: "unset !important",
-                  }}
-                  disableSpacing
-                >
-                  <IconButton
-                    className="iconBtn"
-                    sx={{
-                      fontSize: "13px",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    aria-label="add to favorites"
-                  >
-                    <Icon icon="bi:clock-history" /> Date
-                  </IconButton>
-
-                  <IconButton
-                    className="iconBtn"
-                    sx={{ fontSize: "12px", gap: "5px" }}
-                    aria-label="share"
-                  >
-                    <Typography className="active_icon"></Typography> Active
-                    (Ends in 13h 28m 44s)
-                  </IconButton>
-                </CardActions>
-
-                <CardActions
-                  sx={{
-                    justifyContent: "space-between",
-                    borderBottom: "1px solid gray",
-                    padding: "unset !important",
-                  }}
-                  disableSpacing
-                >
-                  <IconButton
-                    className="iconBtn"
-                    sx={{
-                      fontSize: "13px",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    aria-label="add to favorites"
-                  >
-                    <Icon icon="arcticons:rewards" /> Reward
-                  </IconButton>
-
-                  <IconButton
-                    className="iconBtn"
-                    sx={{ fontSize: "12px", gap: "5px" }}
-                    aria-label="share"
-                  >
-                    0.025 (SOL)
-                  </IconButton>
-                </CardActions>
-
-                <CardActions
-                  sx={{
-                    justifyContent: "space-between",
-                    borderBottom: "1px solid gray",
-                    padding: "unset !important",
-                  }}
-                  disableSpacing
-                >
-                  <IconButton
-                    className="iconBtn"
-                    sx={{
-                      fontSize: "13px",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    aria-label="add to favorites"
-                  >
-                    <Icon icon="bi:clock-history" /> Claimed Rewards
-                  </IconButton>
-
-                  <IconButton
-                    className="iconBtn"
-                    sx={{ fontSize: "12px", gap: "5px" }}
-                    aria-label="share"
-                  >
-                    20 (SOL)
-                  </IconButton>
-                </CardActions>
-
-                <CardActions
-                  sx={{
-                    justifyContent: "space-between",
-                    borderBottom: "1px solid gray",
-                    padding: "unset !important",
-                  }}
-                  disableSpacing
-                >
-                  <IconButton
-                    className="iconBtn"
-                    sx={{
-                      fontSize: "13px",
-                      alignItems: "center",
-                      gap: "5px",
-                    }}
-                    aria-label="add to favorites"
-                  >
-                    <Icon icon="charm:at-sign" /> Total Mentions
-                  </IconButton>
-
-                  <IconButton
-                    className="iconBtn"
-                    sx={{ fontSize: "12px", gap: "5px" }}
-                    aria-label="share"
-                  >
-                    155
-                  </IconButton>
-                </CardActions>
-                {/* {currentUserr&&<UserMentions currentUser={currentUserr} data={dataa} />} */}
-
-                <Typography
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "15px",
-                    paddingBottom: "15px",
-                    borderBottom: "1px solid gray",
-                  }}
-                >
-                  <Button
-                    className="raid_btn"
-                    sx={{ paddingLeft: "70px", paddingRight: "70px" }}
-                    variant="contained"
-                  >
-                    Raid
-                  </Button>
+                    Magic Eden
+                  </Typography>
                 </Typography>
+                <Typography
+                  className="magic_eden_desc"
+                  sx={{ fontSize: "13.6045px", padding: "10px" }}
+                >
+                  {data?.tweetText}
+                </Typography>
+
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    background: "#636363",
+                    borderBottomLeftRadius: "10px",
+                    borderBottomRightRadius: "10px",
+                  }}
+                  disableSpacing
+                >
+                  {!isTweetLike ? (
+                    <IconButton
+                      onClick={likeSpecificTweet}
+                      aria-label="add to favorites"
+                    >
+                      <FavoriteIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      onClick={() => alert("You have already like the tweet")}
+                      aria-label="add to favorites"
+                    >
+                      <Icon
+                        color="rgb(249, 24, 128)"
+                        icon="ant-design:heart-filled"
+                      />
+                    </IconButton>
+                  )}
+                  {!isTweetRetweeted ? (
+                    <IconButton onClick={retweetATweet} aria-label="share">
+                      <Icon
+                        color="rgb(0, 186, 124)"
+                        icon="ant-design:retweet-outlined"
+                      />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      onClick={() =>
+                        alert("You have already retweet the tweet")
+                      }
+                      aria-label="share"
+                    >
+                      <Icon
+                        color="rgb(0, 186, 124)"
+                        icon="ant-design:retweet-outlined"
+                      />
+                    </IconButton>
+                  )}
+                  <IconButton aria-label="share">
+                    <Icon
+                      color="white"
+                      onClick={() => setOpenModal(true)}
+                      icon="fa-regular:comment-dots"
+                    />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                  <Icon color="white" icon="ci:share" />
+                  </IconButton>
+                </CardActions>
               </Typography>
+
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  <CardActions
+                    sx={{
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid gray",
+                      padding: "unset !important",
+                    }}
+                    disableSpacing
+                  >
+                    <IconButton
+                      className="iconBtn"
+                      sx={{
+                        fontSize: "13px",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                      aria-label="add to favorites"
+                    >
+                      <Icon icon="bi:clock-history" /> Date
+                    </IconButton>
+
+                    <IconButton
+                      className="iconBtn"
+                      sx={{ fontSize: "12px", gap: "5px" }}
+                      aria-label="share"
+                    >
+                      <Typography className="active_icon"></Typography> Active
+                      (Ends in 13h 28m 44s)
+                    </IconButton>
+                  </CardActions>
+
+                  <CardActions
+                    sx={{
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid gray",
+                      padding: "unset !important",
+                    }}
+                    disableSpacing
+                  >
+                    <IconButton
+                      className="iconBtn"
+                      sx={{
+                        fontSize: "13px",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                      aria-label="add to favorites"
+                    >
+                      <Icon icon="arcticons:rewards" /> Reward
+                    </IconButton>
+
+                    <IconButton
+                      className="iconBtn"
+                      sx={{ fontSize: "12px", gap: "5px" }}
+                      aria-label="share"
+                    >
+                      0.025 (SOL)
+                    </IconButton>
+                  </CardActions>
+
+                  <CardActions
+                    sx={{
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid gray",
+                      padding: "unset !important",
+                    }}
+                    disableSpacing
+                  >
+                    <IconButton
+                      className="iconBtn"
+                      sx={{
+                        fontSize: "13px",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                      aria-label="add to favorites"
+                    >
+                      <Icon icon="bi:clock-history" /> Claimed Rewards
+                    </IconButton>
+
+                    <IconButton
+                      className="iconBtn"
+                      sx={{ fontSize: "12px", gap: "5px" }}
+                      aria-label="share"
+                    >
+                      20 (SOL)
+                    </IconButton>
+                  </CardActions>
+
+                  <CardActions
+                    sx={{
+                      justifyContent: "space-between",
+                      borderBottom: "1px solid gray",
+                      padding: "unset !important",
+                    }}
+                    disableSpacing
+                  >
+                    <IconButton
+                      className="iconBtn"
+                      sx={{
+                        fontSize: "13px",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                      aria-label="add to favorites"
+                    >
+                      <Icon icon="charm:at-sign" /> Total Mentions
+                    </IconButton>
+
+                    <IconButton
+                      className="iconBtn"
+                      sx={{ fontSize: "12px", gap: "5px" }}
+                      aria-label="share"
+                    >
+                      155
+                    </IconButton>
+                  </CardActions>
+                  {/* {currentUserr&&<UserMentions currentUser={currentUserr} data={dataa} />} */}
+
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "15px",
+                      paddingBottom: "15px",
+                      borderBottom: "1px solid gray",
+                    }}
+                  >
+                    <Button
+                      className="raid_btn"
+                      sx={{ paddingLeft: "70px", paddingRight: "70px" }}
+                      variant="contained"
+                    >
+                      Raid
+                    </Button>
+                  </Typography>
+                </Typography>
+             
             </CardContent>
             <CardActions sx={{ justifyContent: "center" }} disableSpacing>
               <IconButton aria-label="add to favorites">
@@ -878,6 +930,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
           data={data}
           openModal={openModal ? openModal : false}
           handleModal={handleModal}
+          handleReplyData={handleReplyData}
         />
       )}
     </>
