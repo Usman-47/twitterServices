@@ -130,9 +130,7 @@ const Tweets = (props) => {
                   <Icon icon="bx:at" />
                 ) : index === 2 || index === 3 ? (
                   <Icon icon="la:retweet" />
-                ) : index===4 ? <Icon icon="arcticons:rewards" />: (
-                  "icon"
-                )}
+                ) : index===4 ? <Icon icon="arcticons:rewards" /> : index===5 ? <Icon icon="gridicons:stats" /> : index===6 ? <Icon icon="bx:user" /> : index===7? <Icon icon="ant-design:setting-filled" />: <Icon icon="healthicons:exercise-walk-supported" />}
               </ListItemIcon>
               <ListItemText style={{ color: "white" }} primary={text} />
             </ListItemButton>
@@ -250,7 +248,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                // sx={{background:"black"}}
+                
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -268,7 +266,7 @@ const Tweets = (props) => {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem>
-                  {/* <List> */}
+                 
                       {[
                         <Button
                           style={{ color: "white", borderColor: "none" }}
@@ -285,7 +283,7 @@ const Tweets = (props) => {
                           </ListItemButton>
                         </ListItem>
                       ))}
-                    {/* </List> */}
+                   
                   </MenuItem>
                   <WalletDisconnectButton />
                 </Menu>

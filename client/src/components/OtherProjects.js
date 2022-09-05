@@ -248,29 +248,25 @@ const OtherProjects = ({ currentUsers, datas }) => {
                       Raid
                     </Button>
                   </Typography>
-                )}
-              </Typography>
-            </CardContent>
-            <CardActions sx={{ justifyContent: "center" }} disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <Icon color="white" icon="akar-icons:twitter-fill" />
-              </IconButton>
-              <IconButton aria-label="share">
-                <Icon color="white" icon="akar-icons:discord-fill" />
-              </IconButton>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="triangle">
-          <img
-            sx={{ marginLeft: "15px", marginTop: "15px" }}
-            src="Group.png"
-            alt=""
-          />
-        </div>
-      </Grid>
-    </>
-  );
+)}
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <Icon color="white" icon="akar-icons:twitter-fill" />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <Icon color="white" icon="akar-icons:discord-fill" />
+                </IconButton>
+              </CardActions>
+            </Card>
+          </div>
+          <div className="triangle"><img className="mail_logo" src="Group.png" alt="" /></div>
+        </Grid>
+
+      </>
+    );
+
 };
 
 export default OtherProjects;
