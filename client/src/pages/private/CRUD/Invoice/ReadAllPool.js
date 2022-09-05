@@ -38,7 +38,7 @@ const ReadAllInvoices = () => {
   }
   return (
     <>
-      <div className=" container border border-1  rounded-3 p-md-5 my-3 fw-bold " style={{background:"#333333"}}>
+      <div className="container add_pool_container border border-1 rounded-3 p-md-5 my-3 fw-bold " style={{background:"#333333"}}>
         <div className="col">
           <div className="m-3">
             <button
@@ -51,43 +51,9 @@ const ReadAllInvoices = () => {
             </button>
           </div>
           <div className="bg-dark p-4">
-          {/* <table className="table text-white border border-1 table-hover">
-            <thead>
-              <tr>
-                <th>Amount </th>
-                <th>Start Time </th>
-                <th>Tweet Url</th>
-                <th>Reward Frequency</th>
-                <th>Reward Token</th>
-                <th>Category</th>
-              </tr>
-            </thead>
-            <tbody>
-              {state &&
-                state.map((invoiceObj) => (
-                  <tr
-                    key={invoiceObj._id}
-                    className="text-break mouseCursorChanger"
-                    onClick={() =>
-                      navigate(
-                        `/app/invoice/readOne/readAllPool/readOnePool/${invoiceObj._id}`
-                      )
-                    }
-                  >
-                    <td>{invoiceObj.amount}</td>
-                    <td>{invoiceObj.startTime}</td>
-                    <td>{invoiceObj.tweetUrl}</td>
-                    <td>{invoiceObj.rewardFrequency}</td>
-                    <td>{invoiceObj.splToken}</td>
-                    {invoiceObj.category.map((data) => (
-                      <td>{data}</td>
-                    ))}
-                  </tr>
-                ))}
-            </tbody>
-          </table> */}
+       
           <div style={{overflowX:"auto"}}>
-          <table class="table table-dark table-hover">
+          <table className="table table-dark table-hover">
                 <thead>
                   <tr>
                     
