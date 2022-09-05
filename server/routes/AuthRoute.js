@@ -11,12 +11,14 @@ module.exports = (app) => {
     passport.authenticate("twitter"),
     (req, res) => {
       res.redirect("http://localhost:3000");
+      // res.redirect("https://sols.game");
     }
   );
 
   app.get("/api/logout", (req, res) => {
     req.logOut();
     res.redirect("http://localhost:3000");
+    // res.redirect("https://sols.game");
   });
   app.get("/api/current_user", (req, res) => {
     if (req.user) {

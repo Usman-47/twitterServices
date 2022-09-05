@@ -20,6 +20,7 @@ passport.use(
       consumerKey: keys.twitterConsumerKey,
       consumerSecret: keys.twitterConsumerSecret,
       callbackURL: "http://localhost:4080/oauth/callback/twitter.com",
+      // callbackURL: "https://api.sols.game/oauth/callback/twitter.com",
       proxy: true,
     },
     async (accessToken, accessTokenSecret, refreshToken, profile, done) => {
@@ -38,7 +39,6 @@ passport.use(
       if (existingUser) {
         return done(null, existingUser);
       } else {
-        console.log(accessToken, "sdfjsdk");
         const user = await new User({
           twitterId: profile.id,
           userName: profile.username,

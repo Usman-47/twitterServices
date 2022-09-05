@@ -700,7 +700,7 @@ const Tweet = ({ currentUser, data, projectDetail }) => {
                     onClick={() => alert("You have already retweet the tweet")}
                     aria-label="share"
                   >
-                    <Icon icon="ant-design:retweet-outlined" />
+                    <Icon color="green" icon="ant-design:retweet-outlined" />
                   </IconButton>
                 )}
                 <IconButton aria-label="share">
