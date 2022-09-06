@@ -72,7 +72,6 @@ import useDispatchFunc from "../hooks/useDispatchFunc";
 const drawerWidth = 240;
 const Tweets = (props) => {
   const [value, setValue] = React.useState("1");
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -154,7 +153,7 @@ const Tweets = (props) => {
                   <Icon icon="iconoir:discord" />
                 </Avatar>
               }
-              title="Jhon Wick"
+              title={props?.auth?.userName}
               subheader="Membership Status: STANDARD"
             />
           </Typography>
@@ -269,7 +268,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                
+                sx={{justifyContent:"center"}}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -277,15 +276,16 @@ const Tweets = (props) => {
                   onClose={handleClose}
                   anchorOrigin={{
                     vertical: "top",
-                    horizontal: "left",
+                    // horizontal: "left",
                   }}
                   transformOrigin={{
                     vertical: "top",
-                    horizontal: "left",
+                    // horizontal: "left",
                   }}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  
+                  {/* <div className="text-center fw-bold" onClick={handleClose}>Profile</div>
+                  <div className="text-center fw-bold" onClick={handleClose}>My account</div> */}
                   <MenuItem>
                  
                       {[
@@ -306,7 +306,8 @@ const Tweets = (props) => {
                       ))}
                    
                   </MenuItem>
-                  <WalletDisconnectButton />
+                  <div className="d-flex justify-content-center"><WalletDisconnectButton /></div>
+                
                 </Menu>
               </Typography>
             </Typography>
@@ -408,7 +409,7 @@ const Tweets = (props) => {
                               
 
                                   <TabPanel sx={{ color: "white" }} value="2">
-                                    Item One
+                                    {/* Item One */}
                                   </TabPanel>
                                   
                                   <TabPanel
@@ -438,6 +439,7 @@ const Tweets = (props) => {
                                   <OtherProjects
                                     currentUsers={props?.auth}
                                     datas={data}
+                                    mention={true}
                                   />
                              
                             
@@ -486,16 +488,15 @@ const Tweets = (props) => {
                   {data?.isRaid ? (
                     <div
                       style={{
-                        marginTop: 50,
-                        padding: "30px",
-                        // border: "2px solid #00ACEE",
-                        // borderRadius: "20px",
+                       
+                        paddingLeft:"15px"
+                       
                       }}
                     >
                      
 
-                          <TabPanel sx={{ color: "white" }} value="2">
-                            Item One
+                          <TabPanel sx={{ color: "white" }} value="1">
+                            {/* Item One */}
                           </TabPanel>
 
                           <TabPanel
@@ -531,7 +532,7 @@ const Tweets = (props) => {
                </Box>
             </>
           ) : selectedComponent === "Rewards" ? <Rewards/>: selectedComponent === "Profile" ? (
-            <Profledescription />
+            <Profledescription  currentUser={props?.auth}/>
           ) : selectedComponent === "Setting" ? (
             <Setting />
           ) : selectedComponent === "Stats" ? (

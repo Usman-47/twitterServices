@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 import UserMentions from "./UserMentions";
 const moment = require("moment");
 
-const OtherProjects = ({ currentUsers, datas }) => {
+const OtherProjects = ({ currentUsers, datas, mention }) => {
   const [currentUserr, setcurrentUser] = React.useState(currentUsers);
   const [dataa, setdata] = React.useState(datas);
 
@@ -43,10 +43,12 @@ const OtherProjects = ({ currentUsers, datas }) => {
               //   </IconButton>
               // }
               title={datas?.projectName}
-              subheader={datas?.projectTwitterUsername}
+              subheader={`@${datas?.projectTwitterUsername}`}
             />
 
-            <Typography
+            {!mention? 
+                (
+                  <Typography
               variant="body2"
               color="white"
               sx={{
@@ -99,6 +101,8 @@ const OtherProjects = ({ currentUsers, datas }) => {
                 </IconButton>
               </CardActions>
             </Typography>
+                ): null
+            }
 
             <CardContent>
               <Typography variant="body2" color="text.secondary">
@@ -261,7 +265,7 @@ const OtherProjects = ({ currentUsers, datas }) => {
               </CardActions>
             </Card>
           </div>
-          <div className="triangle"><img className="mail_logo" src="Group.png" alt="" /></div>
+          <div className="triangle" style={{background:"#9c4eff"}}><img className="mail_logo" src="Group.png" alt="" /></div>
         </Grid>
 
       </>

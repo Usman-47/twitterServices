@@ -16,11 +16,11 @@ export default function RewardCards() {
 
   return (
     <>
-      <Grid container sx={{width: "100%", marginBottom:"10px", justifyContent:"center"}}>
+      <Grid className="justify-content-xl-center" container sx={{width: "100%", marginBottom:"10px",}}>
         {array.map((item) => {
           return (
             <Grid item xs={11} md={5} lg={3.7} margin="10px">
-              <Card className="rewards_card" sx={{ width:"100%", minHeight:"400px",}}>
+              <Card className="rewards_card" sx={{ width:"100%",}}>
                 <Typography
                   sx={{
                     borderBottom: "1px solid gray",
@@ -34,18 +34,15 @@ export default function RewardCards() {
                     {item.title}
                   </Typography>
                 </Typography>
-                {/* <Divider/> */}
+                
                 <CardContent>
-                  {/* <Typography variant="body2">
-         Lizards are a widespread group of squamate reptiles, with over 6,000
-         species, ranging across all continents except Antarctica
-       </Typography> */}
+                  
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
                   <Button className="rewardCards_solana_btn" size="large">
                     {item.btnText}
                   </Button>
-                  {/* <Button size="small">Learn More</Button> */}
+                  
                 </CardActions>
               </Card>
             </Grid>

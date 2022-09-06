@@ -13,7 +13,7 @@ import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 
 const UserDashboard = () => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,12 +32,12 @@ const UserDashboard = () => {
               onChange={handleChange}
               aria-label="lab API tabs example"
             >
-              <Tab
+              {/* <Tab
                 className="dashboard_tabs"
                 sx={{ color: "white" }}
                 label="MY PROJECTS"
                 value="1"
-              />
+              /> */}
               <Tab
                 className="dashboard_tabs"
                 sx={{ color: "white" }}
@@ -73,9 +73,7 @@ const UserDashboard = () => {
             </Grid>
           </Typography>
 
-          <TabPanel sx={{ color: "white" }} value="1">
-            Item One
-          </TabPanel>
+          
           <ThreadModal />
           <TabPanel
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
@@ -86,7 +84,7 @@ const UserDashboard = () => {
             </Grid>
           </TabPanel>
           <TabPanel sx={{ color: "white" }} value="3">
-            Item Three
+            {/* Item Three */}
           </TabPanel>
         </TabContext>
       </Box>

@@ -30,7 +30,7 @@ const Rewards = () => {
       >
         <RewardCards />
 
-        <Grid container sx={{ justifyContent: "center" }}>
+        <Grid container className="justify-content-xl-center">
           {array.map((item) => {
             return (
               <>
@@ -83,7 +83,7 @@ const Rewards = () => {
         </Grid>
 
         <Grid container>
-          <Grid item xs={12} md={10} lg={9} margin="23px">
+          <Grid className="ms-lg-4" item xs={12} md={10} lg={9} marginTop="7px">
             <Card className="rewards_card2" sx={{ width: "100%" }}>
               <Typography sx={{ margin: "0 30px 30px 30px" }}>
                 <Typography

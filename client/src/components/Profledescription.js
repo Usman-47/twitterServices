@@ -34,7 +34,7 @@ import Tabcard from "../components/Tabcard";
 
 const drawerWidth = 200;
 
-export default function Profledescription() {
+export default function Profledescription({currentUser}) {
   return (
     <>
       <Typography variant="h5" className="myprofile ">
@@ -60,14 +60,14 @@ export default function Profledescription() {
                 <Avatar
                   className="profile_img"
                   alt="Cindy Baker"
-                  src={Images.profile1}
+                  // src={Images.profile1}
                   sx={{ width: 130, height: 130 }}
                 />
               </Stack>
             </Typography>
             <Typography className="profilename" variant="h5">
-              Noman
-              <Typography className="sub_profilename">nouman</Typography>
+              {currentUser?.userName}
+              <Typography className="sub_profilename">user</Typography>
             </Typography>
           </Typography>
 
@@ -75,14 +75,14 @@ export default function Profledescription() {
             component="div"
             className="btnedit d-flex align-items-center justify-content-between gap-2"
           >
-            <Button variant="contained" className="editprofiles">
+            {/* <Button variant="contained" className="editprofiles">
               Edit Profile
             </Button>
-            <Icon icon="fa:share-alt-square" className="sharebutton"></Icon>
+            <Icon icon="fa:share-alt-square" className="sharebutton"></Icon> */}
           </Typography>
         </Typography>
       </Typography>
-      <Tabcard />
+      {/* <Tabcard /> */}
     </>
   );
 }
