@@ -664,7 +664,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
         <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
           <div className="penta gon ">
             <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
-              <CardHeader
+              {/* <CardHeader
                 className="card_header"
                 sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
                 avatar={
@@ -672,14 +672,9 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     R
                   </Avatar>
                 }
-                // action={
-                //   <IconButton aria-label="settings">
-                //     <MoreVertIcon />
-                //   </IconButton>
-                // }
                 title={projectName}
                 subheader={projectDetail?.projectTwitterUsername}
-              />
+              /> */}
 
               <Typography
                 variant="body2"
@@ -690,16 +685,27 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                   margin: "20px",
                   borderRadius: "10px",
                   padding: "10px 0px 0 0px",
+                  marginTop:"90px"
+                  
                 }}
               >
-                <Typography sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography sx={{ display: "", justifyContent: "center" }}>
                   <Typography
                     className="magic_eden"
-                    variant="h5"
+                    variant="h7"
                     sx={{ fontSize: "19.4351px", justifyContent: "end" }}
                   >
-                    Magic Eden
+                   {projectName}
                   </Typography>
+                  <br />
+                  <Typography
+                    className="magic_eden"
+                    variant="h7"
+                    sx={{ fontSize: "18px", justifyContent: "end" }}
+                  >
+                   {projectDetail?.projectTwitterUsername}
+                  </Typography>
+                  
                 </Typography>
                 <Typography
                   className="magic_eden_desc"
@@ -919,7 +925,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
           </Card>
         </div>
 
-        <div className="triangle"></div>
+        <div className="triangle" style={{background:"#FFA34E"}}><img className="mail_logo" src="r.png" alt="" /></div>
       </Grid>
       </Grid>
 

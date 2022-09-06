@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
-const SidebarTemplate = ({ navArray, setShowSideBar }) => {
+const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
   const [{ sidebar }] = useStatesFunc();
 
   return (
@@ -88,7 +88,7 @@ const SidebarTemplate = ({ navArray, setShowSideBar }) => {
                   <Icon icon="iconoir:discord" />
                 </Avatar>
               }
-              title="Jhon Wick"
+              title={currentUser?.userName}
               subheader="Membership Status: STANDARD"
             />
           </Typography>

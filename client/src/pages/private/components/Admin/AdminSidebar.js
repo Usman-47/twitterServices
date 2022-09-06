@@ -3,10 +3,10 @@ import React from "react";
 import SidebarTemplate from "../SidebarTemplate";
 import AdminNavArray from "./AdminNavElements";
 
-const AdminSidebar = () => {
+const AdminSidebar = ({currentUser}) => {
   return (
     <>
-      <SidebarTemplate navArray={AdminNavArray} />
+      <SidebarTemplate navArray={AdminNavArray} currentUser={currentUser} />
     </>
   );
 };

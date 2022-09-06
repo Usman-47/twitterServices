@@ -71,7 +71,7 @@ const Dashboard = (props) => {
               {/* this is sidebar */}
 
               {role === ADMIN && showSideBar && (
-                <AdminSidebar setShowSideBar={setShowSideBar} />
+                <AdminSidebar setShowSideBar={setShowSideBar} currentUser={props?.auth}/>
               )}
               {role === MANAGER && showSideBar && (
                 <ManagerSidebar setShowSideBar={setShowSideBar} />
