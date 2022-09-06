@@ -32,7 +32,7 @@ import List from "@mui/material/List";
 import { Grid, ListItemIcon } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
-
+import CardHeader from "@mui/material/CardHeader";
 // ======= tabs imports =======
 // import Box from '@mui/material/Box';
 import Tab from "@mui/material/Tab";
@@ -137,6 +137,27 @@ const Tweets = (props) => {
           </ListItem>
         ))}
       </List>
+      <Typography
+            // component={container}
+            sx={{
+             
+              position:"absolute",
+              bottom:"0",
+              right:"0%"
+             
+            }}
+          >
+            <CardHeader
+              sx={{ color: "white", }}
+              avatar={
+                <Avatar sx={{ backgroundColor: "#5865F2" }} aria-label="recipe">
+                  <Icon icon="iconoir:discord" />
+                </Avatar>
+              }
+              title="Jhon Wick"
+              subheader="Membership Status: STANDARD"
+            />
+          </Typography>
     </div>
   );
 
