@@ -25,6 +25,10 @@ const userSchema = schema({
     type: String,
     required: true,
   },
+  amountToPay: {
+    type: String,
+    default: 20000000000,
+  },
   role: {
     type: String,
     enum: ["admin", "manager", "user"],

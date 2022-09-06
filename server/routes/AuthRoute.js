@@ -52,6 +52,7 @@ module.exports = (app) => {
           twitterId: req.user.twitterId,
           rewardStatus: req.user.rewardStatus,
           raidStatus,
+          amountToPay: req.user.amountToPay,
           accessToken: req.user.accessToken,
           accessTokenSecret: req.user.accessTokenSecret,
         });
@@ -66,6 +67,7 @@ module.exports = (app) => {
           userName: req.user.userName,
           twitterId: req.user.twitterId,
           raidStatus,
+          amountToPay: req.user.amountToPay,
           accessToken: req.user.accessToken,
           accessTokenSecret: req.user.accessTokenSecret,
         });
