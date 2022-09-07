@@ -587,7 +587,7 @@ const UserMentions = ({ currentUser, data }) => {
       <br />
       <br />
 
-      <div className="mb-5">
+      <div className="mb-3">
         <label
           className="form-label"
           htmlFor="userType"
@@ -618,7 +618,7 @@ const UserMentions = ({ currentUser, data }) => {
         ) : null}
       </div>
       {mentionUserTweet?.length > 0 ? (
-        <div className="mb-5">
+        <div className="mb-3">
           <label
             className="form-label"
             htmlFor="userType"
@@ -658,7 +658,7 @@ const UserMentions = ({ currentUser, data }) => {
         </Button>
       ) : null}
       {userCreatedTweets.length > 0 ? (
-        <div className="mb-5">
+        <div className="mb-3">
           <label
             className="form-label"
             htmlFor="userType"

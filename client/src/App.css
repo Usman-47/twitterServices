@@ -864,6 +864,9 @@ color: white !important;
   }
 }
 @media (max-width: 899px) {
+  .rewardCards_solana_btn{
+    font-size: 12px !important;
+  }
   .search_div {
     width: 100% !important;
     margin: 0 auto !important;

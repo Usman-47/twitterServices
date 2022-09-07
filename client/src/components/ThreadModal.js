@@ -241,10 +241,10 @@ export default function ThreadModal({
               disableSpacing
             >
               <IconButton aria-label="add to favorites">
-              <Icon color="rgb(249, 24, 128)" icon="ant-design:heart-filled" />
+              <Icon color="white" icon="ant-design:heart-filled" />
               </IconButton>
               <IconButton aria-label="share">
-                <Icon color="rgb(0, 186, 124)" icon="ant-design:retweet-outlined" />
+                <Icon color="white" icon="ant-design:retweet-outlined" />
               </IconButton>
               <IconButton aria-label="share">
                 <Icon color="white" icon="fa-regular:comment-dots" />

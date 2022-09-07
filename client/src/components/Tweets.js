@@ -17,6 +17,7 @@ import IDL from "./twitter_program.json";
 import Pool from "./Pool";
 import UserMentions from "./UserMentions";
 
+
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -149,8 +150,8 @@ const Tweets = (props) => {
             <CardHeader
               sx={{ color: "white", }}
               avatar={
-                <Avatar sx={{ backgroundColor: "#5865F2" }} aria-label="recipe">
-                  <Icon icon="iconoir:discord" />
+                <Avatar sx={{ backgroundColor: "white" }} aria-label="recipe">
+                  <Icon color="rgb(29, 155, 240)" icon="akar-icons:twitter-fill" />
                 </Avatar>
               }
               title={props?.auth?.userName}
@@ -498,29 +499,38 @@ const Tweets = (props) => {
                           <TabPanel sx={{ color: "white" }} value="1">
                             {/* Item One */}
                           </TabPanel>
-
+                          
                           <TabPanel
                             sx={{
                               color: "white",
                               padding: "0 !important",
-                              marginTop: "40px",
+                              
                             }}
                             value="1"
                           >
-                            <Grid container spacing={2}>
-                              {data?.isRaid &&
+                          
+                             
+                           
+                              
+                                <Grid container>
+                                {data?.isRaid &&
                                 data?.pool?.map((pool) => (
                                   <>
+                                
                                     <Pool
                                       currentUser={props?.auth}
                                       pool={pool}
                                       projectDetail={data}
                                     />
+                                 
                                   </>
                                 ))}
-                            </Grid>
+                                </Grid>
+                              
+                          
+                             
                           </TabPanel>
-                       
+                          
                       
                     </div>
                   ) : null}

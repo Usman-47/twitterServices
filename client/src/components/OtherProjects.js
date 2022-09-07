@@ -106,7 +106,9 @@ const OtherProjects = ({ currentUsers, datas, mention }) => {
 
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                <CardActions
+                {!mention? (
+                    <>
+                    <CardActions
                   sx={{
                     justifyContent: "space-between",
                     borderBottom: "1px solid gray",
@@ -229,6 +231,8 @@ const OtherProjects = ({ currentUsers, datas, mention }) => {
                     155
                   </IconButton>
                 </CardActions>
+                    </>
+                ):null}
                 {currentUserr && (
                   <UserMentions currentUser={currentUserr} data={dataa} />
                 )}

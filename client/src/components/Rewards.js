@@ -25,7 +25,7 @@ const Rewards = () => {
   return (
     <>
       <Typography
-        sx={{ background: "", width: "90%", margin: "0 auto" }}
+        sx={{ background: "", width: "90%", margin: "0 auto", }}
         component="div"
       >
         <RewardCards />
@@ -34,7 +34,7 @@ const Rewards = () => {
           {array.map((item) => {
             return (
               <>
-                <Grid item xs={11} md={5.5} lg={5.7} margin="7px">
+                <Grid item xs={12} md={5.5} lg={5.7} margin="7px">
                   <Card className="rewards_card2" sx={{ width: "100%" }}>
                     <Typography sx={{ margin: "0 30px 0 30px" }}>
                       <Typography
@@ -53,7 +53,7 @@ const Rewards = () => {
                           sx={{
                             display: "flex",
                             gap:"5px",
-                            fontSize: "24px !important",
+                            fontSize: "20px !important",
                             alignItems: "center",
                           }}
                         >
@@ -83,7 +83,7 @@ const Rewards = () => {
         </Grid>
 
         <Grid container>
-          <Grid className="ms-lg-4" item xs={12} md={10} lg={9} marginTop="7px">
+          <Grid className="ms-lg-4 m-2" item xs={12} md={10} lg={9}>
             <Card className="rewards_card2" sx={{ width: "100%" }}>
               <Typography sx={{ margin: "0 30px 30px 30px" }}>
                 <Typography
