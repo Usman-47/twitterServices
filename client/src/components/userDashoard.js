@@ -83,8 +83,8 @@ const UserDashboard = () => {
               <OtherProjects />
             </Grid>
           </TabPanel>
-          <TabPanel sx={{ color: "white" }} value="3">
-            {/* Item Three */}
+          <TabPanel sx={{ color: "white", fontSize:"50px", textAlign:"center", marginTop:"70px" }} value="3">
+           COMMING SOON...
           </TabPanel>
         </TabContext>
       </Box>

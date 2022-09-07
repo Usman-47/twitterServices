@@ -662,7 +662,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      {/* <Grid container spacing={2}> */}
         <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
           <div className="penta gon ">
             <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
@@ -925,7 +925,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
             <img className="mail_logo" src="r.png" alt="" />
           </div>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
 
       {true && (
         <ThreadModal

@@ -17,7 +17,6 @@ import IDL from "./twitter_program.json";
 import Pool from "./Pool";
 import UserMentions from "./UserMentions";
 
-
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -62,7 +61,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import UserDashboard from "./userDashoard";
 import Profledescription from "./Profledescription";
 import Setting from "./Setting";
@@ -105,7 +104,6 @@ const Tweets = (props) => {
       </Typography>
       {/* <Divider /> */}
 
-   
       <List>
         {[
           "Dashboard",
@@ -130,7 +128,17 @@ const Tweets = (props) => {
                   <Icon icon="bx:at" />
                 ) : index === 2 || index === 3 ? (
                   <Icon icon="la:retweet" />
-                ) : index===4 ? <Icon icon="arcticons:rewards" /> : index===5 ? <Icon icon="gridicons:stats" /> : index===6 ? <Icon icon="bx:user" /> : index===7? <Icon icon="ant-design:setting-filled" />: <Icon icon="healthicons:exercise-walk-supported" />}
+                ) : index === 4 ? (
+                  <Icon icon="arcticons:rewards" />
+                ) : index === 5 ? (
+                  <Icon icon="gridicons:stats" />
+                ) : index === 6 ? (
+                  <Icon icon="bx:user" />
+                ) : index === 7 ? (
+                  <Icon icon="ant-design:setting-filled" />
+                ) : (
+                  <Icon icon="healthicons:exercise-walk-supported" />
+                )}
               </ListItemIcon>
               <ListItemText style={{ color: "white" }} primary={text} />
             </ListItemButton>
@@ -138,26 +146,24 @@ const Tweets = (props) => {
         ))}
       </List>
       <Typography
-            // component={container}
-            sx={{
-             
-              position:"absolute",
-              bottom:"0",
-              right:"0%"
-             
-            }}
-          >
-            <CardHeader
-              sx={{ color: "white", }}
-              avatar={
-                <Avatar sx={{ backgroundColor: "white" }} aria-label="recipe">
-                  <Icon color="rgb(29, 155, 240)" icon="akar-icons:twitter-fill" />
-                </Avatar>
-              }
-              title={props?.auth?.userName}
-              subheader="Membership Status: STANDARD"
-            />
-          </Typography>
+        // component={container}
+        sx={{
+          position: "absolute",
+          bottom: "0",
+          right: "0%",
+        }}
+      >
+        <CardHeader
+          sx={{ color: "white" }}
+          avatar={
+            <Avatar sx={{ backgroundColor: "white" }} aria-label="recipe">
+              <Icon color="rgb(29, 155, 240)" icon="akar-icons:twitter-fill" />
+            </Avatar>
+          }
+          title={props?.auth?.userName}
+          subheader="Membership Status: STANDARD"
+        />
+      </Typography>
     </div>
   );
 
@@ -238,38 +244,40 @@ const Tweets = (props) => {
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
         <CssBaseline />
-       
-      <AppBar
-        position="fixed"
-        sx={{
-          width: {background:"black", sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography sx={{marginLeft:"auto"}} component="div">
-              <Typography  sx={{display:"flex", justifyContent:"end"}} component="div">
+
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { background: "black", sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography sx={{ marginLeft: "auto" }} component="div">
+              <Typography
+                sx={{ display: "flex", justifyContent: "end" }}
+                component="div"
+              >
                 <Typography onClick={handleClick}>
                   <Stack direction="row">
                     <Avatar
                       className="user_avatar"
                       alt="Cindy Baker"
-                      
                       sx={{ width: 40, height: 40 }}
                     />
                   </Stack>
                 </Typography>
                 <Menu
-                sx={{justifyContent:"center"}}
+                  sx={{ justifyContent: "center" }}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -284,36 +292,49 @@ const Tweets = (props) => {
                     // horizontal: "left",
                   }}
                 >
-                  
                   {/* <div className="text-center fw-bold" onClick={handleClose}>Profile</div>
                   <div className="text-center fw-bold" onClick={handleClose}>My account</div> */}
-                  <MenuItem>
-                 
-                      {[
-                        <Button
-                          style={{ color: "white", borderColor: "none" }}
-                          variant="contained"
+                  <Typography>
+                    <CardHeader
+                      sx={{ color: "white" }}
+                      avatar={
+                        <Avatar
+                          sx={{ backgroundColor: "#5865F2" }}
+                          aria-label="recipe"
                         >
-                          Unlink from twitter
-                        </Button>,
-                      ].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                          <ListItemButton
-                            href={`${process.env.REACT_APP_SERVERURL}/api/logout`}
-                          >
-                            <ListItemText primary={text} />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                   
+                          <Icon icon="iconoir:discord" />
+                        </Avatar>
+                      }
+                      // title={currentUser?.userName}
+                      subheader="Membership Status: STANDARD"
+                    />
+                  </Typography>
+                  <MenuItem>
+                    {[
+                      <Button
+                        style={{ color: "white", borderColor: "none" }}
+                        variant="contained"
+                      >
+                        Unlink from twitter
+                      </Button>,
+                    ].map((text, index) => (
+                      <ListItem key={text} disablePadding>
+                        <ListItemButton
+                          href={`${process.env.REACT_APP_SERVERURL}/api/logout`}
+                        >
+                          <ListItemText primary={text} />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
                   </MenuItem>
-                  <div className="d-flex justify-content-center"><WalletDisconnectButton /></div>
-                
+                  <div className="d-flex justify-content-center">
+                    <WalletDisconnectButton />
+                  </div>
                 </Menu>
               </Typography>
             </Typography>
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -367,182 +388,163 @@ const Tweets = (props) => {
             <UserDashboard />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
-           
-            
-                    <Box
-                        className="tabs_container"
-                        sx={{
-                          width: "95%",
-                          margin: "0 auto",
-                          typography: "body1",
-                        }}
-                      >
-                      <TabContext value={value}>
-                          <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
-                          <TabList
-                              sx={{ gap: "5px" }}
-                              onChange={handleChange}
-                              aria-label="lab API tabs example"
-                            >
-                              <Tab
-                                className="dashboard_tabs"
-                                sx={{ color: "white" }}
-                                label="LIVE"
-                                value="1"
-                              />
-                              <Tab
-                                className="dashboard_tabs"
-                                sx={{ color: "white" }}
-                                label="CLOSED"
-                                value="2"
-                              />
-                            </TabList>
-                          </Box>
+              <Box
+                className="tabs_container"
+                sx={{
+                  width: "95%",
+                  margin: "0 auto",
+                  typography: "body1",
+                }}
+              >
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
+                    <TabList
+                      sx={{ gap: "5px" }}
+                      onChange={handleChange}
+                      aria-label="lab API tabs example"
+                    >
+                      <Tab
+                        className="dashboard_tabs"
+                        sx={{ color: "white" }}
+                        label="LIVE"
+                        value="1"
+                      />
+                      <Tab
+                        className="dashboard_tabs"
+                        sx={{ color: "white" }}
+                        label="CLOSED"
+                        value="2"
+                      />
+                    </TabList>
+                  </Box>
 
-                          <Box
-                                className="tabs_container"
-                                sx={{
-                                  width: "95%",
-                                  margin: "0 auto",
-                                  typography: "body1",
-                                }}
-                              >
-                              
+                  <Box
+                    className="tabs_container"
+                    sx={{
+                      margin: "0 auto",
+                      typography: "body1",
+                    }}
+                  >
+                    <TabPanel
+                      sx={{
+                        color: "white",
+                        fontSize: "50px",
+                        textAlign: "center",
+                        marginTop: "70px",
+                      }}
+                      value="2"
+                    >
+                      COMMING SOON...
+                    </TabPanel>
 
-                                  <TabPanel sx={{ color: "white" }} value="2">
-                                    {/* Item One */}
-                                  </TabPanel>
-                                  
-                                  <TabPanel
-                                    sx={{
-                                      color: "white",
-                                      padding: "0 !important",
-                                      marginTop: "40px",
-                                    }}
-                                    value="1"
-                                  >
-                                  
-                                  </TabPanel>
-                                  
-                              </Box>
-                        
-                  </TabContext>
-                </Box>
-                <Grid container spacing={2}>
+                    <TabPanel
+                      sx={{
+                        color: "white",
+                        padding: "0 !important",
+                        marginTop: "40px",
+                      }}
+                      value="1"
+                    >
+                      <Grid container spacing={2}>
                         {getAllInvoices?.map((data) => (
                           <>
-                        
                             {data?.isRaid === false ? (
                               <>
-                            
-                             
-                                
-                                  <OtherProjects
-                                    currentUsers={props?.auth}
-                                    datas={data}
-                                    mention={true}
-                                  />
-                             
-                            
+                                <OtherProjects
+                                  currentUsers={props?.auth}
+                                  datas={data}
+                                  mention={true}
+                                />
                                 {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                               </>
                             ) : null}
-                          
                           </>
                         ))}
-                        </Grid>
-                
+                      </Grid>
+                    </TabPanel>
+                  </Box>
+                </TabContext>
+              </Box>
             </>
           ) : selectedComponent === "Raid to Earn" ? (
             <>
-            <Box
-                        className="tabs_container"
-                        sx={{
-                          width: "95%",
-                          margin: "0 auto",
-                          typography: "body1",
-                        }}
-                      >
-                        <TabContext value={value}>
-                          <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
-                            <TabList
-                              sx={{ gap: "5px" }}
-                              onChange={handleChange}
-                              aria-label="lab API tabs example"
-                            >
-                              <Tab
-                                className="dashboard_tabs"
-                                sx={{ color: "white" }}
-                                label="LIVE"
-                                value="1"
-                              />
-                              <Tab
-                                className="dashboard_tabs"
-                                sx={{ color: "white" }}
-                                label="CLOSED"
-                                value="2"
-                              />
-                            </TabList>
-                          </Box>
-              {getAllInvoices?.map((data) => (
-                <>
-                  {data?.isRaid ? (
-                    <div
-                      style={{
-                       
-                        paddingLeft:"15px"
-                       
-                      }}
+              <Box
+                className="tabs_container"
+                sx={{
+                  width: "95%",
+                  margin: "0 auto",
+                  typography: "body1",
+                }}
+              >
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
+                    <TabList
+                      sx={{ gap: "5px" }}
+                      onChange={handleChange}
+                      aria-label="lab API tabs example"
                     >
-                     
-
-                          <TabPanel sx={{ color: "white" }} value="1">
-                            {/* Item One */}
-                          </TabPanel>
-                          
+                      <Tab
+                        className="dashboard_tabs"
+                        sx={{ color: "white" }}
+                        label="LIVE"
+                        value="1"
+                      />
+                      <Tab
+                        className="dashboard_tabs"
+                        sx={{ color: "white" }}
+                        label="CLOSED"
+                        value="2"
+                      />
+                    </TabList>
+                  </Box>
+                  {getAllInvoices?.map((data) => (
+                    <>
+                      {data?.isRaid ? (
+                        <div>
                           <TabPanel
                             sx={{
                               color: "white",
                               padding: "0 !important",
-                              
+                              marginTop: "30px",
                             }}
                             value="1"
                           >
-                          
-                             
-                           
-                              
-                                <Grid container>
-                                {data?.isRaid &&
+                            <Grid container spacing={2}>
+                              {data?.isRaid &&
                                 data?.pool?.map((pool) => (
                                   <>
-                                
                                     <Pool
                                       currentUser={props?.auth}
                                       pool={pool}
                                       projectDetail={data}
                                     />
-                                 
                                   </>
                                 ))}
-                                </Grid>
-                              
-                          
-                             
+                            </Grid>
                           </TabPanel>
-                          
-                      
-                    </div>
-                  ) : null}
-                 
-                </>
-              ))}
-             
-              </TabContext>
-               </Box>
+
+                          <TabPanel
+                            sx={{
+                              color: "white",
+                              fontSize: "50px",
+                              textAlign: "center",
+                              marginTop: "70px",
+                            }}
+                            value="2"
+                          >
+                            COMMING SOON...
+                          </TabPanel>
+                        </div>
+                      ) : null}
+                    </>
+                  ))}
+                </TabContext>
+              </Box>
             </>
-          ) : selectedComponent === "Rewards" ? <Rewards/>: selectedComponent === "Profile" ? (
-            <Profledescription  currentUser={props?.auth}/>
+          ) : selectedComponent === "Rewards" ? (
+            <Rewards />
+          ) : selectedComponent === "Profile" ? (
+            <Profledescription currentUser={props?.auth} />
           ) : selectedComponent === "Setting" ? (
             <Setting />
           ) : selectedComponent === "Stats" ? (

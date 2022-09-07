@@ -32,7 +32,7 @@ export default function RewardCards() {
                   {i === 0 && <img width={"100px"} src={item.src} alt="solana" /> }
                   {i === 1 && <img width={"55px"} src={item.src} alt="solana" /> }
                   {i === 2 && <img width={"125px"} src={item.src} alt="solana" /> }
-                  <Typography gutterBottom variant="h5" color="white" component="div">
+                  <Typography gutterBottom variant="h5" marginTop="10px" color="white" component="div">
                     {item.title}
                   </Typography>
                 </Typography>

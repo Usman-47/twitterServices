@@ -18,14 +18,14 @@ const Pool = ({ currentUser, pool, projectDetail }) => {
        {pool?.tweets &&
           pool?.tweets.map((data) => (
            
-           <Grid item width="100%" lg={4}>
+           
             <Tweet
               data={data}
               currentUser={currentUser}
               projectDetail={projectDetail}
               rewardCategory={pool?.category}
             />
-             </Grid>
+             
            
           ))}
       
