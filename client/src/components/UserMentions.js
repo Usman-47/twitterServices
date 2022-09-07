@@ -467,6 +467,7 @@ const UserMentions = ({ currentUser, data }) => {
   }, [userSelectTweetForClaim]);
 
   const claimRewardWithSolana = async () => {
+    console.log(claimStartTime + rewardFrequencyToClaimReward, "jhjkhjkhkj");
     if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
       alert("reward claim time is not reached after start time");
       return;

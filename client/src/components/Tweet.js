@@ -60,6 +60,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
   const [allReplyOfATweet, setAllReplyOfATweet] = useState();
   const [currentUserFallowers, setCurrentUserFallowers] = useState();
   const [openModal, setOpenModal] = useState(false);
+  const [updateReplyFlaq, setUpdateReplyFlaq] = useState();
 
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
@@ -109,6 +110,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
 
   const handleReplyData = async (data) => {
     await replyToSpecificTweet(data);
+    setUpdateReplyFlaq(!updateReplyFlaq);
   };
 
   // <<<<<<< HEAD
@@ -631,7 +633,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
     if (data?.tweetId) {
       getAllReplyOfATweet();
     }
-  }, [data?.tweetId]);
+  }, [data?.tweetId, updateReplyFlaq]);
 
   // const checkIsUserQuoteTheTweet = async () => {
   //   let result = await checkQuoteTweets();
@@ -685,8 +687,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                   margin: "20px",
                   borderRadius: "10px",
                   padding: "10px 0px 0 0px",
-                  marginTop:"90px"
-                  
+                  marginTop: "90px",
                 }}
               >
                 <Typography sx={{ display: "", justifyContent: "center" }}>
@@ -695,7 +696,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     variant="h7"
                     sx={{ fontSize: "19.4351px", justifyContent: "end" }}
                   >
-                   {projectName}
+                    {projectName}
                   </Typography>
                   <br />
                   <Typography
@@ -703,9 +704,8 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     variant="h7"
                     sx={{ fontSize: "18px", justifyContent: "end" }}
                   >
-                   {projectDetail?.projectTwitterUsername}
+                    {projectDetail?.projectTwitterUsername}
                   </Typography>
-                  
                 </Typography>
                 <Typography
                   className="magic_eden_desc"
@@ -743,10 +743,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                   )}
                   {!isTweetRetweeted ? (
                     <IconButton onClick={retweetATweet} aria-label="share">
-                      <Icon
-                        color="rgb(0, 186, 124)"
-                        icon="ant-design:retweet-outlined"
-                      />
+                      <Icon icon="ant-design:retweet-outlined" />
                     </IconButton>
                   ) : (
                     <IconButton
@@ -769,7 +766,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     />
                   </IconButton>
                   <IconButton aria-label="share">
-                  <Icon color="white" icon="ci:share" />
+                    <Icon color="white" icon="ci:share" />
                   </IconButton>
                 </CardActions>
               </Typography>
@@ -912,21 +909,22 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     </Button>
                   </Typography>
                 </Typography>
-             
-            </CardContent>
-            <CardActions sx={{ justifyContent: "center" }} disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <Icon color="white" icon="akar-icons:twitter-fill" />
-              </IconButton>
-              <IconButton aria-label="share">
-                <Icon color="white" icon="akar-icons:discord-fill" />
-              </IconButton>
-            </CardActions>
-          </Card>
-        </div>
+              </CardContent>
+              <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <Icon color="white" icon="akar-icons:twitter-fill" />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <Icon color="white" icon="akar-icons:discord-fill" />
+                </IconButton>
+              </CardActions>
+            </Card>
+          </div>
 
-        <div className="triangle" style={{background:"#FFA34E"}}><img className="mail_logo" src="r.png" alt="" /></div>
-      </Grid>
+          <div className="triangle" style={{ background: "#FFA34E" }}>
+            <img className="mail_logo" src="r.png" alt="" />
+          </div>
+        </Grid>
       </Grid>
 
       {true && (

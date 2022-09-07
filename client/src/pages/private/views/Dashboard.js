@@ -71,10 +71,16 @@ const Dashboard = (props) => {
               {/* this is sidebar */}
 
               {role === ADMIN && showSideBar && (
-                <AdminSidebar setShowSideBar={setShowSideBar} currentUser={props?.auth}/>
+                <AdminSidebar
+                  setShowSideBar={setShowSideBar}
+                  currentUser={props?.auth}
+                />
               )}
               {role === MANAGER && showSideBar && (
-                <ManagerSidebar setShowSideBar={setShowSideBar} />
+                <ManagerSidebar
+                  currentUser={props?.auth}
+                  setShowSideBar={setShowSideBar}
+                />
               )}
 
               {/* this is mainscreen */}
@@ -87,7 +93,7 @@ const Dashboard = (props) => {
                   setShowSideBar={setShowSideBar}
                   showSideBar={showSideBar}
                 />
-                <div style={{width:"90%", margin:"0 auto"}}>
+                <div style={{ width: "90%", margin: "0 auto" }}>
                   <Outlet />
                 </div>
               </div>

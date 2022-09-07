@@ -3,10 +3,14 @@ import React from "react";
 import SidebarTemplate from "../SidebarTemplate";
 import ManagerNavElements from "./ManagerNavElements";
 
-const ManagerSidebar = ({setShowSideBar}) => {
+const ManagerSidebar = ({ setShowSideBar, currentUser }) => {
   return (
     <>
-      <SidebarTemplate navArray={ManagerNavElements} setShowSideBar={setShowSideBar} />
+      <SidebarTemplate
+        navArray={ManagerNavElements}
+        currentUser={currentUser}
+        setShowSideBar={setShowSideBar}
+      />
     </>
   );
 };
