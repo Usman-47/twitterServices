@@ -12,7 +12,12 @@ import OtherProjects from "./OtherProjects";
 import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 
-const UserDashboard = () => {
+const UserDashboard = ({
+  userProjectsForMention,
+  userProjectsForRaid,
+  userNotIncludeProjectsForRaid,
+  userNotIncludeProjectsForMention,
+}) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
@@ -73,7 +78,6 @@ const UserDashboard = () => {
             </Grid>
           </Typography>
 
-          
           <ThreadModal />
           <TabPanel
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
@@ -83,8 +87,16 @@ const UserDashboard = () => {
               <OtherProjects />
             </Grid>
           </TabPanel>
-          <TabPanel sx={{ color: "white", fontSize:"50px", textAlign:"center", marginTop:"70px" }} value="3">
-           COMMING SOON...
+          <TabPanel
+            sx={{
+              color: "white",
+              fontSize: "50px",
+              textAlign: "center",
+              marginTop: "70px",
+            }}
+            value="3"
+          >
+            COMMING SOON...
           </TabPanel>
         </TabContext>
       </Box>

@@ -82,6 +82,14 @@ const Tweets = (props) => {
   const [selectedComponent, setSelectedComponent] = React.useState("Dashboard");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [userProjectsForMention, setUserProjectsForMention] = React.useState();
+  const [userProjectsForRaid, setUserProjectsForRaid] = React.useState();
+  const [
+    userNotIncludeProjectsForMention,
+    setUserNotIncludeProjectsForMention,
+  ] = React.useState();
+  const [userNotIncludeProjectsForRaid, setUserNotIncludeProjectsForRaid] =
+    React.useState();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -171,11 +179,7 @@ const Tweets = (props) => {
     windoww !== undefined ? () => windoww().document.body : undefined;
 
   // ======================
-  const [getTweetLikes, setGetTweetLikes] = useState();
   const [getAllInvoices, setGetAllInvoices] = useState();
-  const [getClientMentions, setGetClientMentions] = useState();
-  const [retweetStatus, setRetweetStatus] = useState();
-  const [quoteTweets, setQuoteTweets] = useState();
   const [flag, setFlag] = useState(false);
   const { wallet, connect, sendTransaction, connecting, connected, publicKey } =
     useWallet();
@@ -229,6 +233,55 @@ const Tweets = (props) => {
   useEffect(() => {
     getAllTweets();
   }, []);
+
+  useEffect(() => {
+    var mentionProjectTempArray = [];
+    var raidProjectTempArray = [];
+    var notIncludeMentionProjectTempArray = [];
+    var notIncludeRaidProjectTempArray = [];
+    if (props.auth && getAllInvoices) {
+      getAllInvoices.map((Invoice) => {
+        props?.auth?.rewardStatus?.map((status) => {
+          if (status.projectName === Invoice.projectName && !Invoice.isRaid) {
+            mentionProjectTempArray.push(Invoice);
+          } else {
+            notIncludeMentionProjectTempArray.push(Invoice);
+          }
+        });
+        if (Invoice?.isRaid) {
+          Invoice?.pool?.map((pool) => {
+            pool?.tweets?.map((tweet) => {
+              props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+                if (tweet.tweetId === retweet.tweetId) {
+                  raidProjectTempArray.push(retweet);
+                } else {
+                  notIncludeRaidProjectTempArray.push(retweet);
+                }
+              });
+              props?.auth?.raidStatus?.likeStatus?.map((like) => {
+                if (tweet.tweetId === like.tweetId) {
+                  raidProjectTempArray.push(pool);
+                } else {
+                  notIncludeRaidProjectTempArray.push(like);
+                }
+              });
+              props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+                if (tweet.tweetId === reply.tweetId) {
+                  raidProjectTempArray.push(pool);
+                } else {
+                  notIncludeRaidProjectTempArray.push(reply);
+                }
+              });
+            });
+          });
+        }
+      });
+    }
+    setUserProjectsForMention(mentionProjectTempArray);
+    setUserProjectsForRaid(mentionProjectTempArray);
+    setUserNotIncludeProjectsForMention(mentionProjectTempArray);
+    setUserNotIncludeProjectsForRaid(mentionProjectTempArray);
+  }, [getAllInvoices, props.auth]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -385,7 +438,14 @@ const Tweets = (props) => {
         >
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
-            <UserDashboard />
+            <UserDashboard
+              userProjectsForMention={userProjectsForMention}
+              userProjectsForRaid={userProjectsForRaid}
+              userNotIncludeProjectsForMention={
+                userNotIncludeProjectsForMention
+              }
+              userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+            />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
               <Box
