@@ -49,7 +49,7 @@ const CreateInvoice = () => {
   const initialState = {
     amount: "",
     startTime: "",
-    startTimes: "",
+    endTime: "",
     tweetRewards: "",
     rewardFrequency: "day",
     category: ["", "", "", "", "", "", ""],
@@ -397,8 +397,14 @@ const CreateInvoice = () => {
       ev.preventDefault();
       dispatch({ type: "loadingStart" });
 
-      const { amount, startTime, category, rewardFrequency, splToken } =
-        stateValues;
+      const {
+        amount,
+        startTime,
+        endTime,
+        category,
+        rewardFrequency,
+        splToken,
+      } = stateValues;
 
       for (var i = 0; i < category.length; i++) {
         if (category[i] === "") {
@@ -410,7 +416,11 @@ const CreateInvoice = () => {
       }
 
       if (
-        (!amount || !startTime || category.length !== 7 || !rewardFrequency,
+        (!amount ||
+          !startTime ||
+          !endTime ||
+          category.length !== 7 ||
+          !rewardFrequency,
         !splToken || splToken === "OTHER")
       ) {
         toast.warning("No empty values allowed");
@@ -438,6 +448,7 @@ const CreateInvoice = () => {
         pool: {
           amount,
           startTime,
+          endTime,
           category,
           rewardFrequency,
           solanaPoolAddress: transactionData.poolAddress,
@@ -467,18 +478,6 @@ const CreateInvoice = () => {
       category: temp,
     }));
   };
-  function handleChanges(event) {
-    setStateValues((prev) => ({
-      ...prev,
-      startTimes: event.target.value,
-    }));
-    setStateValues((prev) => ({
-      ...prev,
-      startTime: moment().unix(event.target.value).toString(),
-    }));
-  }
-  console.log(stateValues.startTime, "date");
-
   return (
     <>
       <div className="container my-5 p-3 border border-1 border-info rounded-3">
@@ -509,14 +508,36 @@ const CreateInvoice = () => {
               id="timeToclaim"
               placeholder="Start Time"
               className="form-control"
-              value={stateValues.startTimes}
-              // onChange={(e) =>
-              //   setStateValues((prev) => ({
-              //     ...prev,
-              //     startTime: e.target.value,
-              //   }))
-              // }
-              onChange={handleChanges}
+              value={moment
+                .unix(stateValues.startTime)
+                .format(moment.HTML5_FMT.DATETIME_LOCAL)}
+              onChange={(event) =>
+                setStateValues((prev) => ({
+                  ...prev,
+                  startTime: moment(event.target.value).unix().toString(),
+                }))
+              }
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label" htmlFor="timeToclaim">
+              End Time
+            </label>
+            <input
+              type="datetime-local"
+              id="timeToclaim"
+              placeholder="Start Time"
+              className="form-control"
+              value={moment
+                .unix(stateValues.endTime)
+                .format(moment.HTML5_FMT.DATETIME_LOCAL)}
+              onChange={(event) =>
+                setStateValues((prev) => ({
+                  ...prev,
+                  endTime: moment(event.target.value).unix().toString(),
+                }))
+              }
             />
           </div>
 

@@ -30,6 +30,9 @@ const poolSchema = schema({
   startTime: {
     type: String,
   },
+  endTime: {
+    type: String,
+  },
   rewardFrequency: {
     type: String,
     enum: ["day", "week", "month"],
