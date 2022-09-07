@@ -41,7 +41,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
 import ComboBox from "./All";
-import OtherProjects from "./OtherProjects";
+import MentionProjects from "./MentionProjects";
 import Rewards from "./Rewards";
 // ====================
 
@@ -244,32 +244,66 @@ const Tweets = (props) => {
         props?.auth?.rewardStatus?.map((status) => {
           if (status.projectName === Invoice.projectName && !Invoice.isRaid) {
             mentionProjectTempArray.push(Invoice);
-          } else {
+          } else if (
+            status.projectName !== Invoice.projectName &&
+            !Invoice.isRaid
+          ) {
             notIncludeMentionProjectTempArray.push(Invoice);
           }
         });
         if (Invoice?.isRaid) {
-          Invoice?.pool?.map((pool) => {
-            pool?.tweets?.map((tweet) => {
+          var tempArray = [];
+          Invoice?.pool?.map((data) => {
+            data?.tweets?.map((tweet) => {
               props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
                 if (tweet.tweetId === retweet.tweetId) {
-                  raidProjectTempArray.push(retweet);
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === retweet.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
                 } else {
-                  notIncludeRaidProjectTempArray.push(retweet);
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === retweet.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
                 }
               });
               props?.auth?.raidStatus?.likeStatus?.map((like) => {
                 if (tweet.tweetId === like.tweetId) {
-                  raidProjectTempArray.push(pool);
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === like.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
                 } else {
-                  notIncludeRaidProjectTempArray.push(like);
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === like.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
                 }
               });
               props?.auth?.raidStatus?.replyStatus?.map((reply) => {
                 if (tweet.tweetId === reply.tweetId) {
-                  raidProjectTempArray.push(pool);
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === reply.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
                 } else {
-                  notIncludeRaidProjectTempArray.push(reply);
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === reply.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
                 }
               });
             });
@@ -278,9 +312,9 @@ const Tweets = (props) => {
       });
     }
     setUserProjectsForMention(mentionProjectTempArray);
-    setUserProjectsForRaid(mentionProjectTempArray);
-    setUserNotIncludeProjectsForMention(mentionProjectTempArray);
-    setUserNotIncludeProjectsForRaid(mentionProjectTempArray);
+    setUserProjectsForRaid(raidProjectTempArray);
+    setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
+    setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
   }, [getAllInvoices, props.auth]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -510,7 +544,7 @@ const Tweets = (props) => {
                           <>
                             {data?.isRaid === false ? (
                               <>
-                                <OtherProjects
+                                <MentionProjects
                                   currentUsers={props?.auth}
                                   datas={data}
                                   mention={true}

@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
 import ComboBox from "./All";
-import OtherProjects from "./OtherProjects";
+import OthersProject from "./OthersProject";
 import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 
@@ -84,7 +84,12 @@ const UserDashboard = ({
             value="2"
           >
             <Grid container spacing={2}>
-              <OtherProjects />
+              <OthersProject
+                userNotIncludeProjectsForMention={
+                  userNotIncludeProjectsForMention
+                }
+                userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+              />
             </Grid>
           </TabPanel>
           <TabPanel

@@ -3,12 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useWallet } from "@solana/wallet-adapter-react";
-import {
-  useWalletModal,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import { web3 } from "@project-serum/anchor";
 import * as anchor from "@project-serum/anchor";
 import {
@@ -19,7 +14,6 @@ import {
 import { PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY } from "@solana/web3.js";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import IDL from "./twitter_program.json";
-import OtherProjects from "./OtherProjects";
 
 const UserMentions = ({ currentUser, data }) => {
   // console.log(data,"usermention");
