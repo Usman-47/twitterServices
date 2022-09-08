@@ -40,7 +40,7 @@ export default function Reply({ reply }) {
               padding: "20px",
             }}
           >
-            <Typography
+            {/* <Typography
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -54,11 +54,7 @@ export default function Reply({ reply }) {
                   marginBottom: "20px",
                 }}
 
-                // avatar={
-
-                // }
-                // title="Sarah Parker"
-                // subheader="@saraparker079"
+               
               >
                 {" "}
                 <Avatar
@@ -100,7 +96,7 @@ export default function Reply({ reply }) {
               >
                 <MoreHorizIcon />
               </Fab>
-            </Typography>
+            </Typography> */}
             <Typography sx={{ paddingRight: "61px", paddingLeft: "61px" }}>
               {reply?.text}
             </Typography>

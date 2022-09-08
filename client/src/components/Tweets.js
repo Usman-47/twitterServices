@@ -41,7 +41,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
 import ComboBox from "./All";
-import OtherProjects from "./OtherProjects";
+import MentionProjects from "./MentionProjects";
 import Rewards from "./Rewards";
 // ====================
 
@@ -82,6 +82,14 @@ const Tweets = (props) => {
   const [selectedComponent, setSelectedComponent] = React.useState("Dashboard");
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [userProjectsForMention, setUserProjectsForMention] = React.useState();
+  const [userProjectsForRaid, setUserProjectsForRaid] = React.useState();
+  const [
+    userNotIncludeProjectsForMention,
+    setUserNotIncludeProjectsForMention,
+  ] = React.useState();
+  const [userNotIncludeProjectsForRaid, setUserNotIncludeProjectsForRaid] =
+    React.useState();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -171,11 +179,7 @@ const Tweets = (props) => {
     windoww !== undefined ? () => windoww().document.body : undefined;
 
   // ======================
-  const [getTweetLikes, setGetTweetLikes] = useState();
   const [getAllInvoices, setGetAllInvoices] = useState();
-  const [getClientMentions, setGetClientMentions] = useState();
-  const [retweetStatus, setRetweetStatus] = useState();
-  const [quoteTweets, setQuoteTweets] = useState();
   const [flag, setFlag] = useState(false);
   const { wallet, connect, sendTransaction, connecting, connected, publicKey } =
     useWallet();
@@ -229,6 +233,89 @@ const Tweets = (props) => {
   useEffect(() => {
     getAllTweets();
   }, []);
+
+  useEffect(() => {
+    var mentionProjectTempArray = [];
+    var raidProjectTempArray = [];
+    var notIncludeMentionProjectTempArray = [];
+    var notIncludeRaidProjectTempArray = [];
+    if (props.auth && getAllInvoices) {
+      getAllInvoices.map((Invoice) => {
+        props?.auth?.rewardStatus?.map((status) => {
+          if (status.projectName === Invoice.projectName && !Invoice.isRaid) {
+            mentionProjectTempArray.push(Invoice);
+          } else if (
+            status.projectName !== Invoice.projectName &&
+            !Invoice.isRaid
+          ) {
+            notIncludeMentionProjectTempArray.push(Invoice);
+          }
+        });
+        if (Invoice?.isRaid) {
+          var tempArray = [];
+          Invoice?.pool?.map((data) => {
+            data?.tweets?.map((tweet) => {
+              props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+                if (tweet.tweetId === retweet.tweetId) {
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === retweet.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
+                } else {
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === retweet.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
+                }
+              });
+              props?.auth?.raidStatus?.likeStatus?.map((like) => {
+                if (tweet.tweetId === like.tweetId) {
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === like.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
+                } else {
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === like.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
+                }
+              });
+              props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+                if (tweet.tweetId === reply.tweetId) {
+                  let isTweetCreated = raidProjectTempArray.some(
+                    (item) => item.tweetId === reply.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    raidProjectTempArray.push(tweet);
+                  }
+                } else {
+                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                    (item) => item.tweetId === reply.tweetId
+                  );
+                  if (!isTweetCreated) {
+                    notIncludeRaidProjectTempArray.push(tweet);
+                  }
+                }
+              });
+            });
+          });
+        }
+      });
+    }
+    setUserProjectsForMention(mentionProjectTempArray);
+    setUserProjectsForRaid(raidProjectTempArray);
+    setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
+    setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
+  }, [getAllInvoices, props.auth]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -386,7 +473,14 @@ const Tweets = (props) => {
         >
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
-            <UserDashboard />
+            <UserDashboard
+              userProjectsForMention={userProjectsForMention}
+              userProjectsForRaid={userProjectsForRaid}
+              userNotIncludeProjectsForMention={
+                userNotIncludeProjectsForMention
+              }
+              userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+            />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
               <Box
@@ -451,7 +545,7 @@ const Tweets = (props) => {
                           <>
                             {data?.isRaid === false ? (
                               <>
-                                <OtherProjects
+                                <MentionProjects
                                   currentUsers={props?.auth}
                                   datas={data}
                                   mention={true}

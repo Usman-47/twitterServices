@@ -152,18 +152,18 @@ export default function ThreadModal({
                     R
                   </Avatar>
                   <Typography sx={{ px: 1 }}>
-                    <Typography sx={{ fontSize: "24px" }}>
+                    {/* <Typography sx={{ fontSize: "24px" }}>
                       {" "}
                       Nouman Azeem{" "}
                     </Typography>
                     <Typography sx={{ fontSize: "14px" }}>
                       @nouman azeem
-                    </Typography>
+                    </Typography> */}
                   </Typography>
                 </Typography>
                 <Fab
                   size="small"
-                  sx={{ background: "#545454", color:"white" }}
+                  sx={{ background: "#545454", color: "white" }}
                   aria-label="add"
                 >
                   <MoreHorizIcon />
@@ -236,12 +236,11 @@ export default function ThreadModal({
                 background: "#1C1C1C",
                 paddingRight: "20px",
                 paddingLeft: "20px",
-              
               }}
               disableSpacing
             >
               <IconButton aria-label="add to favorites">
-              <Icon color="white" icon="ant-design:heart-filled" />
+                <Icon color="white" icon="ant-design:heart-filled" />
               </IconButton>
               <IconButton aria-label="share">
                 <Icon color="white" icon="ant-design:retweet-outlined" />
@@ -250,7 +249,7 @@ export default function ThreadModal({
                 <Icon color="white" icon="fa-regular:comment-dots" />
               </IconButton>
               <IconButton aria-label="share">
-              <Icon color="white" icon="ci:share" />
+                <Icon color="white" icon="ci:share" />
               </IconButton>
             </Typography>
           </Typography>
@@ -313,7 +312,12 @@ export default function ThreadModal({
                   </Typography>
                 </Typography>
                 <Button
-                  sx={{background: "#00ACEE", borderRadius: "40px", color:"white", px: 2  }}
+                  sx={{
+                    background: "#00ACEE",
+                    borderRadius: "40px",
+                    color: "white",
+                    px: 2,
+                  }}
                   onClick={handleReplySubmit}
                 >
                   Reply

@@ -8,11 +8,16 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
 import ComboBox from "./All";
-import OtherProjects from "./OtherProjects";
+import OthersProject from "./OthersProject";
 import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 
-const UserDashboard = () => {
+const UserDashboard = ({
+  userProjectsForMention,
+  userProjectsForRaid,
+  userNotIncludeProjectsForRaid,
+  userNotIncludeProjectsForMention,
+}) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
@@ -73,14 +78,18 @@ const UserDashboard = () => {
             </Grid>
           </Typography>
 
-          
           <ThreadModal />
           <TabPanel
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="2"
           >
             <Grid container spacing={2}>
-              <OtherProjects />
+              <OthersProject
+                userNotIncludeProjectsForMention={
+                  userNotIncludeProjectsForMention
+                }
+                userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+              />
             </Grid>
           </TabPanel>
           <TabPanel sx={{ color: "white", fontSize:"50px", textAlign:"center", marginTop:"70px" }} value="3">
