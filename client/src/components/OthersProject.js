@@ -16,13 +16,21 @@ import Button from "@mui/material/Button";
 const OtherProjects = ({
   userNotIncludeProjectsForRaid,
   userNotIncludeProjectsForMention,
+  
+  
 }) => {
+  console.log(userNotIncludeProjectsForMention, "ui2oieo8999999");
+  // console.log(userNotIncludeProjectsForMention[0]?.projectName, "proj name")
   return (
     <>
+    {userNotIncludeProjectsForMention?.map((prop)=>{
+          return(
+            <>
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
         <div className="penta gon">
-          <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
-            <CardHeader
+        
+            <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
+            {/* <CardHeader
               className="card_header"
               sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
               avatar={
@@ -30,14 +38,14 @@ const OtherProjects = ({
                   R
                 </Avatar>
               }
-              // action={
-              //   <IconButton aria-label="settings">
-              //     <MoreVertIcon />
-              //   </IconButton>
-              // }
-              // title={datas?.projectName}
-              // subheader={`@${datas?.projectTwitterUsername}`}
-            />
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon />
+                </IconButton>
+              }
+              title={datas?.projectName}
+              subheader={`@${datas?.projectTwitterUsername}`}
+            /> */}
 
             <Typography
               variant="body2"
@@ -48,6 +56,7 @@ const OtherProjects = ({
                 margin: "20px",
                 borderRadius: "10px",
                 padding: "10px 0px 0 0px",
+                marginTop:"100px"
               }}
             >
               <Typography sx={{ display: "flex", justifyContent: "center" }}>
@@ -56,7 +65,10 @@ const OtherProjects = ({
                   variant="h5"
                   sx={{ fontSize: "19.4351px", justifyContent: "end" }}
                 >
-                  Magic Eden
+                  
+                 <Typography> {prop.projectName}</Typography>
+                  {prop.projectTwitterUsername}
+                  
                 </Typography>
               </Typography>
               <Typography
@@ -64,8 +76,7 @@ const OtherProjects = ({
                 sx={{ fontSize: "13.6045px", padding: "10px" }}
               >
                 This impressive paella is a perfect party dish and a fun meal to
-                cook together with your guests. Add 1 cup of frozen peas along
-                with the.
+                cook together with your guests.
               </Typography>
 
               <CardActions
@@ -122,6 +133,7 @@ const OtherProjects = ({
                       aria-label="share"
                     >
                       <Typography className="active_icon"></Typography>
+                      {prop.invoiceDate}
                     </IconButton>
                   </CardActions>
 
@@ -241,11 +253,17 @@ const OtherProjects = ({
               </IconButton>
             </CardActions>
           </Card>
+
+           
+         
         </div>
         <div className="triangle" style={{ background: "#9c4eff" }}>
           <img className="mail_logo" src="Group.png" alt="" />
         </div>
       </Grid>
+      </>
+          )
+        })}
     </>
   );
 };
