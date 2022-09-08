@@ -50,7 +50,10 @@ export default function Setting() {
   };
 
   return (
-    <Box
+
+   <>
+     <h1 className="text-white text-center">COMING SOON...</h1>
+    {/* <Box
       sx={{
         width: "100%",
         border: 1,
@@ -70,12 +73,12 @@ export default function Setting() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {/* <Typography  > */}
+        
         <Typography className="settingcontent">
           <Typography className="tabtext">Connections</Typography>
           <Settingtable />
         </Typography>
-        {/* </Typography> */}
+        
       </TabPanel>
       <TabPanel value={value} index={0}>
         <Typography
@@ -94,6 +97,7 @@ export default function Setting() {
           </Typography>
         </Typography>
       </TabPanel>
-    </Box>
+    </Box> */}
+   </>
   );
 }

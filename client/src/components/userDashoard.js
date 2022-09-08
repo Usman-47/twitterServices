@@ -84,7 +84,7 @@ const UserDashboard = () => {
             </Grid>
           </TabPanel>
           <TabPanel sx={{ color: "white", fontSize:"50px", textAlign:"center", marginTop:"70px" }} value="3">
-           COMMING SOON...
+           COMING SOON...
           </TabPanel>
         </TabContext>
       </Box>

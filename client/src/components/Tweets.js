@@ -262,14 +262,15 @@ const Tweets = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography sx={{ marginLeft: "auto" }} component="div">
+            <Typography sx={{ marginLeft: "auto",   }} component="div">
               <Typography
-                sx={{ display: "flex", justifyContent: "end" }}
+                sx={{ display: "flex", justifyContent: "end", }}
                 component="div"
               >
                 <Typography onClick={handleClick}>
-                  <Stack direction="row">
+                  <Stack direction="row" >
                     <Avatar
+                    backgroundColor="red"
                       className="user_avatar"
                       alt="Cindy Baker"
                       sx={{ width: 40, height: 40 }}
@@ -277,7 +278,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                  sx={{ justifyContent: "center" }}
+                  sx={{ justifyContent: "center", }}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -296,17 +297,17 @@ const Tweets = (props) => {
                   <div className="text-center fw-bold" onClick={handleClose}>My account</div> */}
                   <Typography>
                     <CardHeader
-                      sx={{ color: "white" }}
+                      sx={{ color: "black", justifyContent:"center"}}
                       avatar={
                         <Avatar
-                          sx={{ backgroundColor: "#5865F2" }}
+                          sx={{ backgroundColor: "rgb(29, 155, 240)" }}
                           aria-label="recipe"
                         >
-                          <Icon icon="iconoir:discord" />
+                          <Icon icon="akar-icons:twitter-fill" />
                         </Avatar>
                       }
-                      // title={currentUser?.userName}
-                      subheader="Membership Status: STANDARD"
+                      title={props.auth?.userName}
+                      
                     />
                   </Typography>
                   <MenuItem>
@@ -434,7 +435,7 @@ const Tweets = (props) => {
                       }}
                       value="2"
                     >
-                      COMMING SOON...
+                      COMING SOON...
                     </TabPanel>
 
                     <TabPanel
@@ -532,7 +533,7 @@ const Tweets = (props) => {
                             }}
                             value="2"
                           >
-                            COMMING SOON...
+                            COMING SOON...
                           </TabPanel>
                         </div>
                       ) : null}
