@@ -365,7 +365,7 @@ const Tweets = (props) => {
       fontSize: 14,
     },
   }));
-
+console.log(userNotIncludeProjectsForRaid,"console")
   return (
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>

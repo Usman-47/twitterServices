@@ -28,6 +28,8 @@ const OtherProjects = ({
 }) => {
   const { projectName } = useParams();
   const [getAllInvoices, setGetAllInvoices] = useState();
+  console.log(userNotIncludeProjectsForMention,"f")
+  console.log(userNotIncludeProjectsForRaid,"ff")
 
   return <></>;
 };
