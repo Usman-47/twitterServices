@@ -34,7 +34,7 @@ router.get("/getUserMentions/:username", async (req, res) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        if (data && data.data[0].id) {
+        if (data && data.data && data.data[0].id) {
           fetch(
             `https://api.twitter.com/2/users/${data.data[0].id}/mentions?expansions=author_id&user.fields=name&tweet.fields=created_at`,
             {

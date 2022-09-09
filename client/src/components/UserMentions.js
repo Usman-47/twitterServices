@@ -491,6 +491,7 @@ const UserMentions = ({ currentUser, data }) => {
         allCreatorOfWallet?.map((metadata) => {
           metadata?.data?.creators?.map((creator) => {
             if (data?.mintCreatorAddress === creator?.address) {
+              console.log(creator, "creator");
               isClaimAble = true;
             }
           });
@@ -579,7 +580,6 @@ const UserMentions = ({ currentUser, data }) => {
   return (
     <>
       {/* <div>Project: {projectName}</div> */}
-      
 
       <div className="mb-3">
         <label

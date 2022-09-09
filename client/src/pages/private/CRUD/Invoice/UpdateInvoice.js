@@ -73,12 +73,14 @@ const UpdateInvoice = (props) => {
       discordForProjectContact,
       projectTwitterUsername,
       mintCreatorAddress,
+      numberOfNft,
     } = state;
     const body = {
       projectName,
       discordForProjectContact,
       projectTwitterUsername,
       mintCreatorAddress,
+      numberOfNft,
     };
     const { data } = await UpdateInvoiceApi(id, body, token);
 
@@ -93,7 +95,10 @@ const UpdateInvoice = (props) => {
   return (
     <>
       {state && (
-        <div className="container my-5 p-3 border border-1 rounded-3" style={{background:"#333333"}}>
+        <div
+          className="container my-5 p-3 border border-1 rounded-3"
+          style={{ background: "#333333" }}
+        >
           <form className="p-md-3 text-white ">
             <div className="mb-5">
               <label className="form-label" htmlFor="invoiceLogoImg">
