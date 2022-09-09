@@ -20,17 +20,36 @@ import MentionProjects from "./MentionProjects";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
+import UserMentions from "./UserMentions";
+
 
 const OtherProjects = ({
+  currentUser,
   userNotIncludeProjectsForMention,
   userNotIncludeProjectsForRaid,
   // props, data
 }) => {
+  console.log(currentUser,"anwar")
   const { projectName } = useParams();
   const [getAllInvoices, setGetAllInvoices] = useState();
   console.log(userNotIncludeProjectsForMention,"f")
   console.log(userNotIncludeProjectsForRaid,"ff")
 
-  return <></>;
+
+  return <>
+ 
+  {currentUser&&
+    userNotIncludeProjectsForMention?.map((data) => (
+      <>
+  <MentionProjects
+                                  currentUsers={currentUser}
+                                  datas={data}
+                                  mention={true}
+                                />
+                                </>))
+  }
+
+
+  </>;
 };
 export default OtherProjects;
