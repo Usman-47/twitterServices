@@ -40,7 +40,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
-import ComboBox from "./All";
+
 import MentionProjects from "./MentionProjects";
 import Rewards from "./Rewards";
 // ====================
@@ -131,21 +131,21 @@ const Tweets = (props) => {
             >
               <ListItemIcon className="dasbboard_icons">
                 {index === 0 ? (
-                  <Icon icon="ic:twotone-space-dashboard" />
+                  <Icon color="white" icon="ic:twotone-space-dashboard" />
                 ) : index === 1 ? (
-                  <Icon icon="bx:at" />
+                  <Icon color="white" icon="bx:at" />
                 ) : index === 2 || index === 3 ? (
-                  <Icon icon="la:retweet" />
+                  <Icon color="white" icon="la:retweet" />
                 ) : index === 4 ? (
-                  <Icon icon="arcticons:rewards" />
+                  <Icon color="white" icon="arcticons:rewards" />
                 ) : index === 5 ? (
-                  <Icon icon="gridicons:stats" />
+                  <Icon color="white" icon="gridicons:stats" />
                 ) : index === 6 ? (
-                  <Icon icon="bx:user" />
+                  <Icon color="white" icon="bx:user" />
                 ) : index === 7 ? (
-                  <Icon icon="ant-design:setting-filled" />
+                  <Icon color="white" icon="ant-design:setting-filled" />
                 ) : (
-                  <Icon icon="healthicons:exercise-walk-supported" />
+                  <Icon color="white" icon="healthicons:exercise-walk-supported" />
                 )}
               </ListItemIcon>
               <ListItemText style={{ color: "white" }} primary={text} />
@@ -405,14 +405,15 @@ const Tweets = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography sx={{ marginLeft: "auto" }} component="div">
+            <Typography sx={{ marginLeft: "auto",   }} component="div">
               <Typography
-                sx={{ display: "flex", justifyContent: "end" }}
+                sx={{ display: "flex", justifyContent: "end", }}
                 component="div"
               >
                 <Typography onClick={handleClick}>
-                  <Stack direction="row">
+                  <Stack direction="row" >
                     <Avatar
+                    backgroundColor="red"
                       className="user_avatar"
                       alt="Cindy Baker"
                       sx={{ width: 40, height: 40 }}
@@ -420,7 +421,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                  sx={{ justifyContent: "center" }}
+                  sx={{ justifyContent: "center", }}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -439,22 +440,23 @@ const Tweets = (props) => {
                   <div className="text-center fw-bold" onClick={handleClose}>My account</div> */}
                   <Typography>
                     <CardHeader
-                      sx={{ color: "white" }}
+                      sx={{ color: "black", justifyContent:"center"}}
                       avatar={
                         <Avatar
-                          sx={{ backgroundColor: "#5865F2" }}
+                          sx={{ backgroundColor: "rgb(29, 155, 240)" }}
                           aria-label="recipe"
                         >
-                          <Icon icon="iconoir:discord" />
+                          <Icon icon="akar-icons:twitter-fill" />
                         </Avatar>
                       }
-                      // title={currentUser?.userName}
-                      subheader="Membership Status: STANDARD"
+                      title={props.auth?.userName}
+                      
                     />
                   </Typography>
                   <MenuItem>
                     {[
                       <Button
+                        className="unlink_btn"
                         style={{ color: "white", borderColor: "none" }}
                         variant="contained"
                       >
@@ -471,7 +473,7 @@ const Tweets = (props) => {
                     ))}
                   </MenuItem>
                   <div className="d-flex justify-content-center">
-                    <WalletDisconnectButton />
+                    <WalletDisconnectButton className="wallet_disconnect"/>
                   </div>
                 </Menu>
               </Typography>
@@ -535,6 +537,7 @@ const Tweets = (props) => {
                 userNotIncludeProjectsForMention
               }
               userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+              
             />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
@@ -584,7 +587,7 @@ const Tweets = (props) => {
                       }}
                       value="2"
                     >
-                      COMMING SOON...
+                      COMING SOON...
                     </TabPanel>
 
                     <TabPanel
@@ -682,7 +685,7 @@ const Tweets = (props) => {
                             }}
                             value="2"
                           >
-                            COMMING SOON...
+                            COMING SOON...
                           </TabPanel>
                         </div>
                       ) : null}

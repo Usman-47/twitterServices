@@ -6,24 +6,24 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-
-import ComboBox from "./All";
 import OthersProject from "./OthersProject";
 import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
-
+import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
   userProjectsForMention,
   userProjectsForRaid,
   userNotIncludeProjectsForRaid,
   userNotIncludeProjectsForMention,
+  
 }) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+console.log(userProjectsForRaid, 'raid project');
+console.log(userProjectsForMention, 'mention project');
   return (
     <>
       <Box
@@ -73,7 +73,18 @@ const UserDashboard = ({
                 />
               </Grid>
               <Grid item xs={6} md={6} lg={6}>
-                <ComboBox />
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                  >
+                    <option selected>All</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
               </Grid>
             </Grid>
           </Typography>
@@ -89,6 +100,7 @@ const UserDashboard = ({
                   userNotIncludeProjectsForMention
                 }
                 userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+                
               />
             </Grid>
           </TabPanel>
@@ -101,10 +113,15 @@ const UserDashboard = ({
             }}
             value="3"
           >
-            COMMING SOON...
+            COMING SOON...
           </TabPanel>
         </TabContext>
       </Box>
+      {/* <MentionProjects
+                                  currentUsers={props?.auth}
+                                  datas={data}
+                                  mention={true}
+                                /> */}
     </>
   );
 };

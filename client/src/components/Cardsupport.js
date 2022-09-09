@@ -49,13 +49,15 @@ export default function Cardsupport() {
   };
 
   return (
-    <Box sx={{ width: '100%'  ,border: 1, borderColor: '#00ACEE',borderRadius:"10px", marginTop:"20px" }} >
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <>
+    <h1 className='text-white text-center'>COMING SOON</h1>
+      {/* <Box sx={{ width: '100%'  ,border: 1, borderColor: '#00ACEE',borderRadius:"10px", marginTop:"20px" }} >
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
-          <Tab label="User Guide" {...a11yProps(0)} className='tabtext' />
-          <Tab label="Diagnoses" {...a11yProps(1)}   className='tabtext' />
-          <Tab label="Contact" {...a11yProps(2)}  className='tabtext'  />
-          <Tab label="Settings" {...a11yProps(3)}   className='tabtext' />
+          <Tab  sx={{color:"white"}} label="User Guide" {...a11yProps(0)} className='tabtext' />
+          <Tab  sx={{color:"white"}} label="Diagnoses" {...a11yProps(1)}   className='tabtext' />
+          <Tab  sx={{color:"white"}} label="Contact" {...a11yProps(2)}  className='tabtext'  />
+          <Tab  sx={{color:"white"}} label="Settings" {...a11yProps(3)}   className='tabtext' />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -63,11 +65,11 @@ export default function Cardsupport() {
       <Typography  >
       <Typography className='tabtext'>Guides</Typography>
       <Typography variant="p">
-      <ol className='listtext'>
-  <li className='tabtext'>User Guide</li>
-  <li className='tabtext'>Community onboarding Guide</li>
-  <li className='tabtext'>Premium Plan</li>
-</ol> 
+      <ol className='listtext text-white'>
+        <li className='tabtext'>User Guide</li>
+        <li className='tabtext'>Community onboarding Guide</li>
+        <li className='tabtext'>Premium Plan</li>
+      </ol> 
 </Typography>
     
         </Typography>
@@ -114,6 +116,7 @@ export default function Cardsupport() {
      
       
       </TabPanel>
-    </Box>
+    </Box> */}
+    </>
   );
 }

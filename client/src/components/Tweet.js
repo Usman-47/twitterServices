@@ -728,8 +728,9 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                   <IconButton
                     onClick={likeSpecificTweet}
                     aria-label="add to favorites"
+                    
                   >
-                    <FavoriteIcon />
+                   <Icon color="white" icon="ant-design:heart-filled" />
                   </IconButton>
                 ) : (
                   <IconButton
@@ -744,7 +745,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                 )}
                 {!isTweetRetweeted ? (
                   <IconButton onClick={retweetATweet} aria-label="share">
-                    <Icon icon="ant-design:retweet-outlined" />
+                    <Icon color="white" icon="ant-design:retweet-outlined" />
                   </IconButton>
                 ) : (
                   <IconButton

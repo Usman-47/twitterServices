@@ -579,8 +579,7 @@ const UserMentions = ({ currentUser, data }) => {
   return (
     <>
       {/* <div>Project: {projectName}</div> */}
-      <br />
-      <br />
+      
 
       <div className="mb-3">
         <label

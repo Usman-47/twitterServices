@@ -12,7 +12,7 @@ const Navigation = () => {
 
   return (
     <>
-      <PublicNavBar />
+      <PublicNavBar home={true} />
       {/* <nav className="navbar navbar-expand-md navbar-light navBar-background p-3">
         <div className="container-fluid">
         

@@ -37,7 +37,8 @@ const drawerWidth = 200;
 export default function Profledescription({currentUser}) {
   return (
     <>
-      <Typography variant="h5" className="myprofile ">
+    <h1 className="text-white text-center">COMING SOON</h1>
+      {/* <Typography variant="h5" className="myprofile ">
         My Profile
       </Typography>
       <Typography
@@ -60,7 +61,7 @@ export default function Profledescription({currentUser}) {
                 <Avatar
                   className="profile_img"
                   alt="Cindy Baker"
-                  // src={Images.profile1}
+                  src={Images.profile1}
                   sx={{ width: 130, height: 130 }}
                 />
               </Stack>
@@ -75,14 +76,14 @@ export default function Profledescription({currentUser}) {
             component="div"
             className="btnedit d-flex align-items-center justify-content-between gap-2"
           >
-            {/* <Button variant="contained" className="editprofiles">
+            <Button variant="contained" className="editprofiles">
               Edit Profile
             </Button>
-            <Icon icon="fa:share-alt-square" className="sharebutton"></Icon> */}
+            <Icon icon="fa:share-alt-square" className="sharebutton"></Icon>
           </Typography>
         </Typography>
       </Typography>
-      {/* <Tabcard /> */}
+      <Tabcard /> */}
     </>
   );
 }
