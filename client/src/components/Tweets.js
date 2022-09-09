@@ -64,7 +64,6 @@ import useDispatchFunc from "../hooks/useDispatchFunc";
 
 const drawerWidth = 240;
 const Tweets = (props) => {
-
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -181,7 +180,6 @@ const Tweets = (props) => {
   const { wallet, connect, sendTransaction, connecting, connected, publicKey } =
     useWallet();
   const [dispatch] = useDispatchFunc();
-  console.log(getAllInvoices,"getAllInvoices")
 
   useEffect(() => {
     if (flag) {
@@ -264,6 +262,11 @@ const Tweets = (props) => {
           }
         } else {
           invoice?.pool?.map((data) => {
+            var projectDetail = {
+              projectName: invoice.projectName,
+              projectTwitterUsername: invoice.projectTwitterUsername,
+              invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
+            };
             data?.tweets?.map((tweet) => {
               let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
                 (item) => item.tweetId === tweet.tweetId
@@ -275,7 +278,7 @@ const Tweets = (props) => {
                       (item) => item.tweetId === retweet.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push(tweet);
+                      raidProjectTempArray.push({ tweet, projectDetail });
                     }
                   }
                 });
@@ -290,7 +293,7 @@ const Tweets = (props) => {
                       (item) => item.tweetId === like.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push(tweet);
+                      raidProjectTempArray.push({ tweet, projectDetail });
                     }
                   }
                 });
@@ -305,13 +308,15 @@ const Tweets = (props) => {
                       (item) => item.tweetId === reply.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push(tweet);
+                      raidProjectTempArray.push({ tweet, projectDetail });
                     }
                   }
                 });
               }
               if (!isRetweeted && !isLiked && !isReply) {
-                notIncludeRaidProjectTempArray.push(tweet);
+                notIncludeRaidProjectTempArray.push({ tweet, projectDetail });
+              }
+              if (isRetweeted || isLiked || isReply) {
               }
             });
           });
@@ -334,7 +339,6 @@ const Tweets = (props) => {
       fontSize: 14,
     },
   }));
-console.log(userNotIncludeProjectsForRaid,"console")
   return (
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
@@ -477,9 +481,7 @@ console.log(userNotIncludeProjectsForRaid,"console")
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <UserDashboard
-            
-            getAllInvoices={getAllInvoices}
-            currentUser={props?.auth}
+              currentUser={props?.auth}
               userProjectsForMention={userProjectsForMention}
               userProjectsForRaid={userProjectsForRaid}
               userNotIncludeProjectsForMention={

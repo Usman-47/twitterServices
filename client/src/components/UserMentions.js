@@ -646,7 +646,7 @@ const UserMentions = ({ currentUser, data }) => {
           variant="contained"
           onClick={createTweet}
         >
-          Create Tweet
+          Verify
         </Button>
       ) : null}
       {userCreatedTweets.length > 0 ? (
