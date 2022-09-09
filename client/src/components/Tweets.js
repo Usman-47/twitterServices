@@ -64,6 +64,7 @@ import useDispatchFunc from "../hooks/useDispatchFunc";
 
 const drawerWidth = 240;
 const Tweets = (props) => {
+
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -332,7 +333,7 @@ const Tweets = (props) => {
       fontSize: 14,
     },
   }));
-
+console.log(userNotIncludeProjectsForRaid,"console")
   return (
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
@@ -475,6 +476,7 @@ const Tweets = (props) => {
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <UserDashboard
+            currentUser={props?.auth}
               userProjectsForMention={userProjectsForMention}
               userProjectsForRaid={userProjectsForRaid}
               userNotIncludeProjectsForMention={

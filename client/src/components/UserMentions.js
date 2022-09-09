@@ -16,7 +16,7 @@ import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import IDL from "./twitter_program.json";
 
 const UserMentions = ({ currentUser, data }) => {
-  // console.log(data,"usermention");
+  console.log(data,"usermention");
   const [getClientMentions, setGetClientMentions] = useState();
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
