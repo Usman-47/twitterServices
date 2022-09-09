@@ -240,72 +240,117 @@ const Tweets = (props) => {
     var notIncludeMentionProjectTempArray = [];
     var notIncludeRaidProjectTempArray = [];
     if (props.auth && getAllInvoices) {
-      getAllInvoices.map((Invoice) => {
-        props?.auth?.rewardStatus?.map((status) => {
-          if (status.projectName === Invoice.projectName && !Invoice.isRaid) {
-            mentionProjectTempArray.push(Invoice);
-          } else if (
-            status.projectName !== Invoice.projectName &&
-            !Invoice.isRaid
-          ) {
-            notIncludeMentionProjectTempArray.push(Invoice);
+      getAllInvoices.map((invoice) => {
+        if (!invoice.isRaid) {
+          let isUserMention = props?.auth?.rewardStatus.some(
+            (item) => item.projectName === invoice.projectName
+          );
+          if (isUserMention) {
+            props?.auth?.rewardStatus?.map((status) => {
+              if (status.projectName === invoice.projectName) {
+                let isTweetCreated = mentionProjectTempArray.some(
+                  (item) => item.projectName === status.projectName
+                );
+                if (!isTweetCreated) {
+                  mentionProjectTempArray.push(invoice);
+                }
+              }
+            });
+          } else {
+            props?.auth?.rewardStatus?.map((status) => {
+              if (status.projectName !== invoice.projectName) {
+                let isTweetCreated = notIncludeMentionProjectTempArray.some(
+                  (item) => item.projectName === status.projectName
+                );
+                if (!isTweetCreated) {
+                  notIncludeMentionProjectTempArray.push(invoice);
+                }
+              }
+            });
           }
-        });
-        if (Invoice?.isRaid) {
-          var tempArray = [];
-          Invoice?.pool?.map((data) => {
+        } else {
+          invoice?.pool?.map((data) => {
             data?.tweets?.map((tweet) => {
-              props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
-                if (tweet.tweetId === retweet.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === retweet.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
+              let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isRetweeted) {
+                props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+                  if (tweet.tweetId === retweet.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweetId === retweet.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push(tweet);
+                    }
                   }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === retweet.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
+                });
+              } else {
+                props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+                  if (tweet.tweetId !== retweet.tweetId) {
+                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                      (item) => item.tweetId === retweet.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      notIncludeRaidProjectTempArray.push(tweet);
+                    }
                   }
-                }
-              });
-              props?.auth?.raidStatus?.likeStatus?.map((like) => {
-                if (tweet.tweetId === like.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === like.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
+                });
+              }
+              let isLiked = props?.auth?.raidStatus?.likeStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isLiked) {
+                console.log("sdkfkdsjlj");
+                props?.auth?.raidStatus?.likeStatus?.map((like) => {
+                  if (tweet.tweetId === like.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweetId === like.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push(tweet);
+                    }
                   }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === like.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
+                });
+              } else {
+                console.log("false");
+                props?.auth?.raidStatus?.likeStatus?.map((like) => {
+                  if (tweet.tweetId !== like.tweetId) {
+                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                      (item) => item.tweetId === like.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      notIncludeRaidProjectTempArray.push(tweet);
+                    }
                   }
-                }
-              });
-              props?.auth?.raidStatus?.replyStatus?.map((reply) => {
-                if (tweet.tweetId === reply.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === reply.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
+                });
+              }
+              let isReply = props?.auth?.raidStatus?.likeStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isReply) {
+                props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+                  if (tweet.tweetId === reply.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweetId === reply.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push(tweet);
+                    }
                   }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === reply.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
+                });
+              } else {
+                props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+                  if (tweet.tweetId !== reply.tweetId) {
+                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
+                      (item) => item.tweetId === reply.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      notIncludeRaidProjectTempArray.push(tweet);
+                    }
                   }
-                }
-              });
+                });
+              }
             });
           });
         }
@@ -315,6 +360,17 @@ const Tweets = (props) => {
     setUserProjectsForRaid(raidProjectTempArray);
     setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
     setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
+
+    console.log(mentionProjectTempArray, "mentionProjectTempArray");
+    console.log(raidProjectTempArray, "raidProjectTempArray");
+    console.log(
+      notIncludeMentionProjectTempArray,
+      "notIncludeMentionProjectTempArray"
+    );
+    console.log(
+      notIncludeRaidProjectTempArray,
+      "notIncludeRaidProjectTempArray"
+    );
   }, [getAllInvoices, props.auth]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
