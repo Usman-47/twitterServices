@@ -281,18 +281,19 @@ const Tweets = (props) => {
                     }
                   }
                 });
-              } else {
-                props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
-                  if (tweet.tweetId !== retweet.tweetId) {
-                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                      (item) => item.tweetId === retweet.tweetId
-                    );
-                    if (!isTweetCreated) {
-                      notIncludeRaidProjectTempArray.push(tweet);
-                    }
-                  }
-                });
               }
+              // else {
+              //   props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+              //     if (tweet.tweetId !== retweet.tweetId) {
+              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
+              //         (item) => item.tweetId === retweet.tweetId
+              //       );
+              //       if (!isTweetCreated) {
+              //         notIncludeRaidProjectTempArray.push(tweet);
+              //       }
+              //     }
+              //   });
+              // }
               let isLiked = props?.auth?.raidStatus?.likeStatus.some(
                 (item) => item.tweetId === tweet.tweetId
               );
@@ -307,18 +308,19 @@ const Tweets = (props) => {
                     }
                   }
                 });
-              } else {
-                props?.auth?.raidStatus?.likeStatus?.map((like) => {
-                  if (tweet.tweetId !== like.tweetId) {
-                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                      (item) => item.tweetId === like.tweetId
-                    );
-                    if (!isTweetCreated) {
-                      notIncludeRaidProjectTempArray.push(tweet);
-                    }
-                  }
-                });
               }
+              // else {
+              //   props?.auth?.raidStatus?.likeStatus?.map((like) => {
+              //     if (tweet.tweetId !== like.tweetId) {
+              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
+              //         (item) => item.tweetId === like.tweetId
+              //       );
+              //       if (!isTweetCreated) {
+              //         notIncludeRaidProjectTempArray.push(tweet);
+              //       }
+              //     }
+              //   });
+              // }
               let isReply = props?.auth?.raidStatus?.likeStatus.some(
                 (item) => item.tweetId === tweet.tweetId
               );
@@ -333,17 +335,21 @@ const Tweets = (props) => {
                     }
                   }
                 });
-              } else {
-                props?.auth?.raidStatus?.replyStatus?.map((reply) => {
-                  if (tweet.tweetId !== reply.tweetId) {
-                    let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                      (item) => item.tweetId === reply.tweetId
-                    );
-                    if (!isTweetCreated) {
-                      notIncludeRaidProjectTempArray.push(tweet);
-                    }
-                  }
-                });
+              }
+              //  else {
+              //   props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+              //     if (tweet.tweetId !== reply.tweetId) {
+              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
+              //         (item) => item.tweetId === reply.tweetId
+              //       );
+              //       if (!isTweetCreated) {
+              //         notIncludeRaidProjectTempArray.push(tweet);
+              //       }
+              //     }
+              //   });
+              // }
+              if (!isRetweeted && !isLiked && !isReply) {
+                notIncludeRaidProjectTempArray.push(tweet);
               }
             });
           });
@@ -353,6 +359,7 @@ const Tweets = (props) => {
     setUserProjectsForMention(mentionProjectTempArray);
     setUserProjectsForRaid(raidProjectTempArray);
     setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
+    setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
     setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
   }, [getAllInvoices, props.auth]);
 
