@@ -253,16 +253,12 @@ const Tweets = (props) => {
               }
             });
           } else {
-            props?.auth?.rewardStatus?.map((status) => {
-              if (status.projectName !== invoice.projectName) {
-                let isTweetCreated = notIncludeMentionProjectTempArray.some(
-                  (item) => item.projectName === status.projectName
-                );
-                if (!isTweetCreated) {
-                  notIncludeMentionProjectTempArray.push(invoice);
-                }
-              }
-            });
+            let isTweetCreated = notIncludeMentionProjectTempArray.some(
+              (item) => item.projectName === invoice.projectName
+            );
+            if (!isTweetCreated) {
+              notIncludeMentionProjectTempArray.push(invoice);
+            }
           }
         } else {
           invoice?.pool?.map((data) => {
@@ -282,18 +278,6 @@ const Tweets = (props) => {
                   }
                 });
               }
-              // else {
-              //   props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
-              //     if (tweet.tweetId !== retweet.tweetId) {
-              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
-              //         (item) => item.tweetId === retweet.tweetId
-              //       );
-              //       if (!isTweetCreated) {
-              //         notIncludeRaidProjectTempArray.push(tweet);
-              //       }
-              //     }
-              //   });
-              // }
               let isLiked = props?.auth?.raidStatus?.likeStatus.some(
                 (item) => item.tweetId === tweet.tweetId
               );
@@ -309,18 +293,6 @@ const Tweets = (props) => {
                   }
                 });
               }
-              // else {
-              //   props?.auth?.raidStatus?.likeStatus?.map((like) => {
-              //     if (tweet.tweetId !== like.tweetId) {
-              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
-              //         (item) => item.tweetId === like.tweetId
-              //       );
-              //       if (!isTweetCreated) {
-              //         notIncludeRaidProjectTempArray.push(tweet);
-              //       }
-              //     }
-              //   });
-              // }
               let isReply = props?.auth?.raidStatus?.likeStatus.some(
                 (item) => item.tweetId === tweet.tweetId
               );
@@ -336,18 +308,6 @@ const Tweets = (props) => {
                   }
                 });
               }
-              //  else {
-              //   props?.auth?.raidStatus?.replyStatus?.map((reply) => {
-              //     if (tweet.tweetId !== reply.tweetId) {
-              //       let isTweetCreated = notIncludeRaidProjectTempArray.some(
-              //         (item) => item.tweetId === reply.tweetId
-              //       );
-              //       if (!isTweetCreated) {
-              //         notIncludeRaidProjectTempArray.push(tweet);
-              //       }
-              //     }
-              //   });
-              // }
               if (!isRetweeted && !isLiked && !isReply) {
                 notIncludeRaidProjectTempArray.push(tweet);
               }

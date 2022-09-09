@@ -10,6 +10,7 @@ const CreateInvoiceController = async (req, res) => {
     discordForProjectContact,
     projectTwitterUsername,
     mintCreatorAddress,
+    numberOfNft,
     isRaid,
   } = req.body;
   try {
@@ -28,6 +29,7 @@ const CreateInvoiceController = async (req, res) => {
       invoiceCreaterPublicKey: publicKey, //added here
       invoiceCreater: id,
       mintCreatorAddress: mintCreatorAddress,
+      numberOfNft: numberOfNft,
       isRaid: isRaid,
     });
     if (!createdInvoice) {

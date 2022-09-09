@@ -15,15 +15,12 @@ const UserDashboard = ({
   userProjectsForRaid,
   userNotIncludeProjectsForRaid,
   userNotIncludeProjectsForMention,
-  
 }) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-console.log(userProjectsForRaid, 'raid project');
-console.log(userProjectsForMention, 'mention project');
   return (
     <>
       <Box
@@ -100,7 +97,6 @@ console.log(userProjectsForMention, 'mention project');
                   userNotIncludeProjectsForMention
                 }
                 userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
-                
               />
             </Grid>
           </TabPanel>

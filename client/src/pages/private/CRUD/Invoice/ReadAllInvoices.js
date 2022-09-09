@@ -37,16 +37,20 @@ const ReadAllInvoices = () => {
   }
   return (
     <>
-      <div className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold " style={{background:"#333333"}}>
+      <div
+        className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold "
+        style={{ background: "#333333" }}
+      >
         <div className="px-md-4 pt-2 pb-2">
-          <div className="col border border-1" style={{overflowX:"auto"}}>
+          <div className="col border border-1" style={{ overflowX: "auto" }}>
             <table className="table table-hover text-white">
               <thead>
                 <tr>
-                  <th >Project Name</th>
-                  <th >Project twitter username </th>
-                  <th >Discord for project contact </th>
-                  <th >Creator Address For mint </th>
+                  <th>Project Name</th>
+                  <th>Project twitter username </th>
+                  <th>Discord for project contact </th>
+                  <th>Creator Address For mint </th>
+                  <th>Require Number Of Nfys </th>
                 </tr>
               </thead>
               <tbody>
@@ -59,16 +63,11 @@ const ReadAllInvoices = () => {
                         navigate(`/app/invoice/readOne/${invoiceObj._id}`)
                       }
                     >
-                      <td >{invoiceObj.projectName}</td>
-                      <td >
-                        {invoiceObj.projectTwitterUsername}
-                      </td>
-                      <td >
-                        {invoiceObj.discordForProjectContact}
-                      </td>
-                      <td >
-                        {invoiceObj.mintCreatorAddress}
-                      </td>
+                      <td>{invoiceObj.projectName}</td>
+                      <td>{invoiceObj.projectTwitterUsername}</td>
+                      <td>{invoiceObj.discordForProjectContact}</td>
+                      <td>{invoiceObj.mintCreatorAddress}</td>
+                      <td>{invoiceObj.numberOfNft}</td>
                     </tr>
                   ))}
               </tbody>
