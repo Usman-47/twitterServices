@@ -551,11 +551,13 @@ console.log(userNotIncludeProjectsForRaid,"console")
                           <>
                             {data?.isRaid === false ? (
                               <>
-                                <MentionProjects
-                                  currentUsers={props?.auth}
-                                  datas={data}
-                                  mention={true}
-                                />
+                                {data?.pool?.length > 0 ? (
+                                  <MentionProjects
+                                    currentUsers={props?.auth}
+                                    datas={data}
+                                    mention={true}
+                                  />
+                                ) : null}
                                 {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                               </>
                             ) : null}
