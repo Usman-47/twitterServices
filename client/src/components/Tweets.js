@@ -181,6 +181,7 @@ const Tweets = (props) => {
   const { wallet, connect, sendTransaction, connecting, connected, publicKey } =
     useWallet();
   const [dispatch] = useDispatchFunc();
+  console.log(getAllInvoices,"getAllInvoices")
 
   useEffect(() => {
     if (flag) {
@@ -476,6 +477,8 @@ console.log(userNotIncludeProjectsForRaid,"console")
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <UserDashboard
+            
+            getAllInvoices={getAllInvoices}
             currentUser={props?.auth}
               userProjectsForMention={userProjectsForMention}
               userProjectsForRaid={userProjectsForRaid}
