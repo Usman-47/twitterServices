@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
+  getAllInvoices,
   currentUser,
   userProjectsForMention,
   userProjectsForRaid,
@@ -94,7 +95,8 @@ const UserDashboard = ({
             value="2"
           >
             <Grid container spacing={2}>
-             {currentUser && <OthersProject
+             {currentUser && getAllInvoices && <OthersProject
+             getAllInvoices={getAllInvoices}
               currentUser={currentUser}
                 userNotIncludeProjectsForMention={
                   userNotIncludeProjectsForMention
