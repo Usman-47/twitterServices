@@ -481,8 +481,7 @@ const Tweets = (props) => {
                 userNotIncludeProjectsForMention
               }
               userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
-              currentUsers={props?.auth}
-              // datas={data}
+              
             />
           ) : selectedComponent === "Mention to Earn" ? (
             <>

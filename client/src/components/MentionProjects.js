@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 import UserMentions from "./UserMentions";
 const moment = require("moment");
 
-const MentionProjects = ({ currentUsers, datas, mention }) => {
+const MentionProjects = ({ currentUsers, datas, mention ,}) => {
   const [currentUserr, setcurrentUser] = React.useState(currentUsers);
   const [dataa, setdata] = React.useState(datas);
 
@@ -28,7 +28,7 @@ const MentionProjects = ({ currentUsers, datas, mention }) => {
     <>
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
         <div className="penta gon">
-          <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
+          <Card sx={{minHeight:"570px", width: "100%", color: "white", background: "#333333" }}>
             <CardHeader
               className="card_header"
               sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}

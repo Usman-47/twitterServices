@@ -9,19 +9,21 @@ import Grid from "@mui/material/Grid";
 import OthersProject from "./OthersProject";
 import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
-
+import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
   userProjectsForMention,
   userProjectsForRaid,
   userNotIncludeProjectsForRaid,
   userNotIncludeProjectsForMention,
+  
 }) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+console.log(userProjectsForRaid, 'raid project');
+console.log(userProjectsForMention, 'mention project');
   return (
     <>
       <Box
@@ -98,6 +100,7 @@ const UserDashboard = ({
                   userNotIncludeProjectsForMention
                 }
                 userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+                
               />
             </Grid>
           </TabPanel>
@@ -114,6 +117,11 @@ const UserDashboard = ({
           </TabPanel>
         </TabContext>
       </Box>
+      {/* <MentionProjects
+                                  currentUsers={props?.auth}
+                                  datas={data}
+                                  mention={true}
+                                /> */}
     </>
   );
 };
