@@ -275,7 +275,7 @@ const Tweets = (props) => {
                 props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
                   if (tweet.tweetId === retweet.tweetId) {
                     let isTweetCreated = raidProjectTempArray.some(
-                      (item) => item.tweetId === retweet.tweetId
+                      (item) => item.tweet.tweetId === retweet.tweetId
                     );
                     if (!isTweetCreated) {
                       raidProjectTempArray.push({ tweet, projectDetail });
@@ -290,7 +290,7 @@ const Tweets = (props) => {
                 props?.auth?.raidStatus?.likeStatus?.map((like) => {
                   if (tweet.tweetId === like.tweetId) {
                     let isTweetCreated = raidProjectTempArray.some(
-                      (item) => item.tweetId === like.tweetId
+                      (item) => item.tweet.tweetId === like.tweetId
                     );
                     if (!isTweetCreated) {
                       raidProjectTempArray.push({ tweet, projectDetail });
@@ -305,7 +305,7 @@ const Tweets = (props) => {
                 props?.auth?.raidStatus?.replyStatus?.map((reply) => {
                   if (tweet.tweetId === reply.tweetId) {
                     let isTweetCreated = raidProjectTempArray.some(
-                      (item) => item.tweetId === reply.tweetId
+                      (item) => item.tweet.tweetId === reply.tweetId
                     );
                     if (!isTweetCreated) {
                       raidProjectTempArray.push({ tweet, projectDetail });
@@ -315,8 +315,6 @@ const Tweets = (props) => {
               }
               if (!isRetweeted && !isLiked && !isReply) {
                 notIncludeRaidProjectTempArray.push({ tweet, projectDetail });
-              }
-              if (isRetweeted || isLiked || isReply) {
               }
             });
           });
