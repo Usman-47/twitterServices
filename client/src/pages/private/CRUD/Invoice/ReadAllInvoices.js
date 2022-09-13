@@ -40,7 +40,7 @@ const ReadAllInvoices = () => {
       <div className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold " style={{background:"#333333"}}>
         <div className="px-md-4 pt-2 pb-2">
           <div className="col border border-1" style={{overflowX:"auto"}}>
-            <table className="table table-hover text-white">
+            <table className="table text-white">
               <thead>
                 <tr>
                   <th >Project Name</th>
