@@ -4,17 +4,14 @@ import MentionProjects from "./MentionProjects";
 
 const OtherProjects = ({
   currentUser,
-  userNotIncludeProjectsForMention,
-  userNotIncludeProjectsForRaid,
-
+  userProjectsForMention,
+  userProjectsForRaid,
   // props, data
 }) => {
-  console.log(userNotIncludeProjectsForRaid, "ff");
-
   return (
     <>
       {currentUser &&
-        userNotIncludeProjectsForMention?.map((data) => (
+        userProjectsForMention?.map((data) => (
           <>
             <MentionProjects
               currentUsers={currentUser}
@@ -25,7 +22,7 @@ const OtherProjects = ({
         ))}
 
       {currentUser &&
-        userNotIncludeProjectsForRaid.map((data) => (
+        userProjectsForRaid.map((data) => (
           <>
             <Tweet
               currentUser={currentUser}
