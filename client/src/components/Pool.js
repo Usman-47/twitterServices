@@ -7,10 +7,12 @@ import { Grid } from "@mui/material";
 // ====================
 
 const Pool = ({ currentUser, pool, projectDetail }) => {
+  
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
 
   if (publicKey && currentUser) {
+  
     return (
       <>
       

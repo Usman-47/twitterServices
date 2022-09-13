@@ -31,7 +31,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import List from "@mui/material/List";
 import { Grid, ListItemIcon } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Divider from "@mui/material/Divider";
 import CardHeader from "@mui/material/CardHeader";
 // ======= tabs imports =======
 // import Box from '@mui/material/Box';
@@ -54,13 +53,7 @@ import Stack from "@mui/material/Stack";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserDashboard from "./userDashoard";
 import Profledescription from "./Profledescription";
@@ -145,7 +138,10 @@ const Tweets = (props) => {
                 ) : index === 7 ? (
                   <Icon color="white" icon="ant-design:setting-filled" />
                 ) : (
-                  <Icon color="white" icon="healthicons:exercise-walk-supported" />
+                  <Icon
+                    color="white"
+                    icon="healthicons:exercise-walk-supported"
+                  />
                 )}
               </ListItemIcon>
               <ListItemText style={{ color: "white" }} primary={text} />
@@ -240,72 +236,86 @@ const Tweets = (props) => {
     var notIncludeMentionProjectTempArray = [];
     var notIncludeRaidProjectTempArray = [];
     if (props.auth && getAllInvoices) {
-      getAllInvoices.map((Invoice) => {
-        props?.auth?.rewardStatus?.map((status) => {
-          if (status.projectName === Invoice.projectName && !Invoice.isRaid) {
-            mentionProjectTempArray.push(Invoice);
-          } else if (
-            status.projectName !== Invoice.projectName &&
-            !Invoice.isRaid
-          ) {
-            notIncludeMentionProjectTempArray.push(Invoice);
+      getAllInvoices.map((invoice) => {
+        if (!invoice.isRaid) {
+          let isUserMention = props?.auth?.rewardStatus.some(
+            (item) => item.projectName === invoice.projectName
+          );
+          if (isUserMention) {
+            props?.auth?.rewardStatus?.map((status) => {
+              if (status.projectName === invoice.projectName) {
+                let isTweetCreated = mentionProjectTempArray.some(
+                  (item) => item.projectName === status.projectName
+                );
+                if (!isTweetCreated) {
+                  mentionProjectTempArray.push(invoice);
+                }
+              }
+            });
+          } else {
+            let isTweetCreated = notIncludeMentionProjectTempArray.some(
+              (item) => item.projectName === invoice.projectName
+            );
+            if (!isTweetCreated) {
+              notIncludeMentionProjectTempArray.push(invoice);
+            }
           }
-        });
-        if (Invoice?.isRaid) {
-          var tempArray = [];
-          Invoice?.pool?.map((data) => {
+        } else {
+          invoice?.pool?.map((data) => {
+            var projectDetail = {
+              projectName: invoice.projectName,
+              projectTwitterUsername: invoice.projectTwitterUsername,
+              invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
+            };
             data?.tweets?.map((tweet) => {
-              props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
-                if (tweet.tweetId === retweet.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === retweet.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
+              let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isRetweeted) {
+                props?.auth?.raidStatus?.retweetStatus?.map((retweet) => {
+                  if (tweet.tweetId === retweet.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweet.tweetId === retweet.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push({ tweet, projectDetail });
+                    }
                   }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === retweet.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
+                });
+              }
+              let isLiked = props?.auth?.raidStatus?.likeStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isLiked) {
+                props?.auth?.raidStatus?.likeStatus?.map((like) => {
+                  if (tweet.tweetId === like.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweet.tweetId === like.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push({ tweet, projectDetail });
+                    }
                   }
-                }
-              });
-              props?.auth?.raidStatus?.likeStatus?.map((like) => {
-                if (tweet.tweetId === like.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === like.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
+                });
+              }
+              let isReply = props?.auth?.raidStatus?.likeStatus.some(
+                (item) => item.tweetId === tweet.tweetId
+              );
+              if (isReply) {
+                props?.auth?.raidStatus?.replyStatus?.map((reply) => {
+                  if (tweet.tweetId === reply.tweetId) {
+                    let isTweetCreated = raidProjectTempArray.some(
+                      (item) => item.tweet.tweetId === reply.tweetId
+                    );
+                    if (!isTweetCreated) {
+                      raidProjectTempArray.push({ tweet, projectDetail });
+                    }
                   }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === like.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
-                  }
-                }
-              });
-              props?.auth?.raidStatus?.replyStatus?.map((reply) => {
-                if (tweet.tweetId === reply.tweetId) {
-                  let isTweetCreated = raidProjectTempArray.some(
-                    (item) => item.tweetId === reply.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    raidProjectTempArray.push(tweet);
-                  }
-                } else {
-                  let isTweetCreated = notIncludeRaidProjectTempArray.some(
-                    (item) => item.tweetId === reply.tweetId
-                  );
-                  if (!isTweetCreated) {
-                    notIncludeRaidProjectTempArray.push(tweet);
-                  }
-                }
-              });
+                });
+              }
+              if (!isRetweeted && !isLiked && !isReply) {
+                notIncludeRaidProjectTempArray.push({ tweet, projectDetail });
+              }
             });
           });
         }
@@ -314,6 +324,7 @@ const Tweets = (props) => {
     setUserProjectsForMention(mentionProjectTempArray);
     setUserProjectsForRaid(raidProjectTempArray);
     setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
+    setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
     setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
   }, [getAllInvoices, props.auth]);
 
@@ -326,7 +337,6 @@ const Tweets = (props) => {
       fontSize: 14,
     },
   }));
-
   return (
     <>
       <Box sx={{ display: "flex", background: "black", minHeight: "100vh" }}>
@@ -349,15 +359,15 @@ const Tweets = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography sx={{ marginLeft: "auto",   }} component="div">
+            <Typography sx={{ marginLeft: "auto" }} component="div">
               <Typography
-                sx={{ display: "flex", justifyContent: "end", }}
+                sx={{ display: "flex", justifyContent: "end" }}
                 component="div"
               >
                 <Typography onClick={handleClick}>
-                  <Stack direction="row" >
+                  <Stack direction="row">
                     <Avatar
-                    backgroundColor="red"
+                      backgroundColor="red"
                       className="user_avatar"
                       alt="Cindy Baker"
                       sx={{ width: 40, height: 40 }}
@@ -365,7 +375,7 @@ const Tweets = (props) => {
                   </Stack>
                 </Typography>
                 <Menu
-                  sx={{ justifyContent: "center", }}
+                  sx={{ justifyContent: "center" }}
                   id="demo-positioned-menu"
                   aria-labelledby="demo-positioned-button"
                   anchorEl={anchorEl}
@@ -373,18 +383,14 @@ const Tweets = (props) => {
                   onClose={handleClose}
                   anchorOrigin={{
                     vertical: "top",
-                    // horizontal: "left",
                   }}
                   transformOrigin={{
                     vertical: "top",
-                    // horizontal: "left",
                   }}
                 >
-                  {/* <div className="text-center fw-bold" onClick={handleClose}>Profile</div>
-                  <div className="text-center fw-bold" onClick={handleClose}>My account</div> */}
                   <Typography>
                     <CardHeader
-                      sx={{ color: "black", justifyContent:"center"}}
+                      sx={{ color: "black", justifyContent: "center" }}
                       avatar={
                         <Avatar
                           sx={{ backgroundColor: "rgb(29, 155, 240)" }}
@@ -394,7 +400,6 @@ const Tweets = (props) => {
                         </Avatar>
                       }
                       title={props.auth?.userName}
-                      
                     />
                   </Typography>
                   <MenuItem>
@@ -417,7 +422,7 @@ const Tweets = (props) => {
                     ))}
                   </MenuItem>
                   <div className="d-flex justify-content-center">
-                    <WalletDisconnectButton className="wallet_disconnect"/>
+                    <WalletDisconnectButton className="wallet_disconnect" />
                   </div>
                 </Menu>
               </Typography>
@@ -429,7 +434,6 @@ const Tweets = (props) => {
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
           aria-label="mailbox folders"
         >
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Drawer
             container={container}
             variant="temporary"
@@ -475,13 +479,13 @@ const Tweets = (props) => {
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <UserDashboard
+              currentUser={props?.auth}
               userProjectsForMention={userProjectsForMention}
               userProjectsForRaid={userProjectsForRaid}
               userNotIncludeProjectsForMention={
                 userNotIncludeProjectsForMention
               }
               userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
-              
             />
           ) : selectedComponent === "Mention to Earn" ? (
             <>
@@ -547,11 +551,13 @@ const Tweets = (props) => {
                           <>
                             {data?.isRaid === false ? (
                               <>
-                                <MentionProjects
-                                  currentUsers={props?.auth}
-                                  datas={data}
-                                  mention={true}
-                                />
+                                {data?.pool?.length > 0 ? (
+                                  <MentionProjects
+                                    currentUsers={props?.auth}
+                                    datas={data}
+                                    mention={true}
+                                  />
+                                ) : null}
                                 {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                               </>
                             ) : null}

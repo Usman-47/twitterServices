@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -15,73 +14,48 @@ import Grid from "@mui/material/Grid";
 import { Icon } from "@iconify/react";
 import Button from "@mui/material/Button";
 import TweetsCard from "./tweetsCard";
-import Tweets from "./Tweets";
+import Tweet from "./Tweet";
 import Pool from "./Pool";
 import MentionProjects from "./MentionProjects";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
+import UserMentions from "./UserMentions";
+import TabPanel from "@mui/lab/TabPanel";
 
-const OtherProjects = (props, {
-  
+const OtherProjects = ({
+  currentUser,
   userNotIncludeProjectsForMention,
   userNotIncludeProjectsForRaid,
-  currentUser, pool, projectDetail,
+
   // props, data
 }) => {
-  console.log(props, "lopipo")
-  const { projectName } = useParams();
-  const [getAllInvoices, setGetAllInvoices] = useState();
+  console.log(userNotIncludeProjectsForRaid, "ff");
 
-
-  useEffect(() => {
-    getAllTweets()
-  }, [])
-
-  const getAllTweets = async () => {
-    var res;
-    if (!projectName) {
-      res = await axios.get(
-        `${process.env.REACT_APP_SERVERURL}/api/public/allInvoices`
-      );
-    } else {
-      res = await axios.get(
-        `${process.env.REACT_APP_SERVERURL}/api/public/invoicePoolWithProjectName/${projectName}`
-      );
-    }
-    if (res?.data?.invoicesFound) {
-      setGetAllInvoices(res?.data?.invoicesFound);
-    } else {
-      alert("No Tweet Found");
-    }
-  };
-  console.log( userNotIncludeProjectsForMention, "userNotIncludeProjectsForRaid");
-  
   return (
     <>
-         {getAllInvoices?.map((data) => (
-                    <>                   
-                              {data?.isRaid &&
-                                data?.pool?.map((pool) => (
-                                  <>
-                                    <Pool
-                                      currentUser={props?.auth}
-                                      pool={pool}
-                                      projectDetail={data}
-                                    />
-                                  </>
-                                ))}
-                            
-                            </>))}
-             {getAllInvoices?.map((data) => {
-                if(!data?.isRaid)
-            return <MentionProjects mention={true} datas={data} currentUsers={props?.auth}/>
-             })}
-   
+      {currentUser &&
+        userNotIncludeProjectsForMention?.map((data) => (
+          <>
+            <MentionProjects
+              currentUsers={currentUser}
+              datas={data}
+              mention={true}
+            />
+          </>
+        ))}
+
+      {currentUser &&
+        userNotIncludeProjectsForRaid.map((data) => (
+          <>
+            <Tweet
+              currentUser={currentUser}
+              data={data.tweet}
+              projectDetail={data.projectDetail}
+            />
+          </>
+        ))}
     </>
   );
 };
-function mapStateToProps(state) {
-  return { auth: state.auth };
-}
-export default connect(mapStateToProps)(OtherProjects);
+export default OtherProjects;

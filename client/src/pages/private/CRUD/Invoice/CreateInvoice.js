@@ -15,23 +15,13 @@ import { ADMIN, MANAGER } from "../../../../helpers/UserRoles";
 import useUserFunc from "../../../../hooks/useUserFunc";
 import { Tooltip, FormGroup, Switch, FormControlLabel } from "@mui/material";
 
-//  intialValue = {
-//   tweetUrl,
-//   sellerName,
-//   customerName,
-//   customerEmail,
-//   productName,
-//   qty,
-//   price,
-//   tax,
-//   dueDate,
-// }
 const CreateInvoice = () => {
   const initialState = {
     projectName: "",
     projectTwitterUsername: "",
     discordForProjectContact: "",
     mintCreatorAddress: "",
+    numberOfNft: "",
   };
   const [stateValues, setStateValues] = useState(initialState);
   const [isRaid, setIsRaid] = useState(false);
@@ -66,6 +56,7 @@ const CreateInvoice = () => {
       discordForProjectContact,
       projectTwitterUsername,
       mintCreatorAddress,
+      numberOfNft,
     } = stateValues;
 
     if (!projectName || !discordForProjectContact || !projectTwitterUsername) {
@@ -78,6 +69,7 @@ const CreateInvoice = () => {
       discordForProjectContact,
       projectTwitterUsername,
       mintCreatorAddress,
+      numberOfNft,
       isRaid,
     };
     const { data } = await CreateInvoiceApi(body, token);
@@ -92,10 +84,13 @@ const CreateInvoice = () => {
   };
   return (
     <>
-      <div className="container my-5 border border-1 rounded-3 p-3" style={{background:"#333333"}}>
+      <div
+        className="container my-5 border border-1 rounded-3 p-3"
+        style={{ background: "#333333" }}
+      >
         <FormGroup>
           <FormControlLabel
-          className="text-white"
+            className="text-white"
             control={
               <Switch
                 checked={isRaid}
@@ -179,6 +174,23 @@ const CreateInvoice = () => {
                 setStateValues((prev) => ({
                   ...prev,
                   mintCreatorAddress: e.target.value,
+                }))
+              }
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Number of Nfts Required</label>
+            <input
+              type="text"
+              id="tweetUrl"
+              placeholder="Require Number Of Nfts"
+              className="form-control"
+              value={stateValues.numberOfNft}
+              onChange={(e) =>
+                setStateValues((prev) => ({
+                  ...prev,
+                  numberOfNft: e.target.value,
                 }))
               }
             />

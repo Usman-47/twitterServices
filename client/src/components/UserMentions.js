@@ -16,7 +16,6 @@ import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import IDL from "./twitter_program.json";
 
 const UserMentions = ({ currentUser, data }) => {
-  // console.log(data,"usermention");
   const [getClientMentions, setGetClientMentions] = useState();
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
@@ -461,7 +460,6 @@ const UserMentions = ({ currentUser, data }) => {
   }, [userSelectTweetForClaim]);
 
   const claimRewardWithSolana = async () => {
-    console.log(claimStartTime + rewardFrequencyToClaimReward, "jhjkhjkhkj");
     if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
       alert("reward claim time is not reached after start time");
       return;
@@ -473,32 +471,33 @@ const UserMentions = ({ currentUser, data }) => {
       alert("early claim is not allowed after the claim of another tweet");
       return;
     }
-    console.log(
-      userCreatedTweetAt + rewardFrequencyToClaimReward,
-      moment().unix()
-    );
     if (userCreatedTweetAt + rewardFrequencyToClaimReward > moment().unix()) {
       alert("you tweet must be old enough");
       return;
     }
     try {
       var isClaimAble = true;
+      var countNfts = 0;
       if (data?.mintCreatorAddress) {
         isClaimAble = false;
       }
       let allCreatorOfWallet = await checkWalletNfts();
+
       if (allCreatorOfWallet && allCreatorOfWallet.length > 0) {
         allCreatorOfWallet?.map((metadata) => {
           metadata?.data?.creators?.map((creator) => {
             if (data?.mintCreatorAddress === creator?.address) {
-              isClaimAble = true;
+              countNfts++;
             }
           });
         });
+        if (countNfts >= data?.numberOfNft) {
+          isClaimAble = true;
+        }
       }
       if (!isClaimAble) {
         toast.error(
-          `You don't have token of ${data?.mintCreatorAddress} candy machine`
+          `You don't have the enough tokens of ${data?.mintCreatorAddress} candy machine`
         );
         return;
       }
@@ -579,7 +578,6 @@ const UserMentions = ({ currentUser, data }) => {
   return (
     <>
       {/* <div>Project: {projectName}</div> */}
-      
 
       <div className="mb-3">
         <label
@@ -648,7 +646,7 @@ const UserMentions = ({ currentUser, data }) => {
           variant="contained"
           onClick={createTweet}
         >
-          Create Tweet
+          Verify
         </Button>
       ) : null}
       {userCreatedTweets.length > 0 ? (

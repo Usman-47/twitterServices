@@ -11,19 +11,17 @@ import { Button } from "@mui/material";
 import ThreadModal from "./ThreadModal";
 import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
+  currentUser,
   userProjectsForMention,
   userProjectsForRaid,
   userNotIncludeProjectsForRaid,
   userNotIncludeProjectsForMention,
-  
 }) => {
   const [value, setValue] = React.useState("2");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-console.log(userProjectsForRaid, 'raid project');
-console.log(userProjectsForMention, 'mention project');
   return (
     <>
       <Box
@@ -95,13 +93,15 @@ console.log(userProjectsForMention, 'mention project');
             value="2"
           >
             <Grid container spacing={2}>
-              <OthersProject
-                userNotIncludeProjectsForMention={
-                  userNotIncludeProjectsForMention
-                }
-                userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
-                
-              />
+              {currentUser && (
+                <OthersProject
+                  currentUser={currentUser}
+                  userNotIncludeProjectsForMention={
+                    userNotIncludeProjectsForMention
+                  }
+                  userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+                />
+              )}
             </Grid>
           </TabPanel>
           <TabPanel

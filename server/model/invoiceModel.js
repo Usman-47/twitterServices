@@ -63,6 +63,9 @@ const invoiceSchema = schema({
   mintCreatorAddress: {
     type: String,
   },
+  numberOfNft: {
+    type: String,
+  },
   isRaid: {
     type: Boolean,
   },
