@@ -728,9 +728,8 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                   <IconButton
                     onClick={likeSpecificTweet}
                     aria-label="add to favorites"
-                    
                   >
-                   <Icon color="white" icon="ant-design:heart-filled" />
+                    <Icon color="white" icon="ant-design:heart-filled" />
                   </IconButton>
                 ) : (
                   <IconButton
@@ -900,13 +899,13 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     borderBottom: "1px solid gray",
                   }}
                 >
-                  <Button
+                  {/* <Button
                     className="raid_btn"
                     sx={{ paddingLeft: "70px", paddingRight: "70px" }}
                     variant="contained"
                   >
                     Raid
-                  </Button>
+                  </Button> */}
                 </Typography>
               </Typography>
             </CardContent>
