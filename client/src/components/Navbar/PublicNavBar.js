@@ -30,24 +30,21 @@ const PublicNavBar = ({ setShowSideBar, showSideBar, home }) => {
             </Typography>
             <Grid container >
               <Grid item xs={1}>
-                <Icon className="wallet-icon text-white" icon="clarity:wallet-line" />
+              {(home) ?<Icon className="wallet-icon text-white" icon="clarity:wallet-line" />: null}
               </Grid>
             </Grid>
           </Grid>
           <Grid item className="header_right">
            <div className="d-flex align-items-center gap-2">
-             {/* <Grid container spacing={5} alignItems="center">
-              <Grid item xs={1}> */}
-              <Icon className="header-icon text-white" icon="radix-icons:discord-logo" />
-              {/* </Grid>
-              <Grid item xs={1}> */}
+           {(home) ? 
+           <div className="">
+                <Icon className="header-icon text-white me-2" icon="radix-icons:discord-logo" />
+            
                 <Icon className="header-icon text-white" icon="ant-design:user-outlined" />
-              {/* </Grid> */}
-              {/* <Grid item xs={3} lg={5}> */}
+
+           </div>: null}
+            
               <WalletMultiButton className="wallet-btn" />
-                
-              {/* </Grid> */}
-            {/* </Grid> */}
            </div>
             
           </Grid>

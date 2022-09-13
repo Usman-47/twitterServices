@@ -867,6 +867,9 @@ color: white !important;
   .home_text {
     font-size: 30px;
   }
+  .header_left {
+    margin-left: unset !important;
+  }
 
   .header_right {
     margin-right: unset !important;

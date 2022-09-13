@@ -58,7 +58,7 @@ const ReadUser = () => {
     <>
       <div className="row border border-1 border-info rounded-3 p-md-5   my-3 text-dark fw-bold ">
         <div className="col border border-1">
-          <table className="table  table-hover table-responsive ">
+          <table className="table table-responsive text-white">
             <thead>
               <tr>
                 <th className="d-none d-md-table-cell">S.no</th>
