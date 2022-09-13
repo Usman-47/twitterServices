@@ -50,7 +50,7 @@ const ReadAllInvoices = () => {
                   <th>Project twitter username </th>
                   <th>Discord for project contact </th>
                   <th>Creator Address For mint </th>
-                  <th>Require Number Of Nfys </th>
+                  <th>Require Number Of NFTS </th>
                 </tr>
               </thead>
               <tbody>
