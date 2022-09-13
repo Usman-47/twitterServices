@@ -437,7 +437,7 @@ const ReadOneInvoice = ({ auth }) => {
     <div>
       <div className="border border-1 border-info rounded-3 my-5 container">
         <div className="">
-          <div className="display-2 p-3 m-3 text-center text-secondary">
+          <div className="display-2 p-3 m-3 text-center text-white">
             Pool Info
           </div>
           <div className="d-flex flex-column flex-md-row ms-auto justify-content-evenly align-content-center row p-md-5 py-2 ">

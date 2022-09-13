@@ -57,7 +57,7 @@ const CreateUser = () => {
   return (
     <>
       <div className="container my-5 p-3 border border-1 border-info rounded-3">
-        <form className="p-md-3 ">
+        <form className="p-md-3 text-white">
           <div className="mb-3">
             <label className="form-label" htmlFor="userName">
               Name
