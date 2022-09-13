@@ -264,7 +264,7 @@ const MentionProjects = ({ currentUsers, datas, mention }) => {
                 )}
               </Typography>
             </CardContent>
-            <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+            <CardActions sx={{ justifyContent: "center", position:"absolute", bottom:"6%", left:"50%", transform:"translateX(-50%)" }} disableSpacing>
               <IconButton aria-label="add to favorites">
                 <Icon color="white" icon="akar-icons:twitter-fill" />
               </IconButton>
