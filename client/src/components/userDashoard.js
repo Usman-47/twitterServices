@@ -7,9 +7,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import OthersProject from "./OthersProject";
-import { Button } from "@mui/material";
+import PastProjects from "./PastProjects";
 import ThreadModal from "./ThreadModal";
-import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
   currentUser,
   userProjectsForMention,
@@ -105,15 +104,16 @@ const UserDashboard = ({
             </Grid>
           </TabPanel>
           <TabPanel
-            sx={{
-              color: "white",
-              fontSize: "50px",
-              textAlign: "center",
-              marginTop: "70px",
-            }}
+            sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="3"
           >
-            COMING SOON...
+            {currentUser && (
+              <PastProjects
+                currentUser={currentUser}
+                userProjectsForMention={userProjectsForMention}
+                userProjectsForRaid={userProjectsForRaid}
+              />
+            )}
           </TabPanel>
         </TabContext>
       </Box>
