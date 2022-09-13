@@ -666,7 +666,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
       {/* <Grid container spacing={2}> */}
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
         <div className="penta gon ">
-          <Card sx={{ width: "100%", color: "white", background: "#333333" }}>
+          <Card sx={{ width: "100%", color: "white", background: "#333333",  minHeight: "570px", }}>
             {/* <CardHeader
                 className="card_header"
                 sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
@@ -909,7 +909,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                 </Typography>
               </Typography>
             </CardContent>
-            <CardActions sx={{ justifyContent: "center" }} disableSpacing>
+            <CardActions sx={{ justifyContent: "center", position:"absolute", bottom:"6%", left:"50%", transform:"translateX(-50%)" }} disableSpacing>
               <IconButton aria-label="add to favorites">
                 <Icon color="white" icon="akar-icons:twitter-fill" />
               </IconButton>
