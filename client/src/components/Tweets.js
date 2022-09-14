@@ -266,7 +266,10 @@ const Tweets = (props) => {
               projectName: invoice.projectName,
               projectTwitterUsername: invoice.projectTwitterUsername,
               invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
-            };
+            }
+             var pool = {startTime: data.startTime,
+              endTime: data.endTime,
+            }
             data?.tweets?.map((tweet) => {
               let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
                 (item) => item.tweetId === tweet.tweetId
@@ -278,7 +281,7 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === retweet.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail });
+                      raidProjectTempArray.push({ tweet, projectDetail,pool });
                     }
                   }
                 });
@@ -293,7 +296,7 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === like.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail });
+                      raidProjectTempArray.push({ tweet, projectDetail ,pool});
                     }
                   }
                 });
@@ -308,13 +311,13 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === reply.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail });
+                      raidProjectTempArray.push({ tweet, projectDetail,pool });
                     }
                   }
                 });
               }
               if (!isRetweeted && !isLiked && !isReply) {
-                notIncludeRaidProjectTempArray.push({ tweet, projectDetail });
+                notIncludeRaidProjectTempArray.push({ tweet, projectDetail,pool });
               }
             });
           });
@@ -324,7 +327,6 @@ const Tweets = (props) => {
     setUserProjectsForMention(mentionProjectTempArray);
     setUserProjectsForRaid(raidProjectTempArray);
     setUserNotIncludeProjectsForMention(notIncludeMentionProjectTempArray);
-    setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
     setUserNotIncludeProjectsForRaid(notIncludeRaidProjectTempArray);
   }, [getAllInvoices, props.auth]);
 
@@ -602,6 +604,7 @@ const Tweets = (props) => {
                   </Box>
                   {getAllInvoices?.map((data) => (
                     <>
+                    {console.log(data,"dashboard")}
                       {data?.isRaid ? (
                         <div>
                           <TabPanel

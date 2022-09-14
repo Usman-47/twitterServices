@@ -107,6 +107,7 @@ const UserDashboard = ({
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="3"
           >
+          <Grid container spacing={2}>
             {currentUser && (
               <PastProjects
                 currentUser={currentUser}
@@ -114,6 +115,7 @@ const UserDashboard = ({
                 userProjectsForRaid={userProjectsForRaid}
               />
             )}
+            </Grid>
           </TabPanel>
         </TabContext>
       </Box>

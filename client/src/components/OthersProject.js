@@ -27,10 +27,12 @@ const OtherProjects = ({
       {currentUser &&
         userNotIncludeProjectsForRaid.map((data) => (
           <>
+          {console.log(data,"b")}
             <Tweet
               currentUser={currentUser}
               data={data.tweet}
               projectDetail={data.projectDetail}
+              poolData={{startTime:data?.pool?.startTime,endTime:data?.pool?.endTime}}
             />
           </>
         ))}
