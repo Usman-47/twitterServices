@@ -66,8 +66,8 @@ const Dashboard = (props) => {
     if (role !== USER) {
       return (
         <>
-          <div className="container-fluid bg-black">
-            <div className="row">
+          <div className=" bg-black">
+            <div className="row dashboard_main_row">
               {/* this is sidebar */}
 
               {role === ADMIN && showSideBar && (
@@ -86,7 +86,7 @@ const Dashboard = (props) => {
               {/* this is mainscreen */}
 
               <div
-                className="col container-fluid border shadow"
+                className="col shadow"
                 style={{ minHeight: "100vh" }}
               >
                 <PublicNavBar
