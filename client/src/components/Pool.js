@@ -25,7 +25,8 @@ const Pool = ({ currentUser, pool, projectDetail }) => {
               data={data}
               currentUser={currentUser}
               projectDetail={projectDetail}
-              rewardCategory={pool?.category}
+              poolData={{rewardCategory:pool?.category,startTime:pool.startTime,endTime:pool.endTime}}
+              
             />
              
            

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+
 
 import { toast } from "react-toastify";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
@@ -37,20 +40,13 @@ import ThreadModal from "./ThreadModal";
 
 // =======
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import Grid from "@mui/material/Grid";
 // ====================
 
-const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
+const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
+  console.log(poolData,"pooldata")
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
@@ -271,19 +267,19 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
     var reward = 0;
 
     if (currentUserFallowers >= 2 && currentUserFallowers <= 99) {
-      reward = rewardCategory[0];
+      reward = poolData.rewardCategory[0];
     } else if (currentUserFallowers >= 100 && currentUserFallowers <= 299) {
-      reward = rewardCategory[1];
+      reward = poolData.rewardCategory[1];
     } else if (currentUserFallowers >= 300 && currentUserFallowers <= 499) {
-      reward = rewardCategory[2];
+      reward = poolData.rewardCategory[2];
     } else if (currentUserFallowers >= 500 && currentUserFallowers <= 999) {
-      reward = rewardCategory[3];
+      reward = poolData.rewardCategory[3];
     } else if (currentUserFallowers >= 1000 && currentUserFallowers <= 4999) {
-      reward = rewardCategory[4];
+      reward = poolData.rewardCategory[4];
     } else if (currentUserFallowers >= 5000 && currentUserFallowers <= 9999) {
-      reward = rewardCategory[5];
+      reward = poolData.rewardCategory[5];
     } else if (currentUserFallowers >= 10000) {
-      reward = rewardCategory[6];
+      reward = poolData.rewardCategory[6];
     }
 
     reward = reward * 1000000000;
@@ -770,6 +766,7 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
               </CardActions>
             </Typography>
 
+
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 <CardActions
@@ -797,7 +794,8 @@ const Tweet = ({ currentUser, data, projectDetail, rewardCategory }) => {
                     sx={{ fontSize: "12px", gap: "5px" }}
                     aria-label="share"
                   >
-                    <Typography className="active_icon"></Typography> Active
+                    <Typography className="active_icon"></Typography>
+                     Active
                     (Ends in 13h 28m 44s)
                   </IconButton>
                 </CardActions>
