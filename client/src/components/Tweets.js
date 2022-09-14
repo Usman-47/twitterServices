@@ -155,11 +155,11 @@ const Tweets = (props) => {
       </List>
       <Typography
         // component={container}
-        sx={{
-          position: "absolute",
-          bottom: "0",
-          right: "0%",
-        }}
+        // sx={{
+        //   position: "absolute",
+        //   bottom: "0",
+        //   right: "0%",
+        // }}
       >
         <CardHeader
           sx={{ color: "white" }}
