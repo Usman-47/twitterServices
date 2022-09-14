@@ -120,8 +120,16 @@
   background-color: #00acee !important;
   border-color: #00acee !important;
 }
+.dashboard_main_row{
+  --bs-gutter-x: 0rem !important; 
+}
+.nav-link{
+  display: flex !important;
+  gap: 10px;
+  padding-left: 50px !important;
+}
 .sidebar-links:hover {
-  color: #00acee;
+  color: #00acee !important;
   border-radius: 5%;
 }
 

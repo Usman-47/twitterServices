@@ -88,9 +88,27 @@ const CreateInvoice = () => {
         className="container my-5 border border-1 rounded-3 p-3"
         style={{ background: "#333333" }}
       >
+      <FormGroup>
+        
+        <FormControlLabel
+          className="text-white"
+  
+          control={
+            <Switch
+              checked={isRaid}
+              onChange={(e) => {
+                setIsRaid(e.target.checked);
+              }}
+            />
+          }
+          label="Mentions"
+        />
+      </FormGroup>
         <FormGroup>
+        
           <FormControlLabel
             className="text-white"
+    
             control={
               <Switch
                 checked={isRaid}
@@ -99,7 +117,7 @@ const CreateInvoice = () => {
                 }}
               />
             }
-            label="IsRaid"
+            label="Raid"
           />
         </FormGroup>
         <form className="p-md-3 text-white">
