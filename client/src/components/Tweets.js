@@ -41,6 +41,7 @@ import TabPanel from "@mui/lab/TabPanel";
 // import Typography from "@mui/material/Typography";
 
 import MentionProjects from "./MentionProjects";
+import Account from "./Account";
 import Rewards from "./Rewards";
 // ====================
 
@@ -112,6 +113,7 @@ const Tweets = (props) => {
           "Raid to Earn",
           "Sweep to Earn",
           "Rewards",
+          "Account",
           "Stats",
           "Profile",
           "Setting",
@@ -120,7 +122,8 @@ const Tweets = (props) => {
           <ListItem key={text} disablePadding>
           
             <ListItemButton
-              className="dashboard_list"
+           
+              className="dashboard_list text-white"
               onClick={() => setSelectedComponent(text)}
             >
               <ListItemIcon className="dasbboard_icons">
@@ -145,7 +148,7 @@ const Tweets = (props) => {
                   />
                 )}
               </ListItemIcon>
-              <ListItemText style={{ color: "white" }} primary={text} />
+              <ListItemText  primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -645,9 +648,9 @@ const Tweets = (props) => {
                 </TabContext>
               </Box>
             </>
-          ) : selectedComponent === "Rewards" ? (
-            <Rewards />
-          ) : selectedComponent === "Profile" ? (
+          ) : selectedComponent === "Account" ? (
+            <Account />
+          ):selectedComponent === "Rewards" ?( <Rewards/>) : selectedComponent === "Profile" ? (
             <Profledescription currentUser={props?.auth} />
           ) : selectedComponent === "Setting" ? (
             <Setting />
