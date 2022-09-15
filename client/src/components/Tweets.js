@@ -252,14 +252,16 @@ const Tweets = (props) => {
           }
         } else {
           invoice?.pool?.map((data) => {
+            console.log(data?.category,"reward")
             var projectDetail = {
               projectName: invoice.projectName,
               projectTwitterUsername: invoice.projectTwitterUsername,
               invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
             }
              var pool = {startTime: data.startTime,
-              endTime: data.endTime,
+              endTime: data.endTime,rewardCategory: data?.category,
             }
+            
             data?.tweets?.map((tweet) => {
               let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
                 (item) => item.tweetId === tweet.tweetId

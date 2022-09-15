@@ -103,6 +103,7 @@ module.exports = (app) => {
       const existingUser = await User.findOneAndUpdate(
         {
           twitterId: req.body.twitterId,
+          
         },
         { $push: { rewardStatus } }
       );
@@ -236,7 +237,7 @@ module.exports = (app) => {
           }
         );
       } else {
-        console.log("wronng data");
+        console.log("wrong data");
       }
 
       if (!userStatusUpdated) {
