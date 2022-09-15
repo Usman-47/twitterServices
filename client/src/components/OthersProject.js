@@ -32,7 +32,7 @@ const OtherProjects = ({
               currentUser={currentUser}
               data={data.tweet}
               projectDetail={data.projectDetail}
-              poolData={{startTime:data?.pool?.startTime,endTime:data?.pool?.endTime}}
+              poolData={{startTime:data?.pool?.startTime,endTime:data?.pool?.endTime,rewardCategory:data?.pool?.rewardCategory}}
             />
           </>
         ))}

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import moment from "moment";
+// import moment from "moment";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-
 
 import { toast } from "react-toastify";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
@@ -43,10 +42,11 @@ import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import Grid from "@mui/material/Grid";
+const moment = require("moment");
 // ====================
 
 const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
-  console.log(poolData,"pooldata")
+  console.log(poolData, "pooldata");
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
@@ -57,6 +57,8 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const [currentUserFallowers, setCurrentUserFallowers] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [updateReplyFlag, setUpdateReplyFlag] = useState();
+  const [rewards, setreward] = useState();
+  const [tweetsStatus, settweetStatus] = useState();
 
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
@@ -162,7 +164,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     var isTweetLiked = false;
     if (data?.tweetId) {
       currentUser?.raidStatus?.likeStatus?.map((tweetStatus) => {
-        if (tweetStatus === data?.tweetId) {
+        if (tweetStatus.tweetId === data?.tweetId) {
           setIsTweetLike(true);
           isTweetLiked = true;
         }
@@ -196,8 +198,14 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     var tweetIsRetweeted = false;
     if (data?.tweetId) {
       currentUser?.raidStatus?.retweetStatus?.map((tweetStatus) => {
-        if (tweetStatus === data?.tweetId) {
+        console.log(tweetStatus, "tweetStatustweetStatustweetStatus");
+
+        if (tweetStatus?.tweetId === data?.tweetId) {
+          console.log("chalta ha");
+
           setIsTweetRetweeted(true);
+          settweetStatus(tweetStatus?.rewardAmount);
+
           tweetIsRetweeted = true;
         }
       });
@@ -218,6 +226,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       }
     }
   }, [retweetStatus, currentUser, data?.tweetId]);
+  console.log(tweetsStatus, "tweetsStatussssssssssssssssss");
 
   useEffect(() => {
     if (data?.tweetId) {
@@ -283,6 +292,9 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     }
 
     reward = reward * 1000000000;
+    if (reward) {
+      setreward(reward);
+    }
     console.log(publicKey);
     if (!publicKey) {
       toast.error("PublicKey not found");
@@ -596,6 +608,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             tweetId: data?.tweetId,
             projectName,
             time: moment().unix(),
+            rewardAmount: rewards,
           },
           twitterId: currentUser?.twitterId,
         };
@@ -662,7 +675,14 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       {/* <Grid container spacing={2}> */}
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
         <div className="penta gon ">
-          <Card sx={{ width: "100%", color: "white", background: "#333333",  minHeight: "570px", }}>
+          <Card
+            sx={{
+              width: "100%",
+              color: "white",
+              background: "#333333",
+              minHeight: "570px",
+            }}
+          >
             {/* <CardHeader
                 className="card_header"
                 sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
@@ -766,7 +786,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               </CardActions>
             </Typography>
 
-
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 <CardActions
@@ -795,8 +814,15 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     aria-label="share"
                   >
                     <Typography className="active_icon"></Typography>
-                     Active
-                    (Ends in 13h 28m 44s)
+
+                    {poolData?.startTime ? (
+                      <>
+                        Active (Starts in{" "}
+                        {moment.unix(poolData?.startTime).fromNow()})
+                      </>
+                    ) : (
+                      "Not Started yet"
+                    )}
                   </IconButton>
                 </CardActions>
 
@@ -825,7 +851,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     sx={{ fontSize: "12px", gap: "5px" }}
                     aria-label="share"
                   >
-                    0.025 (SOL)
+                    0 (SOL)
                   </IconButton>
                 </CardActions>
 
@@ -854,7 +880,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     sx={{ fontSize: "12px", gap: "5px" }}
                     aria-label="share"
                   >
-                    20 (SOL)
+                    {tweetsStatus ? tweetsStatus : ""} (SOL)
                   </IconButton>
                 </CardActions>
 
@@ -907,7 +933,16 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                 </Typography>
               </Typography>
             </CardContent>
-            <CardActions sx={{ justifyContent: "center", position:"absolute", bottom:"6%", left:"50%", transform:"translateX(-50%)" }} disableSpacing>
+            <CardActions
+              sx={{
+                justifyContent: "center",
+                position: "absolute",
+                bottom: "6%",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+              disableSpacing
+            >
               <IconButton aria-label="add to favorites">
                 <Icon color="white" icon="akar-icons:twitter-fill" />
               </IconButton>
