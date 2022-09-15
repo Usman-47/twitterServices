@@ -80,21 +80,21 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   );
 
   const getCurrentUserFollower = async () => {
-    if (!currentUser?.twitterId) {
+    if (!currentUser?.id) {
       alert("Please sigin first");
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`
     );
     setCurrentUserFallowers(res?.data?.data?.length);
   };
 
   useEffect(() => {
-    if (currentUser?.twitterId) {
+    if (currentUser?.id) {
       getCurrentUserFollower();
     }
-  }, [currentUser?.twitterId]);
+  }, [currentUser?.id]);
 
   useEffect(() => {
     if (projectDetail) {
@@ -238,7 +238,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   useEffect(() => {
     if (currentUser && publicKey) {
       let data = {
-        twitterId: currentUser.twitterId,
+        twitterId: currentUser.id,
         publicKey: publicKey.toString(),
       };
       axios
@@ -256,7 +256,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.twitterId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.id}`
     );
     alert(res.data.data.length);
   };
@@ -513,7 +513,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         return;
       }
       let body = {
-        userId: currentUser?.twitterId,
+        userId: currentUser?.id,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -531,7 +531,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             projectName,
             time: moment().unix(),
           },
-          twitterId: currentUser.twitterId,
+          twitterId: currentUser.id,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
@@ -571,7 +571,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             projectName,
             time: moment().unix(),
           },
-          twitterId: currentUser.twitterId,
+          twitterId: currentUser.id,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
@@ -591,7 +591,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const retweetATweet = async () => {
     try {
       let body = {
-        userId: currentUser?.twitterId,
+        userId: currentUser?.id,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -610,7 +610,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             time: moment().unix(),
             rewardAmount: rewards,
           },
-          twitterId: currentUser?.twitterId,
+          twitterId: currentUser?.id,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,

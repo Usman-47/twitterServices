@@ -146,7 +146,7 @@ const Home = (props) => {
           token: props.auth.token,
           role: props.auth.role,
           idVerified: props.auth.isVerified,
-          twitterId: props?.auth?.twitterId,
+          twitterId: props?.auth?.id,
           accessToken: props?.auth?.accessToken,
           accessTokenSecret: props?.auth?.accessTokenSecret,
         },
