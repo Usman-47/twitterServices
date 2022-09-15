@@ -35,7 +35,11 @@
 }
 .dashboard_list {
   background-color: #00acee;
-  margin-left: 20px !important;
+  padding-left: 30px !important;
+}
+.dashboard_list:active{
+  color: #00acee !important;
+  border-bottom: 2px solid #00acee;
 }
 .dasbboard_icons {
   min-width: 35px !important;
@@ -99,6 +103,8 @@
   font-size: 0.8rem !important;
   line-height: 0.5rem !important;
 } */
+
+
 .form-select{
  /* border: 2px solid gold; */
  background-color: black !important;
