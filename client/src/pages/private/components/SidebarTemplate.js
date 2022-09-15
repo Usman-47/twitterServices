@@ -80,6 +80,7 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
               position:"absolute",
               bottom:"0",
               left:"50%",
+              width:"100%",
               transform:"translateX(-50%)"
              
             }}

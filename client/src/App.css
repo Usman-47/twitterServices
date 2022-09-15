@@ -41,14 +41,7 @@
   box-shadow: inset -6px -6px 8px rgba(5, 97, 132, 0.7);
   border-radius: 8px;
 }
-.dashboard_list {
-  background-color: #00acee;
-  padding-left: 30px !important;
-}
-.dashboard_list:active{
-  color: #00acee !important;
-  border-bottom: 2px solid #00acee;
-}
+
 .dasbboard_icons {
   min-width: 35px !important;
 }
@@ -77,18 +70,15 @@
   min-height: 601px !important;
   left: 0px;
   top: 0px;
-  /* overflow-y: scroll;
-  overflow-x: unset; */
+
 }
 
 .triangle {
   -webkit-clip-path: polygon(0 1%, 0% 100%, 100% 0);
   clip-path: polygon(0 1%, 0% 100%, 100% 0);
   position: absolute;
-  /* width: 81.63px; */
   width: 20.5%;
   height: 81.63px;
-  /* height: 20%; */
   left: 15px;
   top: 16px;
 
@@ -627,7 +617,13 @@ padding: 12px 32px !important;
   color: white !important;
   font-size: 10px !important;
 }
-/* ===== reward cards style =======  */
+/* ===== reward and account cards style =======  */
+.card_rewards{
+  background-image:  url('../src/assets/images/Rectangle.png');
+  background-position: center;
+  background-size: 100%;
+  background-color: unset !important;
+}
 .rewards_card{
   box-shadow: 5px 10px 17px rgba(0, 0, 0, 0.25) !important;
 

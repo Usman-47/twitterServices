@@ -108,47 +108,33 @@ const Tweets = (props) => {
 
       <List>
         {[
-          "Dashboard",
-          "Mention to Earn",
-          "Raid to Earn",
-          "Sweep to Earn",
-          "Rewards",
-          "Account",
-          "Stats",
-          "Profile",
-          "Setting",
-          "Support",
-        ].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          {text: "Dashboard", icon: "ic:twotone-space-dashboard"},
+          {text: "Mention to Earn", icon: "bx:at"},
+          {text: "Raid to Earn", icon: "la:retweet"},
+          {text: "Sweep to Earn", icon: "la:retweet"},
+          {text: "Rewards", icon: "arcticons:rewards"},
+          {text: "Account", icon: "gridicons:stats"},
+          {text: "Stats", icon: "bx:user"},
+          {text: "Profile", icon: "ant-design:setting-filled"},
+          {text: "Setting", icon: "healthicons:exercise-walk-supported"},
+          {text: "Support", icon: "ic:twotone-space-dashboard"},
+        ].map((obj, index) => (
+          <ListItem key={index} disablePadding>
           
             <ListItemButton
            
-              className="dashboard_list text-white"
-              onClick={() => setSelectedComponent(text)}
+              // className="dashboard_list text-white"
+              onClick={() => setSelectedComponent(obj.text)}
+              className={` ${selectedComponent === obj.text ? "text-info border-bottom border-2 border-info": "text-white"}`}
             >
-              <ListItemIcon className="dasbboard_icons">
-                {index === 0 ? (
-                  <Icon color="white" icon="ic:twotone-space-dashboard" />
-                ) : index === 1 ? (
-                  <Icon color="white" icon="bx:at" />
-                ) : index === 2 || index === 3 ? (
-                  <Icon color="white" icon="la:retweet" />
-                ) : index === 4 ? (
-                  <Icon color="white" icon="arcticons:rewards" />
-                ) : index === 5 ? (
-                  <Icon color="white" icon="gridicons:stats" />
-                ) : index === 6 ? (
-                  <Icon color="white" icon="bx:user" />
-                ) : index === 7 ? (
-                  <Icon color="white" icon="ant-design:setting-filled" />
-                ) : (
-                  <Icon
-                    color="white"
-                    icon="healthicons:exercise-walk-supported"
-                  />
-                )}
+              <ListItemIcon 
+              className="dasbboard_icons"
+              >
+                
+                  <Icon color={selectedComponent === obj.text && "#00acee"} icon={obj.icon} />
+                
               </ListItemIcon>
-              <ListItemText  primary={text} />
+              <ListItemText  primary={obj.text} />
             </ListItemButton>
           </ListItem>
         ))}
