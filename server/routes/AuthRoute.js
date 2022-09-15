@@ -49,7 +49,7 @@ module.exports = (app) => {
           role: req.user.role,
           id: req.user.twitterId,
           userName: req.user.userName,
-          twitterId: req.user.twitterId,
+          userId: req.user._id,
           rewardStatus: req.user.rewardStatus,
           raidStatus,
           amountToPay: req.user.amountToPay,
@@ -65,7 +65,7 @@ module.exports = (app) => {
           role: req.user.role,
           id: req.user.twitterId,
           userName: req.user.userName,
-          twitterId: req.user.twitterId,
+          userId: req.user._id,
           raidStatus,
           amountToPay: req.user.amountToPay,
           accessToken: req.user.accessToken,
@@ -103,7 +103,6 @@ module.exports = (app) => {
       const existingUser = await User.findOneAndUpdate(
         {
           twitterId: req.body.twitterId,
-          
         },
         { $push: { rewardStatus } }
       );

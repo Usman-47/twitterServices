@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { connect } from "react-redux";
 
 import useStatesFunc from "../../../../hooks/useStatesFunc";
 import useDispatchFunc from "../../../../hooks/useDispatchFunc";
@@ -15,7 +17,7 @@ import { ADMIN, MANAGER } from "../../../../helpers/UserRoles";
 import useUserFunc from "../../../../hooks/useUserFunc";
 import { Tooltip, FormGroup, Switch, FormControlLabel } from "@mui/material";
 
-const CreateInvoice = () => {
+const CreateInvoice = ({ auth }) => {
   const initialState = {
     projectName: "",
     projectTwitterUsername: "",
@@ -46,40 +48,54 @@ const CreateInvoice = () => {
       </>
     );
   }
-
   const SubmitForm = async (ev) => {
     ev.preventDefault();
     dispatch({ type: "loadingStart" });
-
-    const {
-      projectName,
-      discordForProjectContact,
-      projectTwitterUsername,
-      mintCreatorAddress,
-      numberOfNft,
-    } = stateValues;
-
-    if (!projectName || !discordForProjectContact || !projectTwitterUsername) {
-      toast.warning("No empty values allowed");
-      return;
-    }
-
-    const body = {
-      projectName,
-      discordForProjectContact,
-      projectTwitterUsername,
-      mintCreatorAddress,
-      numberOfNft,
-      isRaid,
+    let body = {
+      userId: auth?.userId,
     };
-    const { data } = await CreateInvoiceApi(body, token);
-    dispatch({ type: "loadingStop" });
+    const res = await axios.post(
+      `${process.env.REACT_APP_SERVERURL}/wallet/new`,
+      body
+    );
+    if (res.data.type === "success") {
+      const {
+        projectName,
+        discordForProjectContact,
+        projectTwitterUsername,
+        mintCreatorAddress,
+        numberOfNft,
+      } = stateValues;
 
-    if (data.type === "success") {
-      toast.success(data.msg);
-      navigate("/app/invoice/readAll");
+      if (
+        !projectName ||
+        !discordForProjectContact ||
+        !projectTwitterUsername
+      ) {
+        toast.warning("No empty values allowed");
+        return;
+      }
+
+      const body = {
+        projectName,
+        discordForProjectContact,
+        projectTwitterUsername,
+        mintCreatorAddress,
+        numberOfNft,
+        isRaid,
+      };
+      const { data } = await CreateInvoiceApi(body, token);
+      dispatch({ type: "loadingStop" });
+
+      if (data.type === "success") {
+        toast.success(data.msg);
+        navigate("/app/invoice/readAll");
+      } else {
+        toast.error(data.msg);
+      }
     } else {
-      toast.error(data.msg);
+      toast.error("Something went wrong");
+      dispatch({ type: "loadingStop" });
     }
   };
   return (
@@ -88,27 +104,9 @@ const CreateInvoice = () => {
         className="container my-5 border border-1 rounded-3 p-3"
         style={{ background: "#333333" }}
       >
-      <FormGroup>
-        
-        <FormControlLabel
-          className="text-white"
-  
-          control={
-            <Switch
-              checked={isRaid}
-              onChange={(e) => {
-                setIsRaid(e.target.checked);
-              }}
-            />
-          }
-          label="Mentions"
-        />
-      </FormGroup>
         <FormGroup>
-        
           <FormControlLabel
             className="text-white"
-    
             control={
               <Switch
                 checked={isRaid}
@@ -235,4 +233,8 @@ const CreateInvoice = () => {
     </>
   );
 };
-export default CreateInvoice;
+function mapStateToProps(state) {
+  return { auth: state.auth };
+}
+
+export default connect(mapStateToProps)(CreateInvoice);

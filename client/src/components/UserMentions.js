@@ -160,7 +160,7 @@ const UserMentions = ({ currentUser, data }) => {
               tweetText: tweetTextForTweetCreation,
               tweetCreatedAt: moment().unix(),
             },
-            twitterId: currentUser?.twitterId,
+            twitterId: currentUser?.id,
           };
 
           const response = await axios.patch(
@@ -340,7 +340,7 @@ const UserMentions = ({ currentUser, data }) => {
       let isTweetCreated = userCreatedTweets.some(
         (item) => item.tweetId === tweet.id
       );
-      if (tweet?.author_id === currentUser?.twitterId && !isTweetCreated) {
+      if (tweet?.author_id === currentUser?.id && !isTweetCreated) {
         tempArray.push(tweet);
       }
     });
@@ -372,21 +372,21 @@ const UserMentions = ({ currentUser, data }) => {
   }, [data?.projectTwitterUsername]);
 
   const getCurrentUserFollower = async () => {
-    if (!currentUser?.twitterId) {
+    if (!currentUser?.id) {
       alert("Please sigin first");
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`
     );
     setMentionUserFallowers(res?.data?.data?.length);
   };
 
   useEffect(() => {
-    if (currentUser?.twitterId && rewardTokenForClaim) {
+    if (currentUser?.id && rewardTokenForClaim) {
       getCurrentUserFollower();
     }
-  }, [rewardTokenForClaim, currentUser?.twitterId]);
+  }, [rewardTokenForClaim, currentUser?.id]);
 
   useEffect(() => {
     if (rewardTokenForClaim) {

@@ -35,6 +35,7 @@ const AuthRoute = require("./routes/AuthRoute");
 const PublicRoute = require("./routes/PublicRoute");
 const PrivateRoute = require("./routes/PrivateRoute");
 const InvoiceCrudRoute = require("./routes/InvoiceCrudRoute");
+const CreateWalletRoute = require("./routes/CreateWalletRoute");
 const UserCrudRoute = require("./routes/UserCrudRoute");
 const tweets = require("./routes/tweets");
 
@@ -46,6 +47,7 @@ app.use("/api/private", AuthCheck, PrivateRoute);
 app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
 app.use("/tweet", tweets);
+app.use("/wallet", CreateWalletRoute);
 
 async function setUser(req, res, next) {
   const twitterId = req.body.twitterId;
