@@ -817,8 +817,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
                     {poolData?.startTime ? (
                       <>
-                        Active (Starts in{" "}
-                        {moment.unix(poolData?.startTime).fromNow()})
+                        Active ( {moment.unix(poolData?.startTime).fromNow()})
                       </>
                     ) : (
                       "Not Started yet"
