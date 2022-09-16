@@ -108,44 +108,45 @@ const Tweets = (props) => {
 
       <List>
         {[
-          {text: "Dashboard", icon: "ic:twotone-space-dashboard"},
-          {text: "Mention to Earn", icon: "bx:at"},
-          {text: "Raid to Earn", icon: "la:retweet"},
-          {text: "Sweep to Earn", icon: "la:retweet"},
-          {text: "Rewards", icon: "arcticons:rewards"},
-          {text: "Account", icon: "gridicons:stats"},
-          {text: "Stats", icon: "bx:user"},
-          {text: "Profile", icon: "ant-design:setting-filled"},
-          {text: "Setting", icon: "healthicons:exercise-walk-supported"},
-          {text: "Support", icon: "ic:twotone-space-dashboard"},
+          { text: "Dashboard", icon: "ic:twotone-space-dashboard" },
+          { text: "Mention to Earn", icon: "bx:at" },
+          { text: "Raid to Earn", icon: "la:retweet" },
+          { text: "Sweep to Earn", icon: "la:retweet" },
+          { text: "Rewards", icon: "arcticons:rewards" },
+          { text: "Account", icon: "gridicons:stats" },
+          { text: "Stats", icon: "bx:user" },
+          { text: "Profile", icon: "ant-design:setting-filled" },
+          { text: "Setting", icon: "healthicons:exercise-walk-supported" },
+          { text: "Support", icon: "ic:twotone-space-dashboard" },
         ].map((obj, index) => (
           <ListItem key={index} disablePadding>
-          
             <ListItemButton
-           
               // className="dashboard_list text-white"
               onClick={() => setSelectedComponent(obj.text)}
-              className={` ${selectedComponent === obj.text ? "text-info border-bottom border-2 border-info": "text-white"}`}
+              className={` ${
+                selectedComponent === obj.text
+                  ? "text-info border-bottom border-2 border-info"
+                  : "text-white"
+              }`}
             >
-              <ListItemIcon 
-              className="dasbboard_icons"
-              >
-                
-                  <Icon color={selectedComponent === obj.text && "#00acee"} icon={obj.icon} />
-                
+              <ListItemIcon className="dasbboard_icons">
+                <Icon
+                  color={selectedComponent === obj.text && "#00acee"}
+                  icon={obj.icon}
+                />
               </ListItemIcon>
-              <ListItemText  primary={obj.text} />
+              <ListItemText primary={obj.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
       <Typography
-        // component={container}
-        // sx={{
-        //   position: "absolute",
-        //   bottom: "0",
-        //   right: "0%",
-        // }}
+      // component={container}
+      // sx={{
+      //   position: "absolute",
+      //   bottom: "0",
+      //   right: "0%",
+      // }}
       >
         <CardHeader
           sx={{ color: "white" }}
@@ -252,16 +253,17 @@ const Tweets = (props) => {
           }
         } else {
           invoice?.pool?.map((data) => {
-            console.log(data?.category,"reward")
             var projectDetail = {
               projectName: invoice.projectName,
               projectTwitterUsername: invoice.projectTwitterUsername,
               invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
-            }
-             var pool = {startTime: data.startTime,
-              endTime: data.endTime,rewardCategory: data?.category,
-            }
-            
+            };
+            var pool = {
+              startTime: data.startTime,
+              endTime: data.endTime,
+              rewardCategory: data?.category,
+            };
+
             data?.tweets?.map((tweet) => {
               let isRetweeted = props?.auth?.raidStatus?.retweetStatus.some(
                 (item) => item.tweetId === tweet.tweetId
@@ -273,7 +275,7 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === retweet.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail,pool });
+                      raidProjectTempArray.push({ tweet, projectDetail, pool });
                     }
                   }
                 });
@@ -288,7 +290,7 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === like.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail ,pool});
+                      raidProjectTempArray.push({ tweet, projectDetail, pool });
                     }
                   }
                 });
@@ -303,13 +305,17 @@ const Tweets = (props) => {
                       (item) => item.tweet.tweetId === reply.tweetId
                     );
                     if (!isTweetCreated) {
-                      raidProjectTempArray.push({ tweet, projectDetail,pool });
+                      raidProjectTempArray.push({ tweet, projectDetail, pool });
                     }
                   }
                 });
               }
               if (!isRetweeted && !isLiked && !isReply) {
-                notIncludeRaidProjectTempArray.push({ tweet, projectDetail,pool });
+                notIncludeRaidProjectTempArray.push({
+                  tweet,
+                  projectDetail,
+                  pool,
+                });
               }
             });
           });
@@ -596,7 +602,7 @@ const Tweets = (props) => {
                   </Box>
                   {getAllInvoices?.map((data) => (
                     <>
-                    {console.log(data,"dashboard")}
+                      {console.log(data, "dashboard")}
                       {data?.isRaid ? (
                         <div>
                           <TabPanel
@@ -611,11 +617,14 @@ const Tweets = (props) => {
                               {data?.isRaid &&
                                 data?.pool?.map((pool) => (
                                   <>
-                                    <Pool
-                                      currentUser={props?.auth}
-                                      pool={pool}
-                                      projectDetail={data}
-                                    />
+                                    {console.log(pool, "rooldata")}
+                                    {pool?.endTime * 1000 > Date.now() ? (
+                                      <Pool
+                                        currentUser={props?.auth}
+                                        pool={pool}
+                                        projectDetail={data}
+                                      />
+                                    ) : null}
                                   </>
                                 ))}
                             </Grid>
@@ -624,13 +633,25 @@ const Tweets = (props) => {
                           <TabPanel
                             sx={{
                               color: "white",
-                              fontSize: "50px",
-                              textAlign: "center",
-                              marginTop: "70px",
+                              padding: "0 !important",
+                              marginTop: "30px",
                             }}
                             value="2"
                           >
-                            COMING SOON...
+                            <Grid container spacing={2}>
+                              {data?.isRaid &&
+                                data?.pool?.map((pool) => (
+                                  <>
+                                    {pool?.endTime * 1000 < Date.now() ? (
+                                      <Pool
+                                        currentUser={props?.auth}
+                                        pool={pool}
+                                        projectDetail={data}
+                                      />
+                                    ) : null}
+                                  </>
+                                ))}
+                            </Grid>
                           </TabPanel>
                         </div>
                       ) : null}
@@ -641,7 +662,9 @@ const Tweets = (props) => {
             </>
           ) : selectedComponent === "Account" ? (
             <Account />
-          ):selectedComponent === "Rewards" ?( <Rewards/>) : selectedComponent === "Profile" ? (
+          ) : selectedComponent === "Rewards" ? (
+            <Rewards />
+          ) : selectedComponent === "Profile" ? (
             <Profledescription currentUser={props?.auth} />
           ) : selectedComponent === "Setting" ? (
             <Setting />
