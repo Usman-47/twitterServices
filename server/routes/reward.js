@@ -4,9 +4,9 @@ const Reward = require("../model/reward");
 
 var router = express.Router();
 
-router.get("/", async function (req, res) {
+router.get("/:projectName/:poolAddress", async function (req, res) {
   try {
-    const { projectName, poolAddress } = req.body;
+    const { projectName, poolAddress } = req.params;
     var reward = await Reward.find({
       $and: [
         {

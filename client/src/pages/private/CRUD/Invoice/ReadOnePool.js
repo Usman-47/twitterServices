@@ -161,6 +161,12 @@ const ReadOneInvoice = ({ auth }) => {
 
   const airDrop = async () => {
     invoiceData[0]?.pool[0];
+    const res = await axios.get(
+      `${process.env.REACT_APP_SERVERURL}/${invoiceData[0]}/${invoiceData[0]?.pool[0].solanaPoolAddress}`,
+      {
+        withCredentials: true,
+      }
+    );
   };
 
   const fundUserPool = async () => {
