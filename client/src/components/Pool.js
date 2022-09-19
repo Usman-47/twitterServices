@@ -7,32 +7,27 @@ import { Grid } from "@mui/material";
 // ====================
 
 const Pool = ({ currentUser, pool, projectDetail }) => {
-  
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
 
   if (publicKey && currentUser) {
-  
     return (
       <>
-      
-       
-       {pool?.tweets &&
+        {pool?.tweets &&
           pool?.tweets.map((data) => (
-           
-           
-            <Tweet
-              data={data}
-              currentUser={currentUser}
-              projectDetail={projectDetail}
-              poolData={{rewardCategory:pool?.category,startTime:pool.startTime,endTime:pool.endTime}}
-              
-            />
-             
-           
+            <>
+              <Tweet
+                data={data}
+                currentUser={currentUser}
+                projectDetail={projectDetail}
+                poolData={{
+                  rewardCategory: pool?.category,
+                  startTime: pool.startTime,
+                  endTime: pool?.endTime || pool[" endTime"],
+                }}
+              />
+            </>
           ))}
-      
-      
       </>
     );
   }

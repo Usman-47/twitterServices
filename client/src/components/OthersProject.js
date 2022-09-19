@@ -9,8 +9,6 @@ const OtherProjects = ({
 
   // props, data
 }) => {
-  console.log(userNotIncludeProjectsForRaid, "ff");
-
   return (
     <>
       {currentUser &&
@@ -27,12 +25,15 @@ const OtherProjects = ({
       {currentUser &&
         userNotIncludeProjectsForRaid.map((data) => (
           <>
-          {console.log(data,"b")}
             <Tweet
               currentUser={currentUser}
               data={data.tweet}
               projectDetail={data.projectDetail}
-              poolData={{startTime:data?.pool?.startTime,endTime:data?.pool?.endTime,rewardCategory:data?.pool?.rewardCategory}}
+              poolData={{
+                startTime: data?.pool?.startTime,
+                endTime: data?.pool?.endTime || data?.pool[" endTime"],
+                rewardCategory: data?.pool?.rewardCategory,
+              }}
             />
           </>
         ))}
