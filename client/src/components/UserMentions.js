@@ -544,8 +544,7 @@ const UserMentions = ({ currentUser, data }) => {
       const body = {
         tweetId: userSelectTweetForClaim,
         projectName,
-        // mintAddress,
-        // poolAddress,
+        mintAddress: new PublicKey(rewardTokenForClaim),
         rewardToken,
         invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
         userPublicKey: PublicKey,
