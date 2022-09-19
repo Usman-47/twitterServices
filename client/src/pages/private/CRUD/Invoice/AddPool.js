@@ -45,7 +45,7 @@ import moment from "moment";
 //   tax,
 //   dueDate,
 // }
-const CreateInvoice = () => {
+const AddPool = ({ auth }) => {
   const initialState = {
     amount: "",
     startTime: "",
@@ -127,7 +127,7 @@ const CreateInvoice = () => {
   }
 
   const initializeUserPool = async () => {
-    let limit = 1;
+    var limit = 1;
     if (stateValues.rewardFrequency === "week") {
       limit = 7;
     } else if (stateValues.rewardFrequency === "month") {
@@ -406,6 +406,12 @@ const CreateInvoice = () => {
         splToken,
       } = stateValues;
 
+      var timeLimit = 1;
+      if (rewardFrequency === "week") {
+        timeLimit = 7;
+      } else if (rewardFrequency === "month") {
+        timeLimit = 30;
+      }
       for (var i = 0; i < category.length; i++) {
         if (category[i] === "") {
           toast.warning("No empty values allowed");
@@ -437,36 +443,49 @@ const CreateInvoice = () => {
         }
         let result = await solConnection.confirmTransaction(transactionData.tx);
       } else {
-        transactionData = await initializeUserPool();
-        if (transactionData === undefined) {
-          dispatch({ type: "loadingStop" });
-          return;
-        }
-        let result = await solConnection.confirmTransaction(transactionData.tx);
-      }
-      const body = {
-        pool: {
-          amount,
+        const body = {
+          funds: amount,
           startTime,
-          endTime,
+          timeLimit,
           category,
           rewardFrequency,
-          solanaPoolAddress: transactionData.poolAddress,
           splToken,
-        },
-      };
-      const { data } = await UpdateInvoiceApi(id, body, token);
-      dispatch({ type: "loadingStop" });
-
-      if (data.type === "success") {
-        toast.success(data.msg);
-        navigate(`/app/invoice/readOne/readAllPool/${id}`);
-      } else {
-        toast.error(data.msg);
+          projectName,
+        };
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${token}`,
+            },
+          }
+        );
       }
+      // const body = {
+      //   pool: {
+      //     amount,
+      //     startTime,
+      //     endTime,
+      //     category,
+      //     rewardFrequency,
+      //     solanaPoolAddress: transactionData.poolAddress,
+      //     splToken,
+      //   },
+      // };
+      // const { data } = await UpdateInvoiceApi(id, body, token);
+      // dispatch({ type: "loadingStop" });
+
+      // if (data.type === "success") {
+      //   toast.success(data.msg);
+      //   navigate(`/app/invoice/readOne/readAllPool/${id}`);
+      // } else {
+      //   toast.error(data.msg);
+      // }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+      dispatch({ type: "loadingStop" });
     }
   };
 
@@ -481,7 +500,7 @@ const CreateInvoice = () => {
   return (
     <>
       <div className="container my-5 p-3 border border-1 border-info rounded-3">
-        <form className="p-md-3 ">
+        <form className="p-md-3 text-white">
           <div className="mb-3">
             <label className="form-label">Amount </label>
             <input
@@ -499,7 +518,7 @@ const CreateInvoice = () => {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-3 ">
             <label className="form-label" htmlFor="timeToclaim">
               Start Time
             </label>
@@ -728,4 +747,4 @@ const CreateInvoice = () => {
 function mapStateToProps(state) {
   return { auth: state.auth };
 }
-export default connect(mapStateToProps)(CreateInvoice);
+export default connect(mapStateToProps)(AddPool);

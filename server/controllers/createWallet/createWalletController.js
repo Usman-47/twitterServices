@@ -4,6 +4,7 @@ const Wallet = require("../../model/walletModel");
 // const { encryptFunc } = require("../../util/cryptoFunc");
 const { Program, web3 } = require("@project-serum/anchor");
 const anchor = require("@project-serum/anchor");
+const bs58 = require("bs58");
 const {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -36,49 +37,20 @@ const PROGRAM_ID = new anchor.web3.PublicKey(
 const idl = JSON.parse(
   fs.readFileSync(__dirname + "/twitter_program.json", "utf8")
 );
-anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("devnet")));
-const solConnection = anchor.getProvider().connection;
-const program = new anchor.Program(idl, PROGRAM_ID);
 
-let oldWallet = Keypair.fromSecretKey(
-  new Uint8Array([
-    190, 159, 62, 11, 223, 105, 148, 57, 187, 238, 45, 245, 134, 232, 118, 39,
-    40, 242, 112, 177, 83, 142, 165, 133, 139, 72, 49, 103, 145, 246, 135, 67,
-    87, 167, 0, 39, 154, 94, 81, 58, 215, 23, 40, 189, 71, 96, 230, 237, 218,
-    168, 97, 22, 225, 178, 244, 52, 201, 152, 93, 198, 153, 22, 159, 33,
-  ])
-);
+anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("devnet")));
+// const solConnection = anchor.getProvider().connection;
+var solConnection = new web3.Connection(web3.clusterApiUrl("devnet"), {
+  commitment: "confirmed",
+  confirmTransactionInitialTimeout: 12000,
+});
+const program = new anchor.Program(idl, PROGRAM_ID);
 
 const mintAddress = NATIVE_MINT;
 // const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
 const projectName = "test-with-api-2";
 const tweetId = "test-id-3";
-const clientAddress = oldWallet.publicKey;
-
-const getWallet = async (req, res) => {
-  try {
-    const { userId } = req.body;
-
-    let wallet = await Wallet.findOne({
-      accountHolder: mongoose.Types.ObjectId(userId),
-    });
-    if (wallet) {
-      return res.send({
-        msg: "Wallet Found Successfully",
-        PublicKey: wallet.publicKey.toString(),
-        type: "success",
-      });
-    } else {
-      return res.send({
-        msg: "Wallet Not Found",
-        type: "fail",
-      });
-    }
-  } catch (e) {
-    console.log(e.message, " err-in createUserController");
-    res.status(500).send({ msg: e.message, type: "failed" });
-  }
-};
+// const clientAddress = oldWallet.publicKey;
 
 let privateKey = null;
 const createWallet = async (req, res) => {
@@ -93,12 +65,12 @@ const createWallet = async (req, res) => {
       console.log(newWallet.publicKey.toString());
       console.log(newWallet.secretKey);
       privateKey = newWallet.secretKey;
-      const wallet = new Wallet({
+      const walletData = new Wallet({
         accountHolder: mongoose.Types.ObjectId(userId),
         publicKey: newWallet.publicKey.toString(),
         privateKey: newWallet.secretKey,
       });
-      await wallet.save();
+      await walletData.save();
       return res.send({
         msg: "Wallet Created Successfully",
         PublicKey: newWallet.publicKey.toString(),
@@ -111,13 +83,18 @@ const createWallet = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e.message, " err-in createUserController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
 const airDrop = async (req, res) => {
   try {
+    let wallet = await Wallet.findOne({
+      accountHolder: mongoose.Types.ObjectId(userId),
+    });
+
+    let clientAddress = wallet.publicKey;
     let tx = new Transaction();
 
     const userAddress = new PublicKey(req.query.user);
@@ -221,169 +198,165 @@ const airDrop = async (req, res) => {
     });
     // res.send({ msg: "under development", YourWallet: oldWallet.publicKey.toString(), type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in createUserController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
 const initializeUserPool = async (req, res) => {
   try {
-    const startTime = "";
-    const timeLimit = 4;
-    const funds = 1000_000_000; // 10 SPL
+    const blockhashResponse = solConnection.getLatestBlockhashAndContext();
+    // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
+    let walletObject = await Wallet.findOne({
+      accountHolder: mongoose.Types.ObjectId(req.userObj.id),
+    });
+    if (walletObject) {
+      var arrayString = walletObject.privateKey.split(",");
+      for (i = 0; i < arrayString.length; i++) {
+        arrayString[i] = parseInt(arrayString[i]);
+      }
+      let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
+      let { funds, startTime, timeLimit, splToken, projectName } = req.body;
+      funds = funds * 1000000000;
+      const mintAddress = new PublicKey(splToken);
 
-    const [globalAuth, globalBump] =
-      await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("global-authority")],
-        // new anchor.BN(47).toArrayLike(Buffer)],
+      const [globalAuth, globalBump] =
+        await anchor.web3.PublicKey.findProgramAddress(
+          [Buffer.from("global-authority")],
+          program.programId
+        );
+      console.log(globalAuth.toString(), "globalAuth");
+
+      const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("pool"),
+          oldWallet.publicKey.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
         program.programId
       );
-    console.log(globalAuth.toString(), "globalAuth");
+      console.log(poolAddress.toString(), "poolAddress");
 
-    const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("pool"),
-        oldWallet.publicKey.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
-    console.log(poolAddress.toString(), "poolAddress");
-
-    const [poolSolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("pool"),
-        oldWallet.publicKey.toBuffer(),
-        //  mintAddress.toBuffer(),
-        //  Buffer.from(projectName),
-      ],
-      SystemProgram.programId
-    );
-    console.log(poolSolAddress.toString(), "poolSolAddress");
-
-    let clientAta = (
-      await PublicKey.findProgramAddress(
+      const [poolSolAddress] = await anchor.web3.PublicKey.findProgramAddress(
         [
+          anchor.utils.bytes.utf8.encode("pool"),
           oldWallet.publicKey.toBuffer(),
-          TOKEN_PROGRAM_ID.toBuffer(),
-          mintAddress.toBuffer(), // mint address
         ],
-        ASSOCIATED_TOKEN_PROGRAM_ID
-      )
-    )[0];
-    console.log(mintAddress.toString(), "mint Address");
-    console.log(NATIVE_MINT == mintAddress, "Mint native");
-    // let temp = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, NATIVE_MINT, oldWallet.publicKey)
-    // console.log(temp.toString(), "temp")
+        SystemProgram.programId
+      );
+      console.log(poolSolAddress.toString(), "poolSolAddress");
 
-    console.log(clientAta.toString(), "associatedTokenAccountPubkey");
-    const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("poolAta"),
-        oldWallet.publicKey.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
-    // const walletCTemp = Keypair.generate();
-    console.log(poolAta.toString(), "poolAta");
-    const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-      oldWallet.publicKey,
-      { mint: mintAddress }
-    );
+      let clientAta = (
+        await PublicKey.findProgramAddress(
+          [
+            oldWallet.publicKey.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            mintAddress.toBuffer(), // mint address
+          ],
+          ASSOCIATED_TOKEN_PROGRAM_ID
+        )
+      )[0];
+      console.log(mintAddress.toString(), "mint Address");
+      console.log(NATIVE_MINT == mintAddress, "Mint native");
 
-    let instructions = [];
-    if (userAtaCheck.value.length === 0) {
-      if (NATIVE_MINT.toString() === mintAddress.toString()) {
-        instructions.push(
-          Token.createAssociatedTokenAccountInstruction(
-            ASSOCIATED_TOKEN_PROGRAM_ID,
-            TOKEN_PROGRAM_ID,
-            mintAddress,
-            clientAta,
-            oldWallet.publicKey,
-            oldWallet.publicKey
-          ),
-          // Token.createTransferInstruction(TOKEN_PROGRAM_ID, oldWallet.publicKey, clientAta, oldWallet.publicKey, [], 100000000)
-          SystemProgram.transfer({
-            fromPubkey: oldWallet.publicKey,
-            toPubkey: clientAta,
-            lamports: funds,
-          }),
-          // TOKEN_PROGRAM_ID, oldWallet.publicKey, clientAta, oldWallet.publicKey, [], 100000000
-          // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, oldWallet.publicKey, oldWallet, 100000000)
-          // ,
-          Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-        );
-        console.log("wrapped");
+      console.log(clientAta.toString(), "associatedTokenAccountPubkey");
+      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("poolAta"),
+          oldWallet.publicKey.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
+        program.programId
+      );
+      console.log(poolAta.toString(), "poolAta");
+      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
+        oldWallet.publicKey,
+        { mint: mintAddress }
+      );
+
+      let instructions = [];
+      if (userAtaCheck.value.length === 0) {
+        if (NATIVE_MINT.toString() === mintAddress.toString()) {
+          instructions.push(
+            Token.createAssociatedTokenAccountInstruction(
+              ASSOCIATED_TOKEN_PROGRAM_ID,
+              TOKEN_PROGRAM_ID,
+              mintAddress,
+              clientAta,
+              oldWallet.publicKey,
+              oldWallet.publicKey
+            ),
+            SystemProgram.transfer({
+              fromPubkey: oldWallet.publicKey,
+              toPubkey: clientAta,
+              lamports: funds,
+            }),
+            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
+          );
+          console.log("wrapped");
+        }
+      } else {
+        if (NATIVE_MINT.toString() === mintAddress.toString()) {
+          instructions.push(
+            SystemProgram.transfer({
+              fromPubkey: oldWallet.publicKey,
+              toPubkey: clientAta,
+              lamports: funds,
+            }),
+            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
+          );
+        }
       }
+
+      console.log(oldWallet.publicKey.toString(), "public key");
+
+      const txNew = new Transaction();
+
+      txNew.feePayer = oldWallet.publicKey;
+      if (instructions.length > 0) txNew.add(instructions);
+      const tx = program.instruction.initializeUserPool(
+        projectName,
+        startTime,
+        new anchor.BN(timeLimit),
+        new anchor.BN(funds),
+        {
+          accounts: {
+            client: oldWallet.publicKey,
+            globalAuthority: globalAuth,
+            pool: poolAddress,
+            // poolSol: poolSolAddress,
+            poolAta: poolAta,
+            poolMint: mintAddress,
+            clientAta: clientAta,
+            systemProgram: SystemProgram.programId,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            rent: SYSVAR_RENT_PUBKEY,
+          },
+          // signers: [oldWallet],
+          // instructions,
+        }
+      );
+      txNew.add(tx);
+
+      let response = await solConnection.sendTransaction(txNew, [oldWallet]);
+      await solConnection.confirmTransaction(response);
+      res.send({
+        msg: "pool created",
+        YourWallet: oldWallet.publicKey.toString(),
+        tx: response,
+        type: "success",
+      });
     } else {
-      if (NATIVE_MINT.toString() === mintAddress.toString()) {
-        instructions.push(
-          // Token.createTransferInstruction(TOKEN_PROGRAM_ID, oldWallet.publicKey, clientAta, oldWallet.publicKey, [], 100000000)
-          SystemProgram.transfer({
-            fromPubkey: oldWallet.publicKey,
-            toPubkey: clientAta,
-            lamports: funds,
-          }),
-          // TOKEN_PROGRAM_ID, oldWallet.publicKey, clientAta, oldWallet.publicKey, [], 100000000
-          // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, oldWallet.publicKey, oldWallet, 100000000)
-          // ,
-          Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-        );
-      }
+      res.send({
+        msg: "pool created",
+        YourWallet: "Wallet Not Found",
+        type: "fail",
+      });
     }
-
-    // const solTransferTransaction = new Transaction()
-    // .add(
-    //   SystemProgram.transfer({
-    //     fromPubkey: oldWallet.publicKey,
-    //     toPubkey: clientAta,
-    //     lamports: 1000000000
-    //   }),
-    //   Token.createSyncNativeInstruction(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, clientAta)
-    //   )
-
-    //   let blockhash = await solConnection.getLatestBlockhash('finalized').blockhash;
-    //   solTransferTransaction.recentBlockhash = blockhash;
-
-    //   await oldWallet.signTransaction(solTransferTransaction)
-
-    console.log(oldWallet.publicKey.toString(), "public key");
-
-    const tx = await program.rpc.initializeUserPool(
-      projectName,
-      startTime,
-      new anchor.BN(timeLimit),
-      new anchor.BN(funds),
-      {
-        accounts: {
-          client: oldWallet.publicKey,
-          globalAuthority: globalAuth,
-          pool: poolAddress,
-          // poolSol: poolSolAddress,
-          poolAta: poolAta,
-          poolMint: mintAddress,
-          clientAta: clientAta,
-          systemProgram: SystemProgram.programId,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          rent: SYSVAR_RENT_PUBKEY,
-        },
-        signers: [oldWallet],
-        instructions,
-      }
-    );
-
-    res.send({
-      msg: "pool created",
-      YourWallet: oldWallet.publicKey.toString(),
-      tx: tx,
-      type: "success",
-    });
   } catch (e) {
-    console.log(e.message, " err-in createUserController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
@@ -467,7 +440,7 @@ const createTweet = async (req, res) => {
       type: "success",
     });
   } catch (e) {
-    console.log(e.message, " err-in createUserController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
@@ -641,7 +614,7 @@ const claimReward = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e.message, " err-in createUserController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
@@ -652,5 +625,4 @@ module.exports = {
   initializeUserPool,
   createTweet,
   claimReward,
-  getWallet,
 };

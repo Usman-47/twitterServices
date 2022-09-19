@@ -56,7 +56,12 @@ const CreateInvoice = ({ auth }) => {
     };
     const res = await axios.post(
       `${process.env.REACT_APP_SERVERURL}/wallet/new`,
-      body
+      body,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     if (res.data.type === "success") {
       const {
