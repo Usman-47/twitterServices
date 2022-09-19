@@ -458,7 +458,7 @@ const UserMentions = ({ currentUser, data }) => {
       });
     }
   }, [userSelectTweetForClaim]);
-
+  console.log(publicKey, "publickey");
   const claimRewardWithSolana = async () => {
     if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
       alert("reward claim time is not reached after start time");
@@ -544,10 +544,11 @@ const UserMentions = ({ currentUser, data }) => {
       const body = {
         tweetId: userSelectTweetForClaim,
         projectName,
-        mintAddress: new PublicKey(rewardTokenForClaim),
+        // mintAddress,
+        // poolAddress,
         rewardToken,
         invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
-        userPublicKey: PublicKey,
+        userPublicKey: publicKey,
       };
 
       const response = await axios.patch(
