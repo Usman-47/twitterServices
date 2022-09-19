@@ -31,6 +31,10 @@ const rewardSchema = schema({
         type: String,
         required: true,
       },
+      userPublicKey: {
+        type: String,
+        required: true,
+      },
     },
   ],
 });
