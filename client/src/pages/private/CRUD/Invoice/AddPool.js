@@ -461,27 +461,31 @@ const AddPool = ({ auth }) => {
             },
           }
         );
-      }
-      // const body = {
-      //   pool: {
-      //     amount,
-      //     startTime,
-      //     endTime,
-      //     category,
-      //     rewardFrequency,
-      //     solanaPoolAddress: transactionData.poolAddress,
-      //     splToken,
-      //   },
-      // };
-      // const { data } = await UpdateInvoiceApi(id, body, token);
-      // dispatch({ type: "loadingStop" });
+        if (res.data.tx) {
+          const body = {
+            pool: {
+              amount,
+              startTime,
+              endTime,
+              category,
+              rewardFrequency,
+              solanaPoolAddress: res.data.poolAddress,
+              splToken,
+            },
+          };
+          const { data } = await UpdateInvoiceApi(id, body, token);
+          dispatch({ type: "loadingStop" });
 
-      // if (data.type === "success") {
-      //   toast.success(data.msg);
-      //   navigate(`/app/invoice/readOne/readAllPool/${id}`);
-      // } else {
-      //   toast.error(data.msg);
-      // }
+          if (data.type === "success") {
+            toast.success(data.msg);
+            navigate(`/app/invoice/readOne/readAllPool/${id}`);
+          } else {
+            toast.error("Something went wrong");
+          }
+        } else {
+          toast.error("Something went wrong");
+        }
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.message);

@@ -38,6 +38,7 @@ const InvoiceCrudRoute = require("./routes/InvoiceCrudRoute");
 const CreateWalletRoute = require("./routes/CreateWalletRoute");
 const UserCrudRoute = require("./routes/UserCrudRoute");
 const tweets = require("./routes/tweets");
+const reward = require("./routes/reward");
 
 const AuthCheck = require("./middlewares/AuthCheck");
 
@@ -47,6 +48,7 @@ app.use("/api/private", AuthCheck, PrivateRoute);
 app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
 app.use("/wallet", AuthCheck, CreateWalletRoute);
+app.use("/reward", reward);
 app.use("/tweet", tweets);
 
 async function setUser(req, res, next) {

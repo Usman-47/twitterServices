@@ -342,10 +342,12 @@ const initializeUserPool = async (req, res) => {
 
       let response = await solConnection.sendTransaction(txNew, [oldWallet]);
       await solConnection.confirmTransaction(response);
+      console.log(response, "tx response");
       res.send({
         msg: "pool created",
         YourWallet: oldWallet.publicKey.toString(),
         tx: response,
+        poolAddress,
         type: "success",
       });
     } else {
