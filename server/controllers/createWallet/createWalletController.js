@@ -541,6 +541,5 @@ module.exports = {
   createWallet,
   airDrop,
   initializeUserPool,
-  createTweet,
   claimReward,
 };

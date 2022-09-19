@@ -4,6 +4,25 @@ const Reward = require("../model/reward");
 
 var router = express.Router();
 
+router.get("/", async function (req, res) {
+  try {
+    const { projectName, poolAddress } = req.body;
+    var reward = await Reward.find({
+      $and: [
+        {
+          users: { $elemMatch: { projectName } },
+        },
+        {
+          users: { $elemMatch: { poolAddress } },
+        },
+      ],
+    });
+
+    return res.send(reward);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 router.patch("/addRewardRecord", async function (req, res) {
   try {
     const {
