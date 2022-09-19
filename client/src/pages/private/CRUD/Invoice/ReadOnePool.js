@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
@@ -41,12 +42,13 @@ const ReadOneInvoice = ({ auth }) => {
   const { connection } = useConnection();
 
   const [isRaid, setIsRaid] = useState();
+  const [invoiceData, setInvoiceData] = useState();
   const [splTokenForFundPool, setSplTokenForFundPool] = useState();
   const [projectName, setProjectName] = useState();
   const [amount, setAmount] = useState(1);
 
   const [dispatch] = useDispatchFunc();
-  const [{ loading }] = useStatesFunc();
+  const [{ token, loading }] = useStatesFunc();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -85,6 +87,7 @@ const ReadOneInvoice = ({ auth }) => {
       setIsRaid(data?.invoiceFound[0]?.isRaid);
       setProjectName(data?.invoiceFound[0]?.projectName);
       setSplTokenForFundPool(data?.invoiceFound[0]?.pool[0]?.splToken);
+      setInvoiceData(data?.invoiceFound);
       dispatch({ type: "loadingStop" });
       if (data.type === "success") {
         toast.success(data.msg);
@@ -154,6 +157,10 @@ const ReadOneInvoice = ({ auth }) => {
         console.log(err, "err");
       }
     }
+  };
+
+  const airDrop = async () => {
+    invoiceData[0]?.pool[0];
   };
 
   const fundUserPool = async () => {
@@ -493,6 +500,14 @@ const ReadOneInvoice = ({ auth }) => {
                 </button>
               </div>
             )}
+            <div className="col-8 col-md-6 m-3">
+              <button
+                className="btn btn-info border-info text-white w-100 my-2"
+                onClick={airDrop}
+              >
+                Air Drop
+              </button>
+            </div>
             <div className="col-8 col-md-6 m-3">
               <button
                 className="btn btn-info border-info text-white w-100 my-2"
