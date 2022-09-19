@@ -15,6 +15,7 @@ router.patch("/addRewardRecord", async function (req, res) {
       poolAddress,
       isRaid,
       invoiceCreaterPublicKey,
+      userPublicKey,
     } = req.body;
     var reward = await Reward.findOneAndUpdate(
       {
@@ -39,6 +40,7 @@ router.patch("/addRewardRecord", async function (req, res) {
               poolAddress,
               isRaid,
               invoiceCreaterPublicKey,
+              userPublicKey,
             },
           ],
         },
@@ -56,6 +58,7 @@ router.patch("/addRewardRecord", async function (req, res) {
             poolAddress,
             isRaid,
             invoiceCreaterPublicKey,
+            userPublicKey,
           },
         ],
       });
