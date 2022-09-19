@@ -6,14 +6,14 @@ var router = express.Router();
 
 router.get("/:projectName/:poolAddress", async function (req, res) {
   try {
-    const { projectName, poolAddress } = req.params;
+    const { projectName, mintAddress } = req.params;
     var reward = await Reward.find({
       $and: [
         {
           users: { $elemMatch: { projectName } },
         },
         {
-          users: { $elemMatch: { poolAddress } },
+          users: { $elemMatch: { mintAddress } },
         },
       ],
     });
@@ -31,7 +31,6 @@ router.patch("/addRewardRecord", async function (req, res) {
       reawrdAmount,
       projectName,
       mintAddress,
-      poolAddress,
       isRaid,
       invoiceCreaterPublicKey,
       userPublicKey,
@@ -43,7 +42,7 @@ router.patch("/addRewardRecord", async function (req, res) {
             users: { $elemMatch: { projectName } },
           },
           {
-            users: { $elemMatch: { poolAddress } },
+            users: { $elemMatch: { mintAddress } },
           },
         ],
       },
@@ -56,7 +55,6 @@ router.patch("/addRewardRecord", async function (req, res) {
               reawrdAmount,
               projectName,
               mintAddress,
-              poolAddress,
               isRaid,
               invoiceCreaterPublicKey,
               userPublicKey,
@@ -74,7 +72,6 @@ router.patch("/addRewardRecord", async function (req, res) {
             reawrdAmount,
             projectName,
             mintAddress,
-            poolAddress,
             isRaid,
             invoiceCreaterPublicKey,
             userPublicKey,

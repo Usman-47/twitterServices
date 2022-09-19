@@ -21,9 +21,6 @@ const rewardSchema = schema({
       mintAddress: {
         type: String,
       },
-      poolAddress: {
-        type: String,
-      },
       isRaid: {
         type: Boolean,
       },
