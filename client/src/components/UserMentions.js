@@ -537,11 +537,31 @@ const UserMentions = ({ currentUser, data }) => {
         reward = rewardCategory[6];
       }
 
-      let txResult = await claimReward(reward);
+      // let txResult = await claimReward(reward);
 
-      let result = await solConnection.confirmTransaction(txResult);
+      // let result = await solConnection.confirmTransaction(txResult);
 
-      if (result) {
+      const body = {
+        tweetId: userSelectTweetForClaim,
+        projectName,
+        // mintAddress,
+        // poolAddress,
+        rewardToken,
+        invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
+        userPublicKey: PublicKey,
+      };
+
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SERVERURL}/reward/addRewardRecord`,
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${currentUser.token}`,
+          },
+        }
+      );
+
+      if (response) {
         const data = {
           tweetId: userSelectTweetForClaim,
           projectName,
