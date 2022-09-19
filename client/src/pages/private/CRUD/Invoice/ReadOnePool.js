@@ -161,9 +161,9 @@ const ReadOneInvoice = ({ auth }) => {
 
   const airDrop = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/${invoiceData[0]}/${invoiceData[0]?.pool[0].solanaPoolAddress}`
+      `${process.env.REACT_APP_SERVERURL}/reward/${invoiceData[0]?.projectName}/${invoiceData[0]?.pool[0].solanaPoolAddress}`
     );
-    console.log(res);
+    console.log(res.data);
   };
 
   const fundUserPool = async () => {
