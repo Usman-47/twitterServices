@@ -46,7 +46,6 @@ const moment = require("moment");
 // ====================
 
 const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
-  console.log(poolData, "pooldata");
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
@@ -80,21 +79,21 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   );
 
   const getCurrentUserFollower = async () => {
-    if (!currentUser?.id) {
+    if (!currentUser?.twitterId) {
       alert("Please sigin first");
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`
     );
     setCurrentUserFallowers(res?.data?.data?.length);
   };
 
   useEffect(() => {
-    if (currentUser?.id) {
+    if (currentUser?.twitterId) {
       getCurrentUserFollower();
     }
-  }, [currentUser?.id]);
+  }, [currentUser?.twitterId]);
 
   useEffect(() => {
     if (projectDetail) {
@@ -238,7 +237,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   useEffect(() => {
     if (currentUser && publicKey) {
       let data = {
-        twitterId: currentUser.id,
+        twitterId: currentUser.twitterId,
         publicKey: publicKey.toString(),
       };
       axios
@@ -256,7 +255,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.id}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.twitterId}`
     );
     alert(res.data.data.length);
   };
@@ -513,7 +512,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         return;
       }
       let body = {
-        userId: currentUser?.id,
+        userId: currentUser?.twitterId,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -531,7 +530,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             projectName,
             time: moment().unix(),
           },
-          twitterId: currentUser.id,
+          twitterId: currentUser.twitterId,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
@@ -571,7 +570,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             projectName,
             time: moment().unix(),
           },
-          twitterId: currentUser.id,
+          twitterId: currentUser.twitterId,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
@@ -591,7 +590,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const retweetATweet = async () => {
     try {
       let body = {
-        userId: currentUser?.id,
+        userId: currentUser?.twitterId,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -610,7 +609,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             time: moment().unix(),
             rewardAmount: rewards,
           },
-          twitterId: currentUser?.id,
+          twitterId: currentUser?.twitterId,
         };
         const response = await axios.patch(
           `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
@@ -817,7 +816,10 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
                     {poolData?.startTime ? (
                       <>
-                        Active ( {moment.unix(poolData?.startTime).fromNow()})
+                        {poolData?.startTime * 1000 > Date.now()
+                          ? " Active will be"
+                          : "Active"}
+                        ( {moment.unix(poolData?.startTime).fromNow()})
                       </>
                     ) : (
                       "Not Started yet"
@@ -842,7 +844,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     }}
                     aria-label="add to favorites"
                   >
-                    <Icon icon="arcticons:rewards" /> Reward
+                    <Icon icon="arcticons:rewards" /> Rewardd
                   </IconButton>
 
                   <IconButton
