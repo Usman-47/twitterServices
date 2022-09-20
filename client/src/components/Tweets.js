@@ -605,7 +605,6 @@ const Tweets = (props) => {
                   </Box>
                   {getAllInvoices?.map((data) => (
                     <>
-                      {console.log(data, "dashboard")}
                       {data?.isRaid ? (
                         <div>
                           <TabPanel
@@ -620,7 +619,6 @@ const Tweets = (props) => {
                               {data?.isRaid &&
                                 data?.pool?.map((pool) => (
                                   <>
-                                    {console.log(pool, "rooldata")}
                                     {pool?.endTime * 1000 > Date.now() ? (
                                       <Pool
                                         currentUser={props?.auth}

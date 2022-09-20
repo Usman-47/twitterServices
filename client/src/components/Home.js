@@ -132,10 +132,7 @@ const Home = (props) => {
         },
       }
     );
-    // const body = {
-    //   publicKey: publicKey,
-    // };
-    // const { data } = await SigninFunction(body);
+
     dispatch({ type: "loadingStop" });
     if (props.auth) {
       // toast.success(data.msg);
@@ -167,6 +164,7 @@ const Home = (props) => {
       navigate("/app");
     }
   }, [checkAuth]);
+
   if (publicKey) {
     if (!props.auth) {
       return (

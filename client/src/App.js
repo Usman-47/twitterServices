@@ -100,9 +100,9 @@ function App(props) {
                 <Routes>
                   <Route path="/" element={<Home />} />
 
-                  <Route path="/user">
+                  {/* <Route path="/user">
                     <Route path="loginPage" element={<LoginPage />} />
-                  </Route>
+                  </Route> */}
 
                   <Route
                     path="projects/:projectName"
