@@ -6,7 +6,6 @@ const OtherProjects = ({
   currentUser,
   userProjectsForMention,
   userProjectsForRaid,
-  // props, data
 }) => {
   return (
     <>
@@ -24,7 +23,6 @@ const OtherProjects = ({
       {currentUser &&
         userProjectsForRaid.map((data) => (
           <>
-            {console.log(data, "data past project")}
             <Tweet
               currentUser={currentUser}
               data={data.tweet}

@@ -486,7 +486,6 @@ const UserMentions = ({ currentUser, data }) => {
       });
     }
   }, [userSelectTweetForClaim]);
-  console.log(publicKey, "publickey");
   const claimRewardWithSolana = async () => {
     if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
       alert("reward claim time is not reached after start time");

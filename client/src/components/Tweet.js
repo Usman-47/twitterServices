@@ -216,11 +216,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     var tweetIsRetweeted = false;
     if (data?.tweetId) {
       currentUser?.raidStatus?.retweetStatus?.map((tweetStatus) => {
-        console.log(tweetStatus, "tweetStatustweetStatustweetStatus");
-
         if (tweetStatus?.tweetId === data?.tweetId) {
-          console.log("chalta ha");
-
           setIsTweetRetweeted(true);
           settweetStatus(tweetStatus?.rewardAmount);
 
@@ -244,7 +240,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       }
     }
   }, [retweetStatus, currentUser, data?.tweetId]);
-  console.log(tweetsStatus, "tweetsStatussssssssssssssssss");
 
   useEffect(() => {
     if (data?.tweetId) {
@@ -681,7 +676,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           },
         }
       );
-      console.log(res?.data, "reply");
       setAllReplyOfATweet(res?.data?.data);
     } catch (error) {
       console.log(error);
