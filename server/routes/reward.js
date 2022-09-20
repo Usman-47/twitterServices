@@ -1,6 +1,6 @@
 const express = require("express");
 const Reward = require("../model/reward");
-const CheckRoleAccess = require("../../util/CheckRoleAccess");
+const CheckRoleAccess = require("../util/CheckRoleAccess");
 
 var router = express.Router();
 
