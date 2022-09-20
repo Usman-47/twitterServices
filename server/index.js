@@ -49,7 +49,7 @@ app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
 app.use("/wallet", AuthCheck, CreateWalletRoute);
 app.use("/reward", AuthCheck, reward);
-app.use("/tweet", tweets);
+app.use("/tweet", AuthCheck, tweets);
 
 async function setUser(req, res, next) {
   const twitterId = req.body.twitterId;

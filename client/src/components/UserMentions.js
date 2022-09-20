@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
+import useStatesFunc from "../hooks/useStatesFunc";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Button from "@mui/material/Button";
 import { web3 } from "@project-serum/anchor";
@@ -16,6 +17,8 @@ import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import IDL from "./twitter_program.json";
 
 const UserMentions = ({ currentUser, data }) => {
+  const [{ token }] = useStatesFunc();
+
   const [getClientMentions, setGetClientMentions] = useState();
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
@@ -344,7 +347,12 @@ const UserMentions = ({ currentUser, data }) => {
   };
   const checkClientMentionByOthers = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserMentions/${data?.projectTwitterUsername}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserMentions/${data?.projectTwitterUsername}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     setGetClientMentions(res.data);
   };
@@ -392,7 +400,12 @@ const UserMentions = ({ currentUser, data }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     setMentionUserFallowers(res?.data?.data?.length);
   };

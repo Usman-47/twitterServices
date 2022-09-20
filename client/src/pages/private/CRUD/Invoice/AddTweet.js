@@ -278,7 +278,12 @@ const CreateInvoice = () => {
       }
       var tweetId = tweetUrl.substring(position + 1);
       const res = await axios.get(
-        `${process.env.REACT_APP_SERVERURL}/tweet/getTweetById/${tweetId}`
+        `${process.env.REACT_APP_SERVERURL}/tweet/getTweetById/${tweetId}`,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
       );
       if (!res?.data?.data) {
         toast.error("No tweet found, Please enter a correct public tweet url");
