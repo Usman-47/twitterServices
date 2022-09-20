@@ -376,6 +376,90 @@ const initializeUserPool = async (req, res) => {
   }
 };
 
+const createTweet = async (req, res) => {
+  try {
+    // const tweetId = tweetValue;
+
+    const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode("tweets"),
+        // userAddress.publicKey.toBuffer(),
+        Buffer.from(tweetId),
+        Buffer.from(projectName),
+      ],
+      program.programId
+    );
+
+    const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode("pool"),
+        clientAddress.toBuffer(),
+        mintAddress.toBuffer(),
+        Buffer.from(projectName),
+      ],
+      program.programId
+    );
+
+    const [globalAuth, globalBump] =
+      await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("global-authority")],
+        // new anchor.BN(id).toArrayLike(Buffer)],
+        program.programId
+      );
+    const prizeTokenAccount = await solConnection.getTokenAccountsByOwner(
+      oldWallet.publicKey,
+      { mint: mintAddress }
+    );
+
+    // console.log(prizeTokenAccount.value[0].pubkey.toString())
+
+    let associatedTokenAccountPubkey = (
+      await PublicKey.findProgramAddress(
+        [
+          oldWallet.publicKey.toBuffer(),
+          TOKEN_PROGRAM_ID.toBuffer(),
+          mintAddress.toBuffer(), // mint address
+        ],
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+    )[0];
+
+    console.log(
+      associatedTokenAccountPubkey.toString(),
+      "associatedTokenAccountPubkey"
+    );
+    console.log(tweetAta.toString(), bump, "tweetAta");
+    console.log(poolAddress.toString(), "poolAddress");
+
+    const tx = await program.rpc.createTweet(globalBump, projectName, tweetId, {
+      accounts: {
+        user: oldWallet.publicKey,
+        client: clientAddress,
+        tweetData: tweetAta,
+        globalAuthority: globalAuth,
+        pool: poolAddress,
+        // userAta: prizeTokenAccount.value[0].pubkey,
+        poolMint: mintAddress,
+        // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+        systemProgram: SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        rent: SYSVAR_RENT_PUBKEY,
+      },
+      signers: [oldWallet],
+    });
+
+    res.send({
+      msg: "tweet created",
+      YourWallet: oldWallet.publicKey.toString(),
+      tx: tx,
+      type: "success",
+    });
+  } catch (e) {
+    console.log(e.message, " err-in createWalletController");
+    res.status(500).send({ msg: e.message, type: "failed" });
+  }
+};
+
 const claimReward = async (req, res) => {
   try {
     console.log(req.query.user, "user");
@@ -555,4 +639,5 @@ module.exports = {
   airDrop,
   initializeUserPool,
   claimReward,
+  createTweet,
 };
