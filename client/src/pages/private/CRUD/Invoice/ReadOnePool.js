@@ -161,7 +161,12 @@ const ReadOneInvoice = ({ auth }) => {
   };
   const airDrop = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/reward/${invoiceDataWithSpecificPool[0]?.projectName}/${invoiceDataWithSpecificPool[0]?.pool[0].splToken}`
+      `${process.env.REACT_APP_SERVERURL}/reward/${invoiceDataWithSpecificPool[0]?.projectName}/${invoiceDataWithSpecificPool[0]?.pool[0].splToken}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     var tempArray = [];
     res?.data?.map((pool) => {

@@ -48,7 +48,7 @@ app.use("/api/private", AuthCheck, PrivateRoute);
 app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
 app.use("/wallet", AuthCheck, CreateWalletRoute);
-app.use("/reward", reward);
+app.use("/reward", AuthCheck, reward);
 app.use("/tweet", tweets);
 
 async function setUser(req, res, next) {
