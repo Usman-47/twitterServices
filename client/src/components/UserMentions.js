@@ -156,7 +156,7 @@ const UserMentions = ({ currentUser, data }) => {
           tweetId,
           projectName,
         };
-        const response = await axios.patch(
+        const response = await axios.post(
           `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
           body,
           {
