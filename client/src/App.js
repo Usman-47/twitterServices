@@ -90,235 +90,226 @@ function App(props) {
   }, []);
   return (
     <>
-    <div className="app_bg" sx={{backgroundColor:"black"}}>
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider autoConnect={true} wallets={wallets}>
-          <WalletModalProvider>
-            <UserProvider>
-              {/* <NavigationBar /> */}
+      <div className="app_bg" sx={{ backgroundColor: "black" }}>
+        <ConnectionProvider endpoint={endpoint}>
+          <WalletProvider autoConnect={true} wallets={wallets}>
+            <WalletModalProvider>
+              <UserProvider>
+                {/* <NavigationBar /> */}
 
-              <Routes>
-                <Route path="/" element={<Home />} />
+                <Routes>
+                  <Route path="/" element={<Home />} />
 
-                <Route path="/user">
-                  <Route path="loginPage" element={<LoginPage />} />
+                  <Route path="/user">
+                    <Route path="loginPage" element={<LoginPage />} />
+                  </Route>
+
                   <Route
-                    path="resetPassword/:resetString"
-                    element={<ResetPassword />}
+                    path="projects/:projectName"
+                    element={
+                      <Protected redirect={<LoginPage />}>
+                        <Tweets />
+                      </Protected>
+                    }
                   />
                   <Route
-                    path="activate/:activationId"
-                    element={<EmailActivation />}
+                    path="projects/"
+                    element={
+                      <Protected redirect={<LoginPage />}>
+                        <Tweets />
+                      </Protected>
+                    }
                   />
-                  <Route path="" element={<NotFound />} />
-                </Route>
-
-                <Route
-                  path="projects/:projectName"
-                  element={
-                    <Protected redirect={<LoginPage />}>
-                      <Tweets />
-                    </Protected>
-                  }
-                />
-                <Route
-                  path="projects/"
-                  element={
-                    <Protected redirect={<LoginPage />}>
-                      <Tweets />
-                    </Protected>
-                  }
-                />
-                <Route
-                  path="/app"
-                  element={
-                    <Protected redirect={<Home />}>
-                      <Dashboard />
-                    </Protected>
-                  }
-                >
                   <Route
-                    path=""
+                    path="/app"
                     element={
                       <Protected redirect={<Home />}>
-                        <MainScreen />
+                        <Dashboard />
                       </Protected>
                     }
-                  />
-                  <Route
-                    path="dashboard"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <MainScreen />
-                      </Protected>
-                    }
-                  />
+                  >
+                    <Route
+                      path=""
+                      element={
+                        <Protected redirect={<Home />}>
+                          <MainScreen />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="dashboard"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <MainScreen />
+                        </Protected>
+                      }
+                    />
 
-                  {/* here all user crud components */}
-                  <Route
-                    path="user/create"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <CreateUser />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="user/update/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <UpdateUser />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="user/readAll"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadUser />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="user/readOne/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadOneUser />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="user/delete/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <DeleteUser />
-                      </Protected>
-                    }
-                  />
+                    {/* here all user crud components */}
+                    <Route
+                      path="user/create"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <CreateUser />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="user/update/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <UpdateUser />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="user/readAll"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadUser />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="user/readOne/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadOneUser />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="user/delete/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <DeleteUser />
+                        </Protected>
+                      }
+                    />
 
-                  {/* here invoice CRUD routes */}
+                    {/* here invoice CRUD routes */}
 
-                  <Route
-                    path="invoice/create"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <CreateInvoice />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/addPool/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <AddPool />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/readOnePool/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadOnePool />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/update/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <UpdatePool />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/delete/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <DeletePool />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/update/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <UpdateInvoice />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/delete/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <DeleteInvoice />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadOneInvoice />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readAll"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadAllInvoices />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadAllPool />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/readOnePool/readAllTweet/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <ReadAllTweets />
-                      </Protected>
-                    }
-                  />
-                  <Route
-                    path="invoice/readOne/readAllPool/readOnePool/readAllTweet/AddTweet/:id"
-                    element={
-                      <Protected redirect={<LoginPage />}>
-                        <AddTweet />
-                      </Protected>
-                    }
-                  />
+                    <Route
+                      path="invoice/create"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <CreateInvoice />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/addPool/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <AddPool />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/readOnePool/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadOnePool />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/update/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <UpdatePool />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/delete/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <DeletePool />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/update/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <UpdateInvoice />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/delete/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <DeleteInvoice />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadOneInvoice />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readAll"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadAllInvoices />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadAllPool />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/readOnePool/readAllTweet/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <ReadAllTweets />
+                        </Protected>
+                      }
+                    />
+                    <Route
+                      path="invoice/readOne/readAllPool/readOnePool/readAllTweet/AddTweet/:id"
+                      element={
+                        <Protected redirect={<LoginPage />}>
+                          <AddTweet />
+                        </Protected>
+                      }
+                    />
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
+
                   <Route path="*" element={<NotFound />} />
-                </Route>
 
-                <Route path="*" element={<NotFound />} />
+                  {/* here all app routes completes */}
 
-                {/* here all app routes completes */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-
-              <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-            </UserProvider>
-          </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
+                <ToastContainer
+                  position="bottom-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+              </UserProvider>
+            </WalletModalProvider>
+          </WalletProvider>
+        </ConnectionProvider>
       </div>
     </>
   );

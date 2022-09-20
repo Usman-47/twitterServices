@@ -15,7 +15,6 @@ const MainScreen = () => {
   const [dispatch] = useDispatchFunc();
   const [, getRole] = useUserFunc();
   const role = getRole();
-
   if (!role) {
     dispatch({ type: "signout" });
     navigate("/user/signin");

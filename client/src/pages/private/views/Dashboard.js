@@ -48,20 +48,6 @@ const Dashboard = (props) => {
     toast.error("Role is not Recognised, signIn again");
   }
 
-  // if (!idVerified) {
-  //   return (
-  //     <>
-  //       <div className="container h-100 w-100 p-5 d-flex justify-content-center m-5">
-  //         <div className="row bg-warning p-5">
-  //           <h1 className="col text-danger p-5">
-  //             Please verify Your account , link sent in Your mail
-  //           </h1>
-  //           <WalletDisconnectButton/>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
   if (publicKey && props.auth) {
     if (role !== USER) {
       return (
@@ -83,12 +69,7 @@ const Dashboard = (props) => {
                 />
               )}
 
-              {/* this is mainscreen */}
-
-              <div
-                className="col shadow"
-                style={{ minHeight: "100vh" }}
-              >
+              <div className="col shadow" style={{ minHeight: "100vh" }}>
                 <PublicNavBar
                   setShowSideBar={setShowSideBar}
                   showSideBar={showSideBar}
@@ -102,20 +83,12 @@ const Dashboard = (props) => {
         </>
       );
     } else {
-      return (
-        <>
-          {/* <div className="container-fluid">
-            <Tweets />
-          </div> */}
-          {navigate("/projects")}
-        </>
-      );
+      return <>{navigate("/projects")}</>;
     }
   } else {
     return (
       <>
         <Home />
-        {/* <WalletDisconnectButton/> */}
       </>
     );
   }

@@ -12,6 +12,7 @@ const OtherProjects = ({
   return (
     <>
       {currentUser &&
+        userNotIncludeProjectsForMention &&
         userNotIncludeProjectsForMention?.map((data) => (
           <>
             <MentionProjects
@@ -23,6 +24,7 @@ const OtherProjects = ({
         ))}
 
       {currentUser &&
+        userNotIncludeProjectsForRaid &&
         userNotIncludeProjectsForRaid.map((data) => (
           <>
             <Tweet
