@@ -7,6 +7,8 @@ var router = express.Router();
 router.get("/:projectName/:mintAddress", async function (req, res) {
   try {
     const { projectName, mintAddress } = req.params;
+    // var limit = 50;
+    // var skip = pageNo * (limit - 1);
     var reward = await Reward.find({
       $and: [
         {
@@ -15,8 +17,12 @@ router.get("/:projectName/:mintAddress", async function (req, res) {
         {
           users: { $elemMatch: { mintAddress } },
         },
+        {
+          users: { $elemMatch: { isPaid: false } },
+        },
       ],
     });
+    // }).skip(skip).limit(limit);
 
     return res.send(reward);
   } catch (error) {
