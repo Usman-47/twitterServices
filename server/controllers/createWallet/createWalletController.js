@@ -93,110 +93,123 @@ const airDrop = async (req, res) => {
     let wallet = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
+    if (wallet) {
+      var arrayString = wallet.privateKey.split(",");
+      for (i = 0; i < arrayString.length; i++) {
+        arrayString[i] = parseInt(arrayString[i]);
+      }
+      let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
+      const { usersArray, splToken } = req.body;
+      let clientAddress = oldWallet.publicKey;
+      let tx = new Transaction();
 
-    let clientAddress = wallet.publicKey;
-    let tx = new Transaction();
+      var usersPublicKey = [];
+      const mintAddress = new PublicKey(splToken);
+      for (i = 0; i < usersArray.length; i++) {
+        usersPublicKey.push(new PublicKey(usersArray[i]));
+      }
+      // const users = [
+      //   new PublicKey("HkpkkPnt7jTp9z7otAafYdwkT92QEoCURrM2zVdkcCUn"),
+      //   new PublicKey("CoGobJp3DkjPYT35xKBLiJNDbNoBWjNjpWD6Do1ftfnE"),
+      //   new PublicKey("7VPjjEj7mukgBf9TqpDxivnu7BNH4rdUmSFUpgvpLvf7"),
+      //   new PublicKey("Apex9vESFs3AUhkzMssbRo1Dcx7ysbKHp6WqXQe2ugQV"),
+      // ];
+      const users = usersPublicKey;
 
-    const userAddress = new PublicKey(req.query.user);
-    const users = [
-      new PublicKey("HkpkkPnt7jTp9z7otAafYdwkT92QEoCURrM2zVdkcCUn"),
-      new PublicKey("CoGobJp3DkjPYT35xKBLiJNDbNoBWjNjpWD6Do1ftfnE"),
-      new PublicKey("7VPjjEj7mukgBf9TqpDxivnu7BNH4rdUmSFUpgvpLvf7"),
-      new PublicKey("Apex9vESFs3AUhkzMssbRo1Dcx7ysbKHp6WqXQe2ugQV"),
-    ];
-    console.log(userAddress.toString());
-
-    let clientAta = (
-      await PublicKey.findProgramAddress(
-        [
-          clientAddress.toBuffer(),
-          TOKEN_PROGRAM_ID.toBuffer(),
-          mintAddress.toBuffer(), // mint address
-        ],
-        ASSOCIATED_TOKEN_PROGRAM_ID
-      )
-    )[0];
-
-    const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("poolAta"),
-        clientAddress.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
-
-    for (i = 0; i < users.length; i++) {
-      let userAta = (
+      let clientAta = (
         await PublicKey.findProgramAddress(
           [
-            users[i].toBuffer(),
+            clientAddress.toBuffer(),
             TOKEN_PROGRAM_ID.toBuffer(),
             mintAddress.toBuffer(), // mint address
           ],
           ASSOCIATED_TOKEN_PROGRAM_ID
         )
       )[0];
-      // const [globalAuth, globalBump] = await anchor.web3.PublicKey.findProgramAddress(
-      //   [Buffer.from("global-authority")],
-      //   // new anchor.BN(47).toArrayLike(Buffer)],
-      //   program.programId
-      //   );
-      //   let tx = await program.methods.bet().transaction();
-      tx.feePayer = oldWallet.publicKey;
 
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        users[i],
-        { mint: mintAddress }
+      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("poolAta"),
+          clientAddress.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
+        program.programId
       );
-      // const seed = anchor.utils.sha256.hash([Buffer.from("global-authority"), new anchor.BN(255)])
-      // const global = Keypair.fromSeed(seed);
-      // console.log(global.publicKey.toString());
 
-      if (userAtaCheck.value.length === 0) {
-        console.log(users[i].toString(), "no ata");
+      for (i = 0; i < users.length; i++) {
+        let userAta = (
+          await PublicKey.findProgramAddress(
+            [
+              users[i].toBuffer(),
+              TOKEN_PROGRAM_ID.toBuffer(),
+              mintAddress.toBuffer(), // mint address
+            ],
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        )[0];
+        // const [globalAuth, globalBump] = await anchor.web3.PublicKey.findProgramAddress(
+        //   [Buffer.from("global-authority")],
+        //   // new anchor.BN(47).toArrayLike(Buffer)],
+        //   program.programId
+        //   );
+        //   let tx = await program.methods.bet().transaction();
+        tx.feePayer = oldWallet.publicKey;
+
+        const userAtaCheck = await solConnection.getTokenAccountsByOwner(
+          users[i],
+          { mint: mintAddress }
+        );
+        // const seed = anchor.utils.sha256.hash([Buffer.from("global-authority"), new anchor.BN(255)])
+        // const global = Keypair.fromSeed(seed);
+        // console.log(global.publicKey.toString());
+
+        if (userAtaCheck.value.length === 0) {
+          console.log(users[i].toString(), "no ata");
+          tx.add(
+            Token.createAssociatedTokenAccountInstruction(
+              ASSOCIATED_TOKEN_PROGRAM_ID,
+              TOKEN_PROGRAM_ID,
+              mintAddress,
+              userAta,
+              users[i],
+              oldWallet.publicKey
+            )
+          );
+        }
+
         tx.add(
-          Token.createAssociatedTokenAccountInstruction(
-            ASSOCIATED_TOKEN_PROGRAM_ID,
+          Token.createTransferInstruction(
             TOKEN_PROGRAM_ID,
-            mintAddress,
+            poolAta,
             userAta,
-            users[i],
-            oldWallet.publicKey
+            oldWallet.publicKey,
+            [oldWallet],
+            100_000
           )
         );
       }
 
-      tx.add(
-        Token.createTransferInstruction(
-          TOKEN_PROGRAM_ID,
-          poolAta,
-          userAta,
-          oldWallet.publicKey,
-          [oldWallet],
-          100_000
-        )
-      );
+      // tx.add(
+      //   SystemProgram.transfer({
+      //     fromPubkey: oldWallet.publicKey,
+      //     toPubkey: new PublicKey("Bx6Z6XxCSdwtqmiKP9prwU7m8NDuUcA11FtPdSZ5Fw9B"),
+      //     lamports: 1 * 1000000000,
+      //   })
+      // );
+      //   console.log("tx: ", tx);
+      const txID = await solConnection.sendTransaction(tx, [oldWallet]);
+
+      res.send({
+        msg: "under development",
+        YourWallet: oldWallet.publicKey.toString(),
+        tx: txID,
+        type: "success",
+      });
+      // res.send({ msg: "under development", YourWallet: oldWallet.publicKey.toString(), type: "success" });
+    } else {
+      alert("SomeThing went wrong");
     }
-
-    // tx.add(
-    //   SystemProgram.transfer({
-    //     fromPubkey: oldWallet.publicKey,
-    //     toPubkey: new PublicKey("Bx6Z6XxCSdwtqmiKP9prwU7m8NDuUcA11FtPdSZ5Fw9B"),
-    //     lamports: 1 * 1000000000,
-    //   })
-    // );
-    //   console.log("tx: ", tx);
-    const txID = await solConnection.sendTransaction(tx, [oldWallet]);
-
-    res.send({
-      msg: "under development",
-      YourWallet: oldWallet.publicKey.toString(),
-      tx: txID,
-      type: "success",
-    });
-    // res.send({ msg: "under development", YourWallet: oldWallet.publicKey.toString(), type: "success" });
   } catch (e) {
     console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
@@ -357,6 +370,90 @@ const initializeUserPool = async (req, res) => {
         type: "fail",
       });
     }
+  } catch (e) {
+    console.log(e.message, " err-in createWalletController");
+    res.status(500).send({ msg: e.message, type: "failed" });
+  }
+};
+
+const createTweet = async (req, res) => {
+  try {
+    // const tweetId = tweetValue;
+
+    const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode("tweets"),
+        // userAddress.publicKey.toBuffer(),
+        Buffer.from(tweetId),
+        Buffer.from(projectName),
+      ],
+      program.programId
+    );
+
+    const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        anchor.utils.bytes.utf8.encode("pool"),
+        clientAddress.toBuffer(),
+        mintAddress.toBuffer(),
+        Buffer.from(projectName),
+      ],
+      program.programId
+    );
+
+    const [globalAuth, globalBump] =
+      await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("global-authority")],
+        // new anchor.BN(id).toArrayLike(Buffer)],
+        program.programId
+      );
+    const prizeTokenAccount = await solConnection.getTokenAccountsByOwner(
+      oldWallet.publicKey,
+      { mint: mintAddress }
+    );
+
+    // console.log(prizeTokenAccount.value[0].pubkey.toString())
+
+    let associatedTokenAccountPubkey = (
+      await PublicKey.findProgramAddress(
+        [
+          oldWallet.publicKey.toBuffer(),
+          TOKEN_PROGRAM_ID.toBuffer(),
+          mintAddress.toBuffer(), // mint address
+        ],
+        ASSOCIATED_TOKEN_PROGRAM_ID
+      )
+    )[0];
+
+    console.log(
+      associatedTokenAccountPubkey.toString(),
+      "associatedTokenAccountPubkey"
+    );
+    console.log(tweetAta.toString(), bump, "tweetAta");
+    console.log(poolAddress.toString(), "poolAddress");
+
+    const tx = await program.rpc.createTweet(globalBump, projectName, tweetId, {
+      accounts: {
+        user: oldWallet.publicKey,
+        client: clientAddress,
+        tweetData: tweetAta,
+        globalAuthority: globalAuth,
+        pool: poolAddress,
+        // userAta: prizeTokenAccount.value[0].pubkey,
+        poolMint: mintAddress,
+        // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+        systemProgram: SystemProgram.programId,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        rent: SYSVAR_RENT_PUBKEY,
+      },
+      signers: [oldWallet],
+    });
+
+    res.send({
+      msg: "tweet created",
+      YourWallet: oldWallet.publicKey.toString(),
+      tx: tx,
+      type: "success",
+    });
   } catch (e) {
     console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
@@ -542,4 +639,5 @@ module.exports = {
   airDrop,
   initializeUserPool,
   claimReward,
+  createTweet,
 };
