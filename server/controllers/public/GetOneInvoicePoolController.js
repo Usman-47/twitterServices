@@ -18,7 +18,6 @@ const GetOneInvoicePoolController = async (req, res) => {
       return res.status(404).send({ msg: "No Data Found", type: "error" });
     }
     invoiceFound[0].pool = invoicePoolFound[0].pool[0];
-    console.log(invoiceFound, "data");
     res.send({ invoiceFound, msg: "Data available", type: "success" });
   } catch (e) {
     console.log(e.message, " err-in GetOnePoolController");

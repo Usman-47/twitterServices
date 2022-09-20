@@ -5,7 +5,7 @@ const CreateWalletController = require("../controllers/createWallet/createWallet
 
 //createWalletController
 router.post("/new", CreateWalletController.createWallet);
-router.get("/airdrop", CreateWalletController.airDrop);
+router.post("/airdrop", CreateWalletController.airDrop);
 router.post("/initializeUserPool", CreateWalletController.initializeUserPool);
 router.get("/claimReward", CreateWalletController.claimReward);
 

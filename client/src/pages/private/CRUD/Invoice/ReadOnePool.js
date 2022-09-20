@@ -42,7 +42,8 @@ const ReadOneInvoice = ({ auth }) => {
   const { connection } = useConnection();
 
   const [isRaid, setIsRaid] = useState();
-  const [invoiceData, setInvoiceData] = useState();
+  const [invoiceDataWithSpecificPool, setInvoiceDataWithSpecificPool] =
+    useState();
   const [splTokenForFundPool, setSplTokenForFundPool] = useState();
   const [projectName, setProjectName] = useState();
   const [amount, setAmount] = useState(1);
@@ -87,7 +88,7 @@ const ReadOneInvoice = ({ auth }) => {
       setIsRaid(data?.invoiceFound[0]?.isRaid);
       setProjectName(data?.invoiceFound[0]?.projectName);
       setSplTokenForFundPool(data?.invoiceFound[0]?.pool[0]?.splToken);
-      setInvoiceData(data?.invoiceFound);
+      setInvoiceDataWithSpecificPool(data?.invoiceFound);
       dispatch({ type: "loadingStop" });
       if (data.type === "success") {
         toast.success(data.msg);
@@ -158,12 +159,31 @@ const ReadOneInvoice = ({ auth }) => {
       }
     }
   };
-
   const airDrop = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/reward/${invoiceData[0]?.projectName}/${invoiceData[0]?.pool[0].splToken}`
+      `${process.env.REACT_APP_SERVERURL}/reward/${invoiceDataWithSpecificPool[0]?.projectName}/${invoiceDataWithSpecificPool[0]?.pool[0].splToken}`
     );
-    console.log(res.data);
+    var tempArray = [];
+    res?.data?.map((pool) => {
+      pool?.users?.map((user) => {
+        tempArray.push(user.userPublicKey);
+      });
+    });
+    console.log(tempArray);
+
+    let body = {
+      usersArray: tempArray,
+      splToken: splTokenForFundPool,
+    };
+    const response = await axios.post(
+      `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
+      body,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
+    );
   };
 
   const fundUserPool = async () => {
