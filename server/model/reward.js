@@ -10,6 +10,7 @@ const rewardSchema = schema({
       },
       isPaid: {
         type: Boolean,
+        default: false,
       },
       reawrdAmount: {
         type: String,
