@@ -378,6 +378,7 @@ const initializeUserPool = async (req, res) => {
 
 const createTweet = async (req, res) => {
   try {
+    console.log("api hit");
     let wallet = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -467,6 +468,12 @@ const createTweet = async (req, res) => {
         YourWallet: oldWallet.publicKey.toString(),
         tx: tx,
         type: "success",
+      });
+    } else {
+      res.send({
+        msg: "wallet not found",
+
+        type: "flow will be change and it will be done tomorrow,thanks",
       });
     }
   } catch (e) {
