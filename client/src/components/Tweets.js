@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import moment from "moment";
+import useStatesFunc from "../hooks/useStatesFunc";
+
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { WalletDisconnectButton } from "@solana/wallet-adapter-react-ui";
 import {
@@ -65,6 +66,8 @@ import useDispatchFunc from "../hooks/useDispatchFunc";
 
 const drawerWidth = 240;
 const Tweets = (props) => {
+  const [{ token }] = useStatesFunc();
+
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);

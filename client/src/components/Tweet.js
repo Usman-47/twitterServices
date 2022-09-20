@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 
 import { toast } from "react-toastify";
+import useStatesFunc from "../hooks/useStatesFunc";
+
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
   useWalletModal,
@@ -46,6 +48,8 @@ const moment = require("moment");
 // ====================
 
 const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
+  const [{ token, loading }] = useStatesFunc();
+
   const [getTweetLikes, setGetTweetLikes] = useState();
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
@@ -84,7 +88,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     setCurrentUserFallowers(res?.data?.data?.length);
   };
@@ -154,7 +163,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
   const checkTweetLiked = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getTweetliked/${data?.tweetId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getTweetliked/${data?.tweetId}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     setGetTweetLikes(res.data.data);
   };
@@ -188,7 +202,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
   const checkTweetRetweet = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getRetweets/${data?.tweetId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getRetweets/${data?.tweetId}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     setRetweetStatus(res?.data?.data);
   };
@@ -255,14 +274,24 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.twitterId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.twitterId}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     alert(res.data.data.length);
   };
 
   const checkQuoteTweets = async () => {
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getQuotedTweetsByTweetId/${data?.tweetId}`
+      `${process.env.REACT_APP_SERVERURL}/tweet/getQuotedTweetsByTweetId/${data?.tweetId}`,
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
     );
     if (res?.data?.data) {
       return res?.data.data;
@@ -518,7 +547,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       };
       const res = await axios.post(
         `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
-        body
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
       );
       if (res?.data?.data) {
         let tx = await LikeTweet(1);
@@ -558,7 +592,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       };
       const res = await axios.post(
         `${process.env.REACT_APP_SERVERURL}/tweet/replyToTweetWithTweetId/${data?.tweetId}`,
-        body
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
       );
       if (res?.data?.data) {
         let tx = await LikeTweet(3);
@@ -596,7 +635,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       };
       const res = await axios.post(
         `${process.env.REACT_APP_SERVERURL}/tweet/retweetATweet/${data?.tweetId}`,
-        body
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
       );
       if (res?.data?.data) {
         let tx = await LikeTweet(2);
@@ -630,7 +674,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const getAllReplyOfATweet = async () => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_SERVERURL}/tweet/getAllReplyForATweet/${data?.tweetId}`
+        `${process.env.REACT_APP_SERVERURL}/tweet/getAllReplyForATweet/${data?.tweetId}`,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
       );
       console.log(res?.data, "reply");
       setAllReplyOfATweet(res?.data?.data);
