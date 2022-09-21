@@ -112,8 +112,6 @@ const UserMentions = ({ currentUser, data }) => {
           { mint: mintAddress }
         );
 
-        // console.log(prizeTokenAccount.value[0].pubkey.toString());
-
         let associatedTokenAccountPubkey = (
           await PublicKey.findProgramAddress(
             [
@@ -154,22 +152,22 @@ const UserMentions = ({ currentUser, data }) => {
         // );
 
         // let result = await solConnection.confirmTransaction(tx);
-        const body = {
-          rewardToken,
-          tweetId,
-          projectName,
-        };
-        const response = await axios.patch(
-          `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
-          body,
-          {
-            headers: {
-              Authorization: `BEARER ${currentUser.token}`,
-            },
-          }
-        );
+        // const body = {
+        //   rewardToken,
+        //   tweetId,
+        //   projectName,
+        // };
+        // const response = await axios.patch(
+        //   `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
+        //   body,
+        //   {
+        //     headers: {
+        //       Authorization: `BEARER ${currentUser.token}`,
+        //     },
+        //   }
+        // );
 
-        if (response) {
+        if (true) {
           const data = {
             rewardStatus: {
               rewardToken,
@@ -571,9 +569,8 @@ const UserMentions = ({ currentUser, data }) => {
       const body = {
         tweetId: userSelectTweetForClaim,
         projectName,
-        // mintAddress,
+        mintAddress: rewardToken,
         // poolAddress,
-        rewardToken,
         invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
         userPublicKey: publicKey,
       };
