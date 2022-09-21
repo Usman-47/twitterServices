@@ -7,7 +7,7 @@ var router = express.Router();
 router.get("/:projectName/:mintAddress", async function (req, res) {
   try {
     const { projectName, mintAddress } = req.params;
-    // var limit = 50;
+    var limit = 50;
     // var skip = pageNo * (limit - 1);
     var reward = await Reward.find({
       $and: [
@@ -21,8 +21,8 @@ router.get("/:projectName/:mintAddress", async function (req, res) {
           users: { $elemMatch: { isPaid: false } },
         },
       ],
-    });
-    // }).skip(skip).limit(limit);
+      // });
+    }).limit(limit);
 
     return res.send(reward);
   } catch (error) {
@@ -102,17 +102,8 @@ router.patch("/updateRewardRecord", async function (req, res) {
         type: "error",
       });
     }
-    const {
-      tweetId,
-      isPaid,
-      reawrdAmount,
-      projectName,
-      mintAddress,
-      isRaid,
-      invoiceCreaterPublicKey,
-      userPublicKey,
-    } = req.body;
-    var reward = await Reward.findOneAndUpdate(
+    const { projectName, mintAddress, users } = req.body;
+    var reward = await Reward.updateMany(
       {
         $and: [
           {
@@ -121,42 +112,18 @@ router.patch("/updateRewardRecord", async function (req, res) {
           {
             users: { $elemMatch: { mintAddress } },
           },
+          {
+            users: { $elemMatch: { isPaid: false } },
+          },
+          { userPublicKey: { $in: users } },
         ],
       },
       {
-        $push: {
-          users: [
-            {
-              tweetId,
-              isPaid,
-              reawrdAmount,
-              projectName,
-              mintAddress,
-              isRaid,
-              invoiceCreaterPublicKey,
-              userPublicKey,
-            },
-          ],
+        $set: {
+          "users.$[].isPaid": true,
         },
       }
     );
-    if (!reward) {
-      reward = new Reward({
-        users: [
-          {
-            tweetId,
-            isPaid,
-            reawrdAmount,
-            projectName,
-            mintAddress,
-            isRaid,
-            invoiceCreaterPublicKey,
-            userPublicKey,
-          },
-        ],
-      });
-      await reward.save();
-    }
     return res.send(reward);
   } catch (error) {
     console.log(error.message);

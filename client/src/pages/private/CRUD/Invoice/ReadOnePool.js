@@ -160,10 +160,6 @@ const ReadOneInvoice = ({ auth }) => {
     }
   };
   const airDrop = async () => {
-    console.log(
-      invoiceDataWithSpecificPool[0],
-      "invoiceDataWithSpecificPool[0]"
-    );
     const res = await axios.get(
       `${process.env.REACT_APP_SERVERURL}/reward/${invoiceDataWithSpecificPool[0]?.projectName}/${invoiceDataWithSpecificPool[0]?.pool[0].splToken}`,
       {
@@ -172,28 +168,57 @@ const ReadOneInvoice = ({ auth }) => {
         },
       }
     );
-    console.log(res, "res");
-    var tempArray = [];
-    res?.data?.map((pool) => {
-      pool?.users?.map((user) => {
-        tempArray.push(user.userPublicKey);
+    if (res.data.length > 0) {
+      var tempArray = [];
+      res?.data?.map((pool) => {
+        pool?.users?.map((user) => {
+          tempArray.push(user.userPublicKey);
+        });
       });
-    });
-    console.log(tempArray);
+      console.log(tempArray);
 
-    let body = {
-      usersArray: tempArray,
-      splToken: splTokenForFundPool,
-    };
-    const response = await axios.post(
-      `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
-      body,
-      {
-        headers: {
-          Authorization: `BEARER ${token}`,
-        },
+      let body = {
+        users: tempArray,
+        mintAddress: splTokenForFundPool,
+        projectName: invoiceDataWithSpecificPool[0]?.projectName,
+      };
+      const resData = await axios.patch(
+        `${process.env.REACT_APP_SERVERURL}/reward/updateRewardRecord`,
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
+      );
+      if (resData.data) {
+        let body = {
+          usersArray: tempArray,
+          splToken: splTokenForFundPool,
+          projectName: invoiceDataWithSpecificPool[0]?.projectName,
+        };
+
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${token}`,
+            },
+          }
+        );
+        if (response.data.tx) {
+          console.log(response.data.tx);
+          toast.success("Transfer Successfully");
+        } else {
+          toast.error("Something went wrong");
+        }
+      } else {
+        toast.error("Something went wrong");
       }
-    );
+    } else {
+      toast.error("No record found");
+    }
   };
 
   const fundUserPool = async () => {

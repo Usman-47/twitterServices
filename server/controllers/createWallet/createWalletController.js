@@ -48,7 +48,7 @@ const program = new anchor.Program(idl, PROGRAM_ID);
 
 const mintAddress = NATIVE_MINT;
 // const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
-const projectName = "test-with-api-2";
+// const projectName = "test-with-api-2";
 const tweetId = "test-id-3";
 // const clientAddress = oldWallet.publicKey;
 
@@ -99,7 +99,7 @@ const airDrop = async (req, res) => {
         arrayString[i] = parseInt(arrayString[i]);
       }
       let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
-      const { usersArray, splToken } = req.body;
+      const { usersArray, splToken, projectName } = req.body;
       let clientAddress = oldWallet.publicKey;
       let tx = new Transaction();
 
