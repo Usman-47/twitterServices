@@ -8,5 +8,6 @@ router.post("/new", RaidController.createWallet);
 router.post("/airdrop", RaidController.airDrop);
 router.post("/initializeUserPool", RaidController.initializeUserPool);
 router.post("/createTweet", RaidController.createTweet);
+router.post("/tweetAction", RaidController.tweetAction);
 
 module.exports = router;

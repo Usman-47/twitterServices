@@ -409,18 +409,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         await solConnection.getMinimumBalanceForRentExemption(336),
         "lamports"
       );
-
-      // let instructions = [SystemProgram.createAccountWithSeed(
-      //   {
-      //     fromPubkey: provider.wallet.publicKey,
-      //     basePubkey: provider.wallet.publicKey,
-      //     seed: tweetValue,
-      //     newAccountPubkey: userForLikeAddress,
-      //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-      //     space: 336,
-      //     programId: program.programId,
-      //   }
-      // )]
       const userAtaCheck = await solConnection.getTokenAccountsByOwner(
         provider.wallet.publicKey,
         { mint: mintAddress }
@@ -550,28 +538,45 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         }
       );
       if (res?.data?.data) {
-        let tx = await LikeTweet(1);
-        let result = await solConnection.confirmTransaction(tx);
-
-        const body = {
-          likeStatus: {
-            tweetId: data?.tweetId,
-            projectName,
-            time: moment().unix(),
-          },
-          twitterId: currentUser.twitterId,
+        let body = {
+          userAddress: currentUser.publicKey,
+          number: 1,
+          numberOfFollowes: currentUserFallowers,
+          tweetId: data?.tweetId,
+          projectName,
+          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          mintAddress: poolData.splToken,
         };
-        const response = await axios.patch(
-          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+        const resData = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/raid/tweetAction`,
           body,
           {
             headers: {
-              Authorization: `BEARER ${currentUser.token}`,
+              Authorization: `BEARER ${token}`,
             },
           }
         );
+        if (resData) {
+          const body = {
+            likeStatus: {
+              tweetId: data?.tweetId,
+              projectName,
+              time: moment().unix(),
+            },
+            twitterId: currentUser.twitterId,
+          };
+          const response = await axios.patch(
+            `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+            body,
+            {
+              headers: {
+                Authorization: `BEARER ${currentUser.token}`,
+              },
+            }
+          );
 
-        setIsTweetLike(true);
+          setIsTweetLike(true);
+        }
       }
     } catch (error) {
       console.log(error);

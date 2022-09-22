@@ -35,6 +35,7 @@ const OtherProjects = ({
                 startTime: data?.pool?.startTime,
                 endTime: data?.pool?.endTime || data?.pool[" endTime"],
                 rewardCategory: data?.pool?.rewardCategory,
+                splToken: data?.pool?.splToken,
               }}
             />
           </>

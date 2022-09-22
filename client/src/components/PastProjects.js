@@ -28,6 +28,7 @@ const OtherProjects = ({
               data={data.tweet}
               projectDetail={data.projectDetail}
               poolData={{
+                splToken: data?.pool?.splToken,
                 startTime: data?.pool?.startTime,
                 endTime: data?.pool?.endTime,
                 rewardCategory: data?.pool?.rewardCategory,
