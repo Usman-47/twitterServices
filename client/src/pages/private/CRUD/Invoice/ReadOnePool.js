@@ -189,7 +189,6 @@ const ReadOneInvoice = ({ auth }) => {
         }
       );
       console.log(resData, "resData");
-      return;
       if (resData.data) {
         let body = {
           usersArray: tempArray,
@@ -198,7 +197,7 @@ const ReadOneInvoice = ({ auth }) => {
         };
 
         const response = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
+          `${process.env.REACT_APP_SERVERURL}/mention/airdrop`,
           body,
           {
             headers: {

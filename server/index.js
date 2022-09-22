@@ -36,6 +36,7 @@ const PublicRoute = require("./routes/PublicRoute");
 const PrivateRoute = require("./routes/PrivateRoute");
 const InvoiceCrudRoute = require("./routes/InvoiceCrudRoute");
 const CreateWalletRoute = require("./routes/CreateWalletRoute");
+const RaidRoute = require("./routes/RaidRoute");
 const UserCrudRoute = require("./routes/UserCrudRoute");
 const tweets = require("./routes/tweets");
 const reward = require("./routes/reward");
@@ -47,7 +48,8 @@ app.use("/api/public", PublicRoute);
 app.use("/api/private", AuthCheck, PrivateRoute);
 app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
-app.use("/wallet", AuthCheck, CreateWalletRoute);
+app.use("/mention", AuthCheck, CreateWalletRoute);
+app.use("/raid", AuthCheck, RaidRoute);
 app.use("/reward", AuthCheck, reward);
 app.use("/tweet", AuthCheck, tweets);
 

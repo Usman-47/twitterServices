@@ -365,13 +365,13 @@ const initializeUserPool = async (req, res) => {
       });
     } else {
       res.send({
-        msg: "pool created",
+        // msg: "pool created",
         YourWallet: "Wallet Not Found",
         type: "fail",
       });
     }
   } catch (e) {
-    console.log(e.message, " err-in createWalletController");
+    console.log(e.message, " err-in mentionController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };

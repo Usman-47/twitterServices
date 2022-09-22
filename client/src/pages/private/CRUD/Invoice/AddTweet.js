@@ -98,14 +98,6 @@ const CreateInvoice = () => {
     );
   }
   const createTweet = async (tweetId) => {
-    console.log(
-      tweetId,
-      projectName,
-      splToken,
-      clientPublicKey,
-      "jdfhgjkhdfjk"
-    );
-    console.log(publicKey);
     // usman's account
     // const mintAddress = new PublicKey("J6K5HMGJ4MhaCngQE1HULHeN4mwAEQ1jQZN98mEY58nz")
     // const clientAddress = new PublicKey('3yhMnW4ge7oBZGqxLj2Fug3UvWTjx9cpaFd1rcymVEnx');
@@ -290,30 +282,41 @@ const CreateInvoice = () => {
         dispatch({ type: "loadingStop" });
         return;
       }
-
-      let tx = await createTweet(tweetId);
-      if (tx === undefined) {
-        dispatch({ type: "loadingStop" });
-        return;
-      }
-      let result = await solConnection.confirmTransaction(tx);
       const body = {
-        tweets: {
-          tweetUrl,
-          tweetId,
-          tweetText: res?.data?.data?.text,
-        },
+        tweetId,
+        projectName,
+        splToken,
       };
-      const { data } = await AddInvoicePoolTweetApi(id, body, token);
-      dispatch({ type: "loadingStop" });
+      const resData = await axios.post(
+        `${process.env.REACT_APP_SERVERURL}/raid/createTweet`,
+        body,
+        {
+          headers: {
+            Authorization: `BEARER ${token}`,
+          },
+        }
+      );
+      if (resData.data.tx) {
+        const body = {
+          tweets: {
+            tweetUrl,
+            tweetId,
+            tweetText: res?.data?.data?.text,
+          },
+        };
+        const { data } = await AddInvoicePoolTweetApi(id, body, token);
+        dispatch({ type: "loadingStop" });
 
-      if (data.type === "success") {
-        toast.success(data.msg);
-        navigate(
-          `/app/invoice/readOne/readAllPool/readOnePool/readAllTweet/${id}`
-        );
+        if (data.type === "success") {
+          toast.success(data.msg);
+          navigate(
+            `/app/invoice/readOne/readAllPool/readOnePool/readAllTweet/${id}`
+          );
+        } else {
+          toast.error(data.msg);
+        }
       } else {
-        toast.error(data.msg);
+        alert("unable to create tweet");
       }
     } catch (error) {
       console.log(error);

@@ -130,43 +130,6 @@ const UserMentions = ({ currentUser, data }) => {
         console.log(tweetAta.toString(), bump, "tweetAta");
         console.log(poolAddress.toString(), "poolAddress");
 
-        // const tx = await program.rpc.createTweet(
-        //   globalBump,
-        //   projectName,
-        //   tweetId,
-        //   {
-        //     accounts: {
-        //       user: provider.wallet.publicKey,
-        //       client: clientAddress,
-        //       tweetData: tweetAta,
-        //       globalAuthority: globalAuth,
-        //       pool: poolAddress,
-        //       // userAta: prizeTokenAccount.value[0].pubkey,
-        //       poolMint: mintAddress,
-        //       // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
-        //       systemProgram: SystemProgram.programId,
-        //       tokenProgram: TOKEN_PROGRAM_ID,
-        //       rent: SYSVAR_RENT_PUBKEY,
-        //     },
-        //   }
-        // );
-
-        // let result = await solConnection.confirmTransaction(tx);
-        // const body = {
-        //   rewardToken,
-        //   tweetId,
-        //   projectName,
-        // };
-        // const response = await axios.patch(
-        //   `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
-        //   body,
-        //   {
-        //     headers: {
-        //       Authorization: `BEARER ${currentUser.token}`,
-        //     },
-        //   }
-        // );
-
         if (true) {
           const data = {
             rewardStatus: {

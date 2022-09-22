@@ -55,7 +55,7 @@ const CreateInvoice = ({ auth }) => {
       userId: auth?.userId,
     };
     const res = await axios.post(
-      `${process.env.REACT_APP_SERVERURL}/wallet/new`,
+      `${process.env.REACT_APP_SERVERURL}/mention/new`,
       body,
       {
         headers: {
