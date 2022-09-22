@@ -83,6 +83,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   );
 
   const getCurrentUserFollower = async () => {
+    console.log("count user fallower");
     if (!currentUser?.twitterId) {
       alert("Please sigin first");
       return;
@@ -528,24 +529,26 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
-      const res = await axios.post(
-        `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
-        body,
-        {
-          headers: {
-            Authorization: `BEARER ${token}`,
-          },
-        }
-      );
-      if (res?.data?.data) {
+      // const res = await axios.post(
+      //   `${process.env.REACT_APP_SERVERURL}/tweet/likeSpecificTweet/${data?.tweetId}`,
+      //   body,
+      //   {
+      //     headers: {
+      //       Authorization: `BEARER ${token}`,
+      //     },
+      //   }
+      // );
+      // if (res?.data?.data) {
+      if (true) {
+        console.log(currentUser, "currentUser");
         let body = {
-          userAddress: currentUser.publicKey,
+          userAddress: publicKey,
           number: 1,
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
           clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
-          mintAddress: poolData.splToken,
+          splToken: poolData.splToken,
         };
         const resData = await axios.post(
           `${process.env.REACT_APP_SERVERURL}/raid/tweetAction`,
@@ -556,6 +559,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
             },
           }
         );
+        return;
         if (resData) {
           const body = {
             likeStatus: {
@@ -787,7 +791,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                 }}
                 disableSpacing
               >
-                {!isTweetLike ? (
+                {isTweetLike ? (
                   <IconButton
                     onClick={likeSpecificTweet}
                     aria-label="add to favorites"

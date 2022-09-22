@@ -1,4 +1,7 @@
 const Wallet = require("../../model/walletModel");
+const User = require("../../model/userModel");
+const mongoose = require("mongoose");
+
 // const CheckRoleAccess = require("../../util/CheckRoleAccess");
 // const { encryptFunc } = require("../../util/cryptoFunc");
 const { Program, web3 } = require("@project-serum/anchor");
@@ -569,223 +572,250 @@ const createTweet = async (req, res) => {
   }
 };
 
-const tweetAction = async (req, res, number) => {
+const tweetAction = async (req, res) => {
   try {
-    const { userAddress } = req.query;
-    console.log(number, userAddress, "user Address");
-    const userPublicKey = new PublicKey(userAddress);
-    const clientAddress = oldWallet.publicKey;
-    const numberOfFollowes = 5000;
-    const amount = numberOfFollowes;
+    const {
+      userAddress,
+      number,
+      numberOfFollowes,
+      tweetId,
+      projectName,
+      clientPublicKey,
+      splToken,
+    } = req.body;
+    let client = await User.find({ publicKey: clientPublicKey });
+    console.log(client, "client");
+    if (client) {
+      let walletObject = await Wallet.findOne({
+        accountHolder: mongoose.Types.ObjectId(client[0]._id),
+      });
+      if (walletObject) {
+        var arrayString = walletObject.privateKey.split(",");
+        for (i = 0; i < arrayString.length; i++) {
+          arrayString[i] = parseInt(arrayString[i]);
+        }
+        let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
+        const mintAddress = new PublicKey(splToken);
+        console.log(number, userAddress, "user Address");
+        const userPublicKey = new PublicKey(userAddress);
+        const clientAddress = oldWallet.publicKey;
+        // const numberOfFollowes = 5000;
+        const amount = numberOfFollowes;
 
-    let seed = `usersforlike-${tweetId}`;
-    if (number === 1) {
-      seed = `usersforlike-${tweetId}`;
-    }
-    if (number === 2) {
-      seed = `usersforretweet-${tweetId}`;
-    }
-    if (number === 3) {
-      seed = `usersforcomment-${tweetId}`;
-    }
-    // let userForLikeAddress = anchor.web3.Keypair.generate();
-    const userForLikeAddress = await PublicKey.createWithSeed(
-      clientAddress,
-      seed,
-      program.programId
-    );
-    console.log(userForLikeAddress.toString(), "usersforlike");
-    const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("tweets"),
-        // provider.wallet.publicKey.toBuffer(),
-        Buffer.from(tweetId),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
+        let seed = `usersforlike-${tweetId}`;
+        if (number === 1) {
+          seed = `usersforlike-${tweetId}`;
+        }
+        if (number === 2) {
+          seed = `usersforretweet-${tweetId}`;
+        }
+        if (number === 3) {
+          seed = `usersforcomment-${tweetId}`;
+        }
+        // let userForLikeAddress = anchor.web3.Keypair.generate();
+        const userForLikeAddress = await PublicKey.createWithSeed(
+          clientAddress,
+          seed,
+          program.programId
+        );
+        console.log(userForLikeAddress.toString(), "usersforlike");
+        const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
+          [
+            anchor.utils.bytes.utf8.encode("tweets"),
+            // provider.wallet.publicKey.toBuffer(),
+            Buffer.from(tweetId),
+            Buffer.from(projectName),
+          ],
+          program.programId
+        );
 
-    const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("pool"),
-        clientAddress.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
+        const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
+          [
+            anchor.utils.bytes.utf8.encode("pool"),
+            clientAddress.toBuffer(),
+            mintAddress.toBuffer(),
+            Buffer.from(projectName),
+          ],
+          program.programId
+        );
 
-    const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("poolAta"),
-        clientAddress.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
+        const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
+          [
+            anchor.utils.bytes.utf8.encode("poolAta"),
+            clientAddress.toBuffer(),
+            mintAddress.toBuffer(),
+            Buffer.from(projectName),
+          ],
+          program.programId
+        );
 
-    const [globalAuth, globalBump] =
-      await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("global-authority")],
-        // new anchor.BN(id).toArrayLike(Buffer)],
-        program.programId
-      );
+        const [globalAuth, globalBump] =
+          await anchor.web3.PublicKey.findProgramAddress(
+            [Buffer.from("global-authority")],
+            // new anchor.BN(id).toArrayLike(Buffer)],
+            program.programId
+          );
 
-    let userAta = (
-      await PublicKey.findProgramAddress(
-        [
-          userPublicKey.toBuffer(),
-          TOKEN_PROGRAM_ID.toBuffer(),
-          mintAddress.toBuffer(), // mint address
-        ],
-        ASSOCIATED_TOKEN_PROGRAM_ID
-      )
-    )[0];
+        let userAta = (
+          await PublicKey.findProgramAddress(
+            [
+              userPublicKey.toBuffer(),
+              TOKEN_PROGRAM_ID.toBuffer(),
+              mintAddress.toBuffer(), // mint address
+            ],
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        )[0];
 
-    console.log(userAta.toString(), "associatedTokenAccountPubkey");
-    console.log(tweetAta.toString(), bump, "tweetAta");
-    console.log(poolAddress.toString(), "poolAddress");
-    console.log(poolAta.toString(), "poolAta");
-    console.log(
-      await solConnection.getMinimumBalanceForRentExemption(336),
-      "lamports"
-    );
+        console.log(userAta.toString(), "associatedTokenAccountPubkey");
+        console.log(tweetAta.toString(), bump, "tweetAta");
+        console.log(poolAddress.toString(), "poolAddress");
+        console.log(poolAta.toString(), "poolAta");
+        console.log(
+          await solConnection.getMinimumBalanceForRentExemption(336),
+          "lamports"
+        );
 
-    // let instructions = [SystemProgram.createAccountWithSeed(
-    //   {
-    //     fromPubkey: provider.wallet.publicKey,
-    //     basePubkey: provider.wallet.publicKey,
-    //     seed: tweetValue,
-    //     newAccountPubkey: userForLikeAddress,
-    //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-    //     space: 336,
-    //     programId: program.programId,
-    //   }
-    // )]
-    const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-      userPublicKey,
-      { mint: mintAddress }
-    );
-    let instructions = [];
-    if (userAtaCheck.value.length === 0) {
-      console.log("2nd condition");
-      instructions.push(
-        Token.createAssociatedTokenAccountInstruction(
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-          TOKEN_PROGRAM_ID,
-          mintAddress,
-          userAta,
+        // let instructions = [SystemProgram.createAccountWithSeed(
+        //   {
+        //     fromPubkey: provider.wallet.publicKey,
+        //     basePubkey: provider.wallet.publicKey,
+        //     seed: tweetValue,
+        //     newAccountPubkey: userForLikeAddress,
+        //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
+        //     space: 336,
+        //     programId: program.programId,
+        //   }
+        // )]
+        const userAtaCheck = await solConnection.getTokenAccountsByOwner(
           userPublicKey,
-          clientAddress
-        )
-      );
-    }
+          { mint: mintAddress }
+        );
+        let instructions = [];
+        if (userAtaCheck.value.length === 0) {
+          console.log("2nd condition");
+          instructions.push(
+            Token.createAssociatedTokenAccountInstruction(
+              ASSOCIATED_TOKEN_PROGRAM_ID,
+              TOKEN_PROGRAM_ID,
+              mintAddress,
+              userAta,
+              userPublicKey,
+              clientAddress
+            )
+          );
+        }
 
-    if (number === 1) {
-      const tx = await program.rpc.likeTweet(
-        globalBump,
-        projectName,
-        tweetId,
-        new anchor.BN(amount),
-        {
-          accounts: {
-            user: userPublicKey,
-            client: clientAddress,
-            // tweetData: tweetAta,
-            globalAuthority: globalAuth,
-            pool: poolAddress,
-            usersForLike: userForLikeAddress,
-            poolAta: poolAta,
-            userAta: userAta,
-            poolMint: mintAddress,
-            // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
-            // systemProgram: SystemProgram.programId,
-            tokenProgram: TOKEN_PROGRAM_ID,
-            // rent: SYSVAR_RENT_PUBKEY,
-          },
-          signers: [oldWallet],
-          instructions,
+        if (number === 1) {
+          const tx = await program.rpc.likeTweet(
+            globalBump,
+            projectName,
+            tweetId,
+            new anchor.BN(amount),
+            {
+              accounts: {
+                user: userPublicKey,
+                client: clientAddress,
+                // tweetData: tweetAta,
+                globalAuthority: globalAuth,
+                pool: poolAddress,
+                usersForLike: userForLikeAddress,
+                poolAta: poolAta,
+                userAta: userAta,
+                poolMint: mintAddress,
+                // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+                // systemProgram: SystemProgram.programId,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                // rent: SYSVAR_RENT_PUBKEY,
+              },
+              signers: [oldWallet],
+              instructions,
+            }
+          );
+          console.log(tx, "tx");
+          res.send({
+            msg: "tweet liked",
+            YourWallet: userPublicKey.toString(),
+            tx: tx,
+            type: "success",
+          });
+          return;
         }
-      );
-      console.log(tx, "tx");
-      res.send({
-        msg: "tweet liked",
-        YourWallet: userPublicKey.toString(),
-        tx: tx,
-        type: "success",
-      });
-      return;
-    }
-    if (number === 2) {
-      const tx = await program.rpc.retweet(
-        globalBump,
-        projectName,
-        tweetId,
-        new anchor.BN(amount),
-        {
-          accounts: {
-            user: userPublicKey,
-            client: clientAddress,
-            // tweetData: tweetAta,
-            globalAuthority: globalAuth,
-            // pool: poolAddress,
-            usersForRetweet: userForLikeAddress,
-            poolAta: poolAta,
-            userAta: userAta,
-            poolMint: mintAddress,
-            // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
-            // systemProgram: SystemProgram.programId,
-            tokenProgram: TOKEN_PROGRAM_ID,
-            // rent: SYSVAR_RENT_PUBKEY,
-          },
-          signers: [oldWallet],
-          instructions,
+        if (number === 2) {
+          const tx = await program.rpc.retweet(
+            globalBump,
+            projectName,
+            tweetId,
+            new anchor.BN(amount),
+            {
+              accounts: {
+                user: userPublicKey,
+                client: clientAddress,
+                // tweetData: tweetAta,
+                globalAuthority: globalAuth,
+                // pool: poolAddress,
+                usersForRetweet: userForLikeAddress,
+                poolAta: poolAta,
+                userAta: userAta,
+                poolMint: mintAddress,
+                // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+                // systemProgram: SystemProgram.programId,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                // rent: SYSVAR_RENT_PUBKEY,
+              },
+              signers: [oldWallet],
+              instructions,
+            }
+          );
+          console.log(tx, "tx");
+          res.send({
+            msg: "tweet retweeted",
+            YourWallet: userPublicKey.toString(),
+            tx: tx,
+            type: "success",
+          });
+          return;
         }
-      );
-      console.log(tx, "tx");
-      res.send({
-        msg: "tweet retweeted",
-        YourWallet: userPublicKey.toString(),
-        tx: tx,
-        type: "success",
-      });
-      return;
-    }
-    if (number === 3) {
-      const tx = await program.rpc.commentTweet(
-        globalBump,
-        projectName,
-        tweetId,
-        new anchor.BN(amount),
-        {
-          accounts: {
-            user: userPublicKey,
-            client: clientAddress,
-            // tweetData: tweetAta,
-            globalAuthority: globalAuth,
-            // pool: poolAddress,
-            usersForComment: userForLikeAddress,
-            poolAta: poolAta,
-            userAta: userAta,
-            poolMint: mintAddress,
-            // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
-            // systemProgram: SystemProgram.programId,
-            tokenProgram: TOKEN_PROGRAM_ID,
-            // rent: SYSVAR_RENT_PUBKEY,
-          },
-          signers: [oldWallet],
-          instructions,
+        if (number === 3) {
+          const tx = await program.rpc.commentTweet(
+            globalBump,
+            projectName,
+            tweetId,
+            new anchor.BN(amount),
+            {
+              accounts: {
+                user: userPublicKey,
+                client: clientAddress,
+                // tweetData: tweetAta,
+                globalAuthority: globalAuth,
+                // pool: poolAddress,
+                usersForComment: userForLikeAddress,
+                poolAta: poolAta,
+                userAta: userAta,
+                poolMint: mintAddress,
+                // poolMint: new PublicKey("So11111111111111111111111111111111111111112"),
+                // systemProgram: SystemProgram.programId,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                // rent: SYSVAR_RENT_PUBKEY,
+              },
+              signers: [oldWallet],
+              instructions,
+            }
+          );
+          console.log(tx, "tx");
+          res.send({
+            msg: "commented on tweet",
+            YourWallet: userPublicKey.toString(),
+            tx: tx,
+            type: "success",
+          });
+          return;
         }
-      );
-      console.log(tx, "tx");
-      res.send({
-        msg: "commented on tweet",
-        YourWallet: userPublicKey.toString(),
-        tx: tx,
-        type: "success",
-      });
-      return;
+      } else {
+        console.log("Client wallet not found");
+      }
+    } else {
+      console.log("Client not found");
     }
   } catch (e) {
     console.log(e.message, " err-in createUserController");
