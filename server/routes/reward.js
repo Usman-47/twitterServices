@@ -8,23 +8,24 @@ router.get("/:projectName/:mintAddress", async function (req, res) {
   try {
     const { projectName, mintAddress } = req.params;
     var limit = 50;
-    // var skip = pageNo * (limit - 1);
     var reward = await Reward.find({
-      $and: [
-        {
-          users: { $elemMatch: { projectName } },
-        },
-        {
-          users: { $elemMatch: { mintAddress } },
-        },
-        {
-          users: { $elemMatch: { isPaid: false } },
-        },
-      ],
-      // });
-    }).limit(limit);
-
-    return res.send(reward);
+      users: { $elemMatch: { projectName, mintAddress } },
+    });
+    let tempArray = [];
+    if (reward && reward.length > 0) {
+      reward.map((data) => {
+        if (data.users && data.users.length > 0) {
+          data.users.map((user) => {
+            if (user.isPaid === false) {
+              if (tempArray && tempArray.length < limit) {
+                tempArray.push(user);
+              }
+            }
+          });
+        }
+      });
+    }
+    return res.send({ reward: tempArray });
   } catch (error) {
     console.log(error.message);
   }
@@ -41,6 +42,8 @@ router.patch("/addRewardRecord", async function (req, res) {
       invoiceCreaterPublicKey,
       userPublicKey,
     } = req.body;
+    // for (let i = 0; i < 50; i++) {
+    // console.log(i);
     var reward = await Reward.findOneAndUpdate(
       {
         $and: [
@@ -87,6 +90,7 @@ router.patch("/addRewardRecord", async function (req, res) {
       await reward.save();
     }
     return res.send(reward);
+    // }
   } catch (error) {
     console.log(error.message);
   }
@@ -102,28 +106,32 @@ router.patch("/updateRewardRecord", async function (req, res) {
         type: "error",
       });
     }
-    const { projectName, mintAddress, users } = req.body;
-    var reward = await Reward.updateMany(
-      {
-        $and: [
-          {
-            users: { $elemMatch: { projectName } },
+    var reward;
+    const { projectName, mintAddress, usersArray } = req.body;
+    for (let i = 0; i < usersArray.length; i++) {
+      console.log(usersArray[i].tweetIds, usersArray[i].users);
+      reward = await Reward.findOneAndUpdate(
+        {
+          users: {
+            $elemMatch: {
+              tweetId: usersArray[i].tweetIds,
+              userPublicKey: usersArray[i].users,
+              projectName,
+              mintAddress,
+              isPaid: false,
+            },
           },
-          {
-            users: { $elemMatch: { mintAddress } },
-          },
-          {
-            users: { $elemMatch: { isPaid: false } },
-          },
-          { userPublicKey: { $in: users } },
-        ],
-      },
-      {
-        $set: {
-          "users.$[].isPaid": true,
         },
-      }
-    );
+        {
+          $set: {
+            "users.$.isPaid": true,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+    }
     return res.send(reward);
   } catch (error) {
     console.log(error.message);

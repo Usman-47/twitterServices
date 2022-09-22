@@ -106,7 +106,7 @@ const airDrop = async (req, res) => {
       var usersPublicKey = [];
       const mintAddress = new PublicKey(splToken);
       for (i = 0; i < usersArray.length; i++) {
-        usersPublicKey.push(new PublicKey(usersArray[i]));
+        usersPublicKey.push(new PublicKey(usersArray[i].users));
       }
       // const users = [
       //   new PublicKey("HkpkkPnt7jTp9z7otAafYdwkT92QEoCURrM2zVdkcCUn"),

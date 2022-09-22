@@ -168,20 +168,17 @@ const ReadOneInvoice = ({ auth }) => {
         },
       }
     );
-    if (res.data.length > 0) {
+    if (res?.data?.reward?.length > 0) {
       var tempArray = [];
-      res?.data?.map((pool) => {
-        pool?.users?.map((user) => {
-          tempArray.push(user.userPublicKey);
-        });
+      res?.data?.reward?.map((user) => {
+        tempArray.push({ users: user.userPublicKey, tweetIds: user.tweetId });
       });
-      console.log(tempArray);
-
       let body = {
-        users: tempArray,
+        usersArray: tempArray,
         mintAddress: splTokenForFundPool,
         projectName: invoiceDataWithSpecificPool[0]?.projectName,
       };
+      console.log(tempArray, "tempArray");
       const resData = await axios.patch(
         `${process.env.REACT_APP_SERVERURL}/reward/updateRewardRecord`,
         body,
@@ -191,6 +188,8 @@ const ReadOneInvoice = ({ auth }) => {
           },
         }
       );
+      console.log(resData, "resData");
+      return;
       if (resData.data) {
         let body = {
           usersArray: tempArray,
