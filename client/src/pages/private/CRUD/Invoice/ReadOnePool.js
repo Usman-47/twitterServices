@@ -192,12 +192,13 @@ const ReadOneInvoice = ({ auth }) => {
       if (resData.data) {
         let body = {
           usersArray: tempArray,
+          isRaid,
           splToken: splTokenForFundPool,
           projectName: invoiceDataWithSpecificPool[0]?.projectName,
         };
 
         const response = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/airdrop`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
           body,
           {
             headers: {
@@ -252,12 +253,13 @@ const ReadOneInvoice = ({ auth }) => {
       if (resData.data) {
         let body = {
           usersArray: tempArray,
+          isRaid,
           splToken: splTokenForFundPool,
           projectName: invoiceDataWithSpecificPool[0]?.projectName,
         };
 
         const response = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/airdrop`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
           body,
           {
             headers: {

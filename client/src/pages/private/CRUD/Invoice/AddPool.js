@@ -438,6 +438,7 @@ const AddPool = ({ auth }) => {
         const body = {
           funds: amount,
           startTime,
+          isRaid,
           timeLimit,
           category,
           rewardFrequency,
@@ -445,7 +446,7 @@ const AddPool = ({ auth }) => {
           projectName,
         };
         const res = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/initializeUserPool`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
           body,
           {
             headers: {
@@ -482,6 +483,7 @@ const AddPool = ({ auth }) => {
         const body = {
           funds: amount,
           startTime,
+          isRaid,
           timeLimit,
           category,
           rewardFrequency,
@@ -489,7 +491,7 @@ const AddPool = ({ auth }) => {
           projectName,
         };
         const res = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/mention/initializeUserPool`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
           body,
           {
             headers: {

@@ -539,6 +539,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         let body = {
           userAddress: publicKey,
           number: 1,
+          isRaid: projectDetail?.isRaid,
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
@@ -546,7 +547,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/tweetAction`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {
@@ -624,6 +625,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         let body = {
           userAddress: publicKey,
           number: 3,
+          isRaid: projectDetail?.isRaid,
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
@@ -631,7 +633,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/tweetAction`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {
@@ -688,7 +690,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       console.log(error);
     }
   };
-
   const retweetATweet = async () => {
     try {
       let body = {
@@ -709,6 +710,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         let body = {
           userAddress: publicKey,
           number: 2,
+          isRaid: projectDetail?.isRaid,
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
@@ -716,7 +718,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/raid/tweetAction`,
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {

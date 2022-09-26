@@ -48,8 +48,7 @@ app.use("/api/public", PublicRoute);
 app.use("/api/private", AuthCheck, PrivateRoute);
 app.use("/api/crud/invoice", AuthCheck, InvoiceCrudRoute);
 app.use("/api/crud/user", AuthCheck, UserCrudRoute);
-app.use("/mention", AuthCheck, CreateWalletRoute);
-app.use("/raid", AuthCheck, RaidRoute);
+app.use("/wallet", AuthCheck, CreateWalletRoute);
 app.use("/reward", AuthCheck, reward);
 app.use("/tweet", AuthCheck, tweets);
 

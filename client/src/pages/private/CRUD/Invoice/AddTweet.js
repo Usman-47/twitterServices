@@ -287,7 +287,7 @@ const CreateInvoice = () => {
         splToken,
       };
       const resData = await axios.post(
-        `${process.env.REACT_APP_SERVERURL}/raid/createTweet`,
+        `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
         body,
         {
           headers: {
