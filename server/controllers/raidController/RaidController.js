@@ -583,6 +583,7 @@ const tweetAction = async (req, res) => {
       clientPublicKey,
       splToken,
     } = req.body;
+
     let client = await User.find({ publicKey: clientPublicKey });
     console.log(client, "client");
     if (client) {

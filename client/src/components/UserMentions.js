@@ -533,6 +533,7 @@ const UserMentions = ({ currentUser, data }) => {
         tweetId: userSelectTweetForClaim,
         projectName,
         mintAddress: rewardTokenForClaim,
+        isRaid: false,
         // poolAddress,
         invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
         userPublicKey: publicKey,
