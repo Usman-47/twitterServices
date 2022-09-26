@@ -4,12 +4,12 @@ const CheckRoleAccess = require("../util/CheckRoleAccess");
 
 var router = express.Router();
 
-router.get("/:projectName/:mintAddress", async function (req, res) {
+router.get("/:projectName/:mintAddress/:isRaid", async function (req, res) {
   try {
-    const { projectName, mintAddress } = req.params;
+    const { projectName, mintAddress, isRaid } = req.params;
     var limit = 50;
     var reward = await Reward.find({
-      users: { $elemMatch: { projectName, mintAddress } },
+      users: { $elemMatch: { projectName, mintAddress, isRaid } },
     });
     let tempArray = [];
     if (reward && reward.length > 0) {
@@ -44,6 +44,7 @@ router.patch("/addRewardRecord", async function (req, res) {
     } = req.body;
     // for (let i = 0; i < 50; i++) {
     // console.log(i);
+
     var reward = await Reward.findOneAndUpdate(
       {
         $and: [
@@ -60,8 +61,8 @@ router.patch("/addRewardRecord", async function (req, res) {
           users: [
             {
               tweetId,
-              isPaid,
-              reawrdAmount,
+              isPaid: false,
+              reawrdAmount: 0,
               projectName,
               mintAddress,
               isRaid,
@@ -107,7 +108,7 @@ router.patch("/updateRewardRecord", async function (req, res) {
       });
     }
     var reward;
-    const { projectName, mintAddress, usersArray } = req.body;
+    const { projectName, mintAddress, usersArray, isRaid } = req.body;
     for (let i = 0; i < usersArray.length; i++) {
       console.log(usersArray[i].tweetIds, usersArray[i].users);
       reward = await Reward.findOneAndUpdate(
@@ -118,6 +119,7 @@ router.patch("/updateRewardRecord", async function (req, res) {
               userPublicKey: usersArray[i].users,
               projectName,
               mintAddress,
+              isRaid,
               isPaid: false,
             },
           },

@@ -62,8 +62,6 @@ const createWallet = async (req, res) => {
     });
     if (!wallet) {
       const newWallet = Keypair.generate();
-      console.log(newWallet.publicKey.toString());
-      console.log(newWallet.secretKey);
       privateKey = newWallet.secretKey;
       const walletData = new Wallet({
         accountHolder: mongoose.Types.ObjectId(userId),
@@ -148,21 +146,13 @@ const airDrop = async (req, res) => {
             ASSOCIATED_TOKEN_PROGRAM_ID
           )
         )[0];
-        // const [globalAuth, globalBump] = await anchor.web3.PublicKey.findProgramAddress(
-        //   [Buffer.from("global-authority")],
-        //   // new anchor.BN(47).toArrayLike(Buffer)],
-        //   program.programId
-        //   );
-        //   let tx = await program.methods.bet().transaction();
+
         tx.feePayer = oldWallet.publicKey;
 
         const userAtaCheck = await solConnection.getTokenAccountsByOwner(
           users[i],
           { mint: mintAddress }
         );
-        // const seed = anchor.utils.sha256.hash([Buffer.from("global-authority"), new anchor.BN(255)])
-        // const global = Keypair.fromSeed(seed);
-        // console.log(global.publicKey.toString());
 
         if (userAtaCheck.value.length === 0) {
           console.log(users[i].toString(), "no ata");
@@ -190,14 +180,6 @@ const airDrop = async (req, res) => {
         );
       }
 
-      // tx.add(
-      //   SystemProgram.transfer({
-      //     fromPubkey: oldWallet.publicKey,
-      //     toPubkey: new PublicKey("Bx6Z6XxCSdwtqmiKP9prwU7m8NDuUcA11FtPdSZ5Fw9B"),
-      //     lamports: 1 * 1000000000,
-      //   })
-      // );
-      //   console.log("tx: ", tx);
       const txID = await solConnection.sendTransaction(tx, [oldWallet]);
 
       res.send({

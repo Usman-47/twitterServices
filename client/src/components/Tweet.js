@@ -515,7 +515,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       alert("connect wallet");
     }
   };
-
   const likeSpecificTweet = async () => {
     try {
       if (!data?.tweetId || !projectName) {
@@ -580,7 +579,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               mintAddress: poolData?.splToken,
               isRaid: true,
               // poolAddress,
-              invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
               userPublicKey: publicKey,
             };
 
@@ -665,7 +664,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               mintAddress: poolData?.splToken,
               isRaid: true,
               // poolAddress,
-              invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
               userPublicKey: publicKey,
             };
 
@@ -751,7 +750,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               mintAddress: poolData?.splToken,
               isRaid: true,
               // poolAddress,
-              invoiceCreaterPublicKey: data.invoiceCreaterPublicKey,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
               userPublicKey: publicKey,
             };
 
@@ -893,7 +892,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                 }}
                 disableSpacing
               >
-                {isTweetLike ? (
+                {!isTweetLike ? (
                   <IconButton
                     onClick={likeSpecificTweet}
                     aria-label="add to favorites"

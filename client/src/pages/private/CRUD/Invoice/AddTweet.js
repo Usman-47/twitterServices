@@ -66,7 +66,6 @@ const CreateInvoice = () => {
     const res = await axios.get(
       `${process.env.REACT_APP_SERVERURL}/api/public/invoicePool/${id}`
     );
-    console.log(res?.data, "hgjfddfd");
     if (res?.data?.invoiceFound[0]?.pool) {
       setIsRaid(res?.data?.invoiceFound[0]?.isRaid);
       setClientPublicKey(res?.data?.invoiceFound[0]?.invoiceCreaterPublicKey);
@@ -325,14 +324,14 @@ const CreateInvoice = () => {
     }
   };
 
-  const handleChange = (e, position) => {
-    let temp = [...stateValues.category];
-    temp[position] = e.target.value;
-    setStateValues((prev) => ({
-      ...prev,
-      category: temp,
-    }));
-  };
+  // const handleChange = (e, position) => {
+  //   let temp = [...stateValues.category];
+  //   temp[position] = e.target.value;
+  //   setStateValues((prev) => ({
+  //     ...prev,
+  //     category: temp,
+  //   }));
+  // };
 
   return (
     <>

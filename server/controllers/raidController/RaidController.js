@@ -1,9 +1,6 @@
 const Wallet = require("../../model/walletModel");
 const User = require("../../model/userModel");
 const mongoose = require("mongoose");
-
-// const CheckRoleAccess = require("../../util/CheckRoleAccess");
-// const { encryptFunc } = require("../../util/cryptoFunc");
 const { Program, web3 } = require("@project-serum/anchor");
 const anchor = require("@project-serum/anchor");
 const nacl = require("tweetnacl");
@@ -24,20 +21,6 @@ const {
 } = require("@solana/web3.js");
 const fs = require("fs");
 
-// import { Program, web3 } from "@project-serum/anchor";
-// import * as anchor from "@project-serum/anchor";
-// import {
-//     TOKEN_PROGRAM_ID,
-//     ASSOCIATED_TOKEN_PROGRAM_ID,
-//     NATIVE_MINT,
-//     Token,
-//   } from "@solana/spl-token";
-
-// twiter-program
-// const PROGRAM_ID = new anchor.web3.PublicKey("7k437JyhS6h4d5Uzqc2PzgvpCbj8zep7rmAKtyRNMU1h");
-// const idl = JSON.parse(fs.readFileSync(__dirname + "/twitter_program.json", "utf8"));
-
-// raid program
 const PROGRAM_ID = new anchor.web3.PublicKey(
   "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs"
 );
@@ -52,23 +35,6 @@ var solConnection = new web3.Connection(web3.clusterApiUrl("devnet"), {
   confirmTransactionInitialTimeout: 120000,
 });
 const program = new anchor.Program(idl, PROGRAM_ID);
-
-let oldWallet = Keypair.fromSecretKey(
-  new Uint8Array([
-    190, 159, 62, 11, 223, 105, 148, 57, 187, 238, 45, 245, 134, 232, 118, 39,
-    40, 242, 112, 177, 83, 142, 165, 133, 139, 72, 49, 103, 145, 246, 135, 67,
-    87, 167, 0, 39, 154, 94, 81, 58, 215, 23, 40, 189, 71, 96, 230, 237, 218,
-    168, 97, 22, 225, 178, 244, 52, 201, 152, 93, 198, 153, 22, 159, 33,
-  ])
-);
-
-// const mintAddress = NATIVE_MINT;
-// const mintAddress = new PublicKey(
-//   "3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF"
-// );
-// const projectName = "test-with-api-2";
-// const tweetId = "test-id-1";
-// const clientAddress = oldWallet.publicKey;
 
 const sleep = async (ms) => {
   return new Promise((r) => setTimeout(r, ms));
@@ -110,108 +76,101 @@ const createWallet = async (req, res) => {
 
 const airDrop = async (req, res) => {
   try {
-    let tx = new Transaction();
-
-    const userAddress = new PublicKey(req.query.user);
-    const users = [
-      new PublicKey("HkpkkPnt7jTp9z7otAafYdwkT92QEoCURrM2zVdkcCUn"),
-      new PublicKey("CoGobJp3DkjPYT35xKBLiJNDbNoBWjNjpWD6Do1ftfnE"),
-      new PublicKey("7VPjjEj7mukgBf9TqpDxivnu7BNH4rdUmSFUpgvpLvf7"),
-      new PublicKey("Apex9vESFs3AUhkzMssbRo1Dcx7ysbKHp6WqXQe2ugQV"),
-    ];
-    console.log(userAddress.toString());
-
-    let clientAta = (
-      await PublicKey.findProgramAddress(
-        [
-          clientAddress.toBuffer(),
-          TOKEN_PROGRAM_ID.toBuffer(),
-          mintAddress.toBuffer(), // mint address
-        ],
-        ASSOCIATED_TOKEN_PROGRAM_ID
-      )
-    )[0];
-
-    const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        anchor.utils.bytes.utf8.encode("poolAta"),
-        clientAddress.toBuffer(),
-        mintAddress.toBuffer(),
-        Buffer.from(projectName),
-      ],
-      program.programId
-    );
-
-    for (i = 0; i < users.length; i++) {
-      let userAta = (
+    let wallet = await Wallet.findOne({
+      accountHolder: mongoose.Types.ObjectId(req.userObj.id),
+    });
+    if (wallet) {
+      var arrayString = wallet.privateKey.split(",");
+      for (i = 0; i < arrayString.length; i++) {
+        arrayString[i] = parseInt(arrayString[i]);
+      }
+      let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
+      const { usersArray, splToken, projectName } = req.body;
+      let clientAddress = oldWallet.publicKey;
+      let tx = new Transaction();
+      var usersPublicKey = [];
+      const mintAddress = new PublicKey(splToken);
+      for (i = 0; i < usersArray.length; i++) {
+        usersPublicKey.push(new PublicKey(usersArray[i].users));
+      }
+      const users = usersPublicKey;
+      let clientAta = (
         await PublicKey.findProgramAddress(
           [
-            users[i].toBuffer(),
+            clientAddress.toBuffer(),
             TOKEN_PROGRAM_ID.toBuffer(),
             mintAddress.toBuffer(), // mint address
           ],
           ASSOCIATED_TOKEN_PROGRAM_ID
         )
       )[0];
-      // const [globalAuth, globalBump] = await anchor.web3.PublicKey.findProgramAddress(
-      //   [Buffer.from("global-authority")],
-      //   // new anchor.BN(47).toArrayLike(Buffer)],
-      //   program.programId
-      //   );
-      //   let tx = await program.methods.bet().transaction();
-      tx.feePayer = oldWallet.publicKey;
 
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        users[i],
-        { mint: mintAddress }
+      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
+        [
+          anchor.utils.bytes.utf8.encode("poolAta"),
+          clientAddress.toBuffer(),
+          mintAddress.toBuffer(),
+          Buffer.from(projectName),
+        ],
+        program.programId
       );
-      // const seed = anchor.utils.sha256.hash([Buffer.from("global-authority"), new anchor.BN(255)])
-      // const global = Keypair.fromSeed(seed);
-      // console.log(global.publicKey.toString());
 
-      if (userAtaCheck.value.length === 0) {
-        console.log(users[i].toString(), "no ata");
+      for (i = 0; i < users.length; i++) {
+        let userAta = (
+          await PublicKey.findProgramAddress(
+            [
+              users[i].toBuffer(),
+              TOKEN_PROGRAM_ID.toBuffer(),
+              mintAddress.toBuffer(), // mint address
+            ],
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        )[0];
+
+        tx.feePayer = oldWallet.publicKey;
+
+        const userAtaCheck = await solConnection.getTokenAccountsByOwner(
+          users[i],
+          { mint: mintAddress }
+        );
+
+        if (userAtaCheck.value.length === 0) {
+          console.log(users[i].toString(), "no ata");
+          tx.add(
+            Token.createAssociatedTokenAccountInstruction(
+              ASSOCIATED_TOKEN_PROGRAM_ID,
+              TOKEN_PROGRAM_ID,
+              mintAddress,
+              userAta,
+              users[i],
+              oldWallet.publicKey
+            )
+          );
+        }
+
         tx.add(
-          Token.createAssociatedTokenAccountInstruction(
-            ASSOCIATED_TOKEN_PROGRAM_ID,
+          Token.createTransferInstruction(
             TOKEN_PROGRAM_ID,
-            mintAddress,
+            poolAta,
             userAta,
-            users[i],
-            oldWallet.publicKey
+            oldWallet.publicKey,
+            [oldWallet],
+            100_000
           )
         );
       }
 
-      tx.add(
-        Token.createTransferInstruction(
-          TOKEN_PROGRAM_ID,
-          poolAta,
-          userAta,
-          oldWallet.publicKey,
-          [oldWallet],
-          100_000
-        )
-      );
+      const txID = await solConnection.sendTransaction(tx, [oldWallet]);
+
+      res.send({
+        msg: "airdrop completed",
+        YourWallet: oldWallet.publicKey.toString(),
+        tx: txID,
+        type: "success",
+      });
+    } else {
+      alert("SomeThing went wrong");
     }
-
-    // tx.add(
-    //   SystemProgram.transfer({
-    //     fromPubkey: oldWallet.publicKey,
-    //     toPubkey: new PublicKey("Bx6Z6XxCSdwtqmiKP9prwU7m8NDuUcA11FtPdSZ5Fw9B"),
-    //     lamports: 1 * 1000000000,
-    //   })
-    // );
-    //   console.log("tx: ", tx);
-    const txID = await solConnection.sendTransaction(tx, [oldWallet]);
-
-    res.send({
-      msg: "airdrop completed",
-      YourWallet: oldWallet.publicKey.toString(),
-      tx: txID,
-      type: "success",
-    });
-    // res.send({ msg: "under development", YourWallet: oldWallet.publicKey.toString(), type: "success" });
   } catch (e) {
     console.log(e.message, " err-in createUserController");
     res.status(500).send({ msg: e.message, type: "failed" });
@@ -236,12 +195,6 @@ const initializeUserPool = async (req, res) => {
         await solConnection.getLatestBlockhashAndContext();
       const lastValidBlockHeight = blockhashResponse.context.slot + 150;
       let blockheight = await solConnection.getBlockHeight();
-      // let blockhash = await solConnection.getLatestBlockhash('finalized').blockhash;
-      // newTx.recentBlockhash = blockhash;
-
-      console.log(blockhashResponse, "blockhashResponse");
-      console.log(lastValidBlockHeight, "lastValidBlockHeight");
-      console.log(blockheight, "blockheight");
 
       const [globalAuth, globalBump] =
         await anchor.web3.PublicKey.findProgramAddress(
@@ -266,8 +219,6 @@ const initializeUserPool = async (req, res) => {
         [
           anchor.utils.bytes.utf8.encode("pool"),
           oldWallet.publicKey.toBuffer(),
-          //  mintAddress.toBuffer(),
-          //  Buffer.from(projectName),
         ],
         SystemProgram.programId
       );
@@ -285,8 +236,6 @@ const initializeUserPool = async (req, res) => {
       )[0];
       console.log(mintAddress.toString(), "mint Address");
       console.log(NATIVE_MINT == mintAddress, "Mint native");
-      // let temp = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, NATIVE_MINT, oldWallet.publicKey)
-      // console.log(temp.toString(), "temp")
 
       console.log(clientAta.toString(), "associatedTokenAccountPubkey");
       const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
@@ -298,7 +247,6 @@ const initializeUserPool = async (req, res) => {
         ],
         program.programId
       );
-      // const walletCTemp = Keypair.generate();
       console.log(poolAta.toString(), "poolAta");
       const userAtaCheck = await solConnection.getTokenAccountsByOwner(
         oldWallet.publicKey,
@@ -354,7 +302,6 @@ const initializeUserPool = async (req, res) => {
             client: oldWallet.publicKey,
             globalAuthority: globalAuth,
             pool: poolAddress,
-            // poolSol: poolSolAddress,
             poolAta: poolAta,
             poolMint: mintAddress,
             clientAta: clientAta,
@@ -383,12 +330,6 @@ const initializeUserPool = async (req, res) => {
         const response = await solConnection.sendTransaction(newTx, [
           oldWallet,
         ]);
-
-        // response = solConnection.sendRawTransaction(rawTransaction, {
-        //   skipPreflight: true,
-        // });
-        // await sleep(500);
-        // blockheight = await solConnection.getBlockHeight();
         if (response !== {} || response !== "") {
           res.send({
             msg: "pool created",
@@ -401,7 +342,6 @@ const initializeUserPool = async (req, res) => {
       }
     } else {
       res.send({
-        // msg: "pool created",
         YourWallet: "Wallet Not Found",
         type: "fail",
       });
@@ -426,6 +366,8 @@ const createTweet = async (req, res) => {
       const clientAddress = oldWallet.publicKey;
 
       let { tweetId, splToken, projectName } = req.body;
+
+      console.log(tweetId, splToken, projectName, "hjkhkjhjk");
 
       const mintAddress = new PublicKey(splToken);
       const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
@@ -461,22 +403,22 @@ const createTweet = async (req, res) => {
 
       const userForLikeAddress = await PublicKey.createWithSeed(
         oldWallet.publicKey,
-        `usersforlike-${tweetId}`,
+        `like-${tweetId}`,
         program.programId
       );
-      console.log(userForLikeAddress.toString(), "usersforretweet");
+      console.log(userForLikeAddress.toString(), "retweet");
       const userForRetweetAddress = await PublicKey.createWithSeed(
         oldWallet.publicKey,
-        `usersforretweet-${tweetId}`,
+        `retweet-${tweetId}`,
         program.programId
       );
-      console.log(userForRetweetAddress.toString(), "usersforcomment");
+      console.log(userForRetweetAddress.toString(), "comment");
       const userForCommentAddress = await PublicKey.createWithSeed(
         oldWallet.publicKey,
-        `usersforcomment-${tweetId}`,
+        `comment-${tweetId}`,
         program.programId
       );
-      console.log(userForCommentAddress.toString(), "usersforlike");
+      console.log(userForCommentAddress.toString(), "like");
 
       // console.log(prizeTokenAccount.value[0].pubkey.toString())
 
@@ -502,7 +444,7 @@ const createTweet = async (req, res) => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: oldWallet.publicKey,
           basePubkey: oldWallet.publicKey, // clientAddress
-          seed: `usersforlike-${tweetId}`,
+          seed: `like-${tweetId}`,
           newAccountPubkey: userForLikeAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -511,7 +453,7 @@ const createTweet = async (req, res) => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: oldWallet.publicKey,
           basePubkey: oldWallet.publicKey, // clientAddress
-          seed: `usersforretweet-${tweetId}`,
+          seed: `retweet-${tweetId}`,
           newAccountPubkey: userForRetweetAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -520,7 +462,7 @@ const createTweet = async (req, res) => {
         SystemProgram.createAccountWithSeed({
           fromPubkey: oldWallet.publicKey,
           basePubkey: oldWallet.publicKey, // clientAddress
-          seed: `usersforcomment-${tweetId}`,
+          seed: `comment-${tweetId}`,
           newAccountPubkey: userForCommentAddress,
           lamports: await solConnection.getMinimumBalanceForRentExemption(336),
           space: 336,
@@ -583,7 +525,6 @@ const tweetAction = async (req, res) => {
       clientPublicKey,
       splToken,
     } = req.body;
-
     let client = await User.find({ publicKey: clientPublicKey });
     console.log(client, "client");
     if (client) {
@@ -603,15 +544,15 @@ const tweetAction = async (req, res) => {
         // const numberOfFollowes = 5000;
         const amount = numberOfFollowes;
 
-        let seed = `usersforlike-${tweetId}`;
+        let seed = `like-${tweetId}`;
         if (number === 1) {
-          seed = `usersforlike-${tweetId}`;
+          seed = `like-${tweetId}`;
         }
         if (number === 2) {
-          seed = `usersforretweet-${tweetId}`;
+          seed = `retweet-${tweetId}`;
         }
         if (number === 3) {
-          seed = `usersforcomment-${tweetId}`;
+          seed = `comment-${tweetId}`;
         }
         // let userForLikeAddress = anchor.web3.Keypair.generate();
         const userForLikeAddress = await PublicKey.createWithSeed(
@@ -619,7 +560,7 @@ const tweetAction = async (req, res) => {
           seed,
           program.programId
         );
-        console.log(userForLikeAddress.toString(), "usersforlike");
+        console.log(userForLikeAddress.toString(), "like");
         const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
           [
             anchor.utils.bytes.utf8.encode("tweets"),
@@ -676,18 +617,6 @@ const tweetAction = async (req, res) => {
           await solConnection.getMinimumBalanceForRentExemption(336),
           "lamports"
         );
-
-        // let instructions = [SystemProgram.createAccountWithSeed(
-        //   {
-        //     fromPubkey: provider.wallet.publicKey,
-        //     basePubkey: provider.wallet.publicKey,
-        //     seed: tweetValue,
-        //     newAccountPubkey: userForLikeAddress,
-        //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-        //     space: 336,
-        //     programId: program.programId,
-        //   }
-        // )]
         const userAtaCheck = await solConnection.getTokenAccountsByOwner(
           userPublicKey,
           { mint: mintAddress }
