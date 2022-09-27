@@ -543,7 +543,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
-          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          clientId: projectDetail?.invoiceCreater._id,
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
@@ -629,7 +629,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
-          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          clientId: projectDetail?.invoiceCreater._id,
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
@@ -711,10 +711,11 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           userAddress: publicKey,
           number: 2,
           isRaid: projectDetail?.isRaid,
-          numberOfFollowes: currentUserFallowers,
+          numberOfFollowes: 3,
+          // numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
-          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          clientId: projectDetail?.invoiceCreater._id,
           splToken: poolData.splToken,
         };
         const resData = await axios.post(

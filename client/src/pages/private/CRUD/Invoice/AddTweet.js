@@ -285,6 +285,7 @@ const CreateInvoice = () => {
         tweetId,
         projectName,
         splToken,
+        isRaid,
       };
       const resData = await axios.post(
         `${process.env.REACT_APP_SERVERURL}/wallet/createTweet`,
