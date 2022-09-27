@@ -135,7 +135,7 @@ const Home = (props) => {
   const [checkAuth] = useUserFunc();
   const navigate = useNavigate();
   const classes = useStyles();
-  const submitForm = async () => {
+  const signinUser = async () => {
     dispatch({ type: "loadingStart" });
     const data = { publicKey, twitterId: props.auth.id };
     const response = await axios.patch(
@@ -147,10 +147,7 @@ const Home = (props) => {
         },
       }
     );
-    // const body = {
-    //   publicKey: publicKey,
-    // };
-    // const { data } = await SigninFunction(body);
+
     dispatch({ type: "loadingStop" });
     if (props.auth) {
       // toast.success(data.msg);
@@ -174,7 +171,7 @@ const Home = (props) => {
 
   useEffect(() => {
     if (publicKey && props.auth) {
-      submitForm();
+      signinUser();
     }
   }, [publicKey, props.auth]);
   useEffect(() => {
@@ -182,6 +179,7 @@ const Home = (props) => {
       navigate("/app");
     }
   }, [checkAuth]);
+
   if (publicKey) {
     if (!props.auth) {
       return (
@@ -294,21 +292,6 @@ const Home = (props) => {
                 </NavLink>
               </Grid>
             </Grid>
-            {/* <Grid
-              item
-              xs={5}
-              md={3}
-              lg={3}
-              justifyContent="center"
-              display={"flex"}
-              alignItems="center"
-            >
-              <NavLink style={{ textDecoration: "none" }} to="/Signup">
-                <Button className="registeration" variant="contained">
-                  Registeration
-                </Button>
-              </NavLink>
-            </Grid> */}
           </Grid>
         </Container>
         <Container maxWidth="md">

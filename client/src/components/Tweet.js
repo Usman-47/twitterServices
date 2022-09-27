@@ -81,14 +81,13 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs",
     provider
   );
-
   const getCurrentUserFollower = async () => {
-    if (!currentUser?.twitterId) {
+    if (!currentUser?.id) {
       alert("Please sigin first");
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.twitterId}`,
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser?.id}`,
       {
         headers: {
           Authorization: `BEARER ${token}`,
@@ -99,10 +98,10 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   };
 
   useEffect(() => {
-    if (currentUser?.twitterId) {
+    if (currentUser?.id) {
       getCurrentUserFollower();
     }
-  }, [currentUser?.twitterId]);
+  }, [currentUser?.id]);
 
   useEffect(() => {
     if (projectDetail) {
@@ -216,11 +215,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     var tweetIsRetweeted = false;
     if (data?.tweetId) {
       currentUser?.raidStatus?.retweetStatus?.map((tweetStatus) => {
-        console.log(tweetStatus, "tweetStatustweetStatustweetStatus");
-
         if (tweetStatus?.tweetId === data?.tweetId) {
-          console.log("chalta ha");
-
           setIsTweetRetweeted(true);
           settweetStatus(tweetStatus?.rewardAmount);
 
@@ -244,7 +239,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       }
     }
   }, [retweetStatus, currentUser, data?.tweetId]);
-  console.log(tweetsStatus, "tweetsStatussssssssssssssssss");
 
   useEffect(() => {
     if (data?.tweetId) {
@@ -256,7 +250,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   useEffect(() => {
     if (currentUser && publicKey) {
       let data = {
-        twitterId: currentUser.twitterId,
+        twitterId: currentUser.id,
         publicKey: publicKey.toString(),
       };
       axios
@@ -274,7 +268,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return;
     }
     const res = await axios.get(
-      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.twitterId}`,
+      `${process.env.REACT_APP_SERVERURL}/tweet/getUserFollowers/${currentUser.id}`,
       {
         headers: {
           Authorization: `BEARER ${token}`,
@@ -414,18 +408,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         await solConnection.getMinimumBalanceForRentExemption(336),
         "lamports"
       );
-
-      // let instructions = [SystemProgram.createAccountWithSeed(
-      //   {
-      //     fromPubkey: provider.wallet.publicKey,
-      //     basePubkey: provider.wallet.publicKey,
-      //     seed: tweetValue,
-      //     newAccountPubkey: userForLikeAddress,
-      //     lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-      //     space: 336,
-      //     programId: program.programId,
-      //   }
-      // )]
       const userAtaCheck = await solConnection.getTokenAccountsByOwner(
         provider.wallet.publicKey,
         { mint: mintAddress }
@@ -533,7 +515,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       alert("connect wallet");
     }
   };
-
   const likeSpecificTweet = async () => {
     try {
       if (!data?.tweetId || !projectName) {
@@ -541,7 +522,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         return;
       }
       let body = {
-        userId: currentUser?.twitterId,
+        userId: currentUser?.id,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -555,28 +536,69 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         }
       );
       if (res?.data?.data) {
-        let tx = await LikeTweet(1);
-        let result = await solConnection.confirmTransaction(tx);
-
-        const body = {
-          likeStatus: {
-            tweetId: data?.tweetId,
-            projectName,
-            time: moment().unix(),
-          },
-          twitterId: currentUser.twitterId,
+        let body = {
+          userAddress: publicKey,
+          number: 1,
+          isRaid: projectDetail?.isRaid,
+          numberOfFollowes: currentUserFallowers,
+          tweetId: data?.tweetId,
+          projectName,
+          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          splToken: poolData.splToken,
         };
-        const response = await axios.patch(
-          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+        const resData = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {
-              Authorization: `BEARER ${currentUser.token}`,
+              Authorization: `BEARER ${token}`,
             },
           }
         );
+        if (resData) {
+          const body = {
+            likeStatus: {
+              tweetId: data?.tweetId,
+              projectName,
+              time: moment().unix(),
+            },
+            twitterId: currentUser.id,
+          };
+          const response = await axios.patch(
+            `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+            body,
+            {
+              headers: {
+                Authorization: `BEARER ${currentUser.token}`,
+              },
+            }
+          );
+          if (response) {
+            const body = {
+              tweetId: data?.tweetId,
+              projectName,
+              mintAddress: poolData?.splToken,
+              isRaid: true,
+              // poolAddress,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
+              userPublicKey: publicKey,
+            };
 
-        setIsTweetLike(true);
+            const response = await axios.patch(
+              `${process.env.REACT_APP_SERVERURL}/reward/addRewardRecord`,
+              body,
+              {
+                headers: {
+                  Authorization: `BEARER ${currentUser.token}`,
+                },
+              }
+            );
+          } else {
+            toast.error("Failed to update reward statuse");
+          }
+
+          setIsTweetLike(true);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -600,36 +622,78 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         }
       );
       if (res?.data?.data) {
-        let tx = await LikeTweet(3);
-        let result = await solConnection.confirmTransaction(tx);
-
-        const body = {
-          replyStatus: {
-            tweetId: data?.tweetId,
-            projectName,
-            time: moment().unix(),
-          },
-          twitterId: currentUser.twitterId,
+        let body = {
+          userAddress: publicKey,
+          number: 3,
+          isRaid: projectDetail?.isRaid,
+          numberOfFollowes: currentUserFallowers,
+          tweetId: data?.tweetId,
+          projectName,
+          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          splToken: poolData.splToken,
         };
-        const response = await axios.patch(
-          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+        const resData = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {
-              Authorization: `BEARER ${currentUser.token}`,
+              Authorization: `BEARER ${token}`,
             },
           }
         );
+        if (resData) {
+          const body = {
+            replyStatus: {
+              tweetId: data?.tweetId,
+              projectName,
+              time: moment().unix(),
+            },
+            twitterId: currentUser.id,
+          };
+          const response = await axios.patch(
+            `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+            body,
+            {
+              headers: {
+                Authorization: `BEARER ${currentUser.token}`,
+              },
+            }
+          );
+          if (response) {
+            const body = {
+              tweetId: data?.tweetId,
+              projectName,
+              mintAddress: poolData?.splToken,
+              isRaid: true,
+              // poolAddress,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
+              userPublicKey: publicKey,
+            };
+
+            const response = await axios.patch(
+              `${process.env.REACT_APP_SERVERURL}/reward/addRewardRecord`,
+              body,
+              {
+                headers: {
+                  Authorization: `BEARER ${currentUser.token}`,
+                },
+              }
+            );
+          } else {
+            toast.error("Failed to update reward statuse");
+          }
+        }
+      } else {
+        toast.error("Failed to reply");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   const retweetATweet = async () => {
     try {
       let body = {
-        userId: currentUser?.twitterId,
+        userId: currentUser?.id,
         accessToken: currentUser?.accessToken,
         accessTokenSecret: currentUser?.accessTokenSecret,
       };
@@ -643,28 +707,71 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         }
       );
       if (res?.data?.data) {
-        let tx = await LikeTweet(2);
-        let result = await solConnection.confirmTransaction(tx);
-
-        const body = {
-          retweetStatus: {
-            tweetId: data?.tweetId,
-            projectName,
-            time: moment().unix(),
-            rewardAmount: rewards,
-          },
-          twitterId: currentUser?.twitterId,
+        let body = {
+          userAddress: publicKey,
+          number: 2,
+          isRaid: projectDetail?.isRaid,
+          numberOfFollowes: currentUserFallowers,
+          tweetId: data?.tweetId,
+          projectName,
+          clientPublicKey: projectDetail?.invoiceCreaterPublicKey,
+          splToken: poolData.splToken,
         };
-        const response = await axios.patch(
-          `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+        const resData = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/tweetAction`,
           body,
           {
             headers: {
-              Authorization: `BEARER ${currentUser.token}`,
+              Authorization: `BEARER ${token}`,
             },
           }
         );
-        setIsTweetRetweeted(true);
+        if (resData) {
+          const body = {
+            retweetStatus: {
+              tweetId: data?.tweetId,
+              projectName,
+              time: moment().unix(),
+              rewardAmount: rewards,
+            },
+            twitterId: currentUser?.id,
+          };
+          const response = await axios.patch(
+            `${process.env.REACT_APP_SERVERURL}/api/updateRaidRewardStatus`,
+            body,
+            {
+              headers: {
+                Authorization: `BEARER ${currentUser.token}`,
+              },
+            }
+          );
+          if (response) {
+            const body = {
+              tweetId: data?.tweetId,
+              projectName,
+              mintAddress: poolData?.splToken,
+              isRaid: true,
+              // poolAddress,
+              invoiceCreaterPublicKey: projectDetail?.invoiceCreaterPublicKey,
+              userPublicKey: publicKey,
+            };
+
+            const response = await axios.patch(
+              `${process.env.REACT_APP_SERVERURL}/reward/addRewardRecord`,
+              body,
+              {
+                headers: {
+                  Authorization: `BEARER ${currentUser.token}`,
+                },
+              }
+            );
+          } else {
+            toast.error("Failed to update rewatd statuse");
+          }
+          setIsTweetRetweeted(true);
+        } else {
+          toast.error("Failed to retweet a tweet");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -681,7 +788,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           },
         }
       );
-      console.log(res?.data, "reply");
       setAllReplyOfATweet(res?.data?.data);
     } catch (error) {
       console.log(error);

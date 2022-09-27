@@ -265,6 +265,7 @@ const Tweets = (props) => {
               startTime: data.startTime,
               endTime: data.endTime,
               rewardCategory: data?.category,
+              splToken: data?.splToken,
             };
 
             data?.tweets?.map((tweet) => {
@@ -605,7 +606,6 @@ const Tweets = (props) => {
                   </Box>
                   {getAllInvoices?.map((data) => (
                     <>
-                      {console.log(data, "dashboard")}
                       {data?.isRaid ? (
                         <div>
                           <TabPanel

@@ -434,18 +434,56 @@ const AddPool = ({ auth }) => {
         return;
       }
 
-      var transactionData;
       if (isRaid) {
-        transactionData = await initializeUserPoolForRaid();
-        if (transactionData === undefined) {
+        const body = {
+          funds: amount,
+          startTime,
+          isRaid,
+          timeLimit,
+          category,
+          rewardFrequency,
+          splToken,
+          projectName,
+        };
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
+          body,
+          {
+            headers: {
+              Authorization: `BEARER ${token}`,
+            },
+          }
+        );
+
+        if (res.data.tx) {
+          const body = {
+            pool: {
+              amount,
+              startTime,
+              endTime,
+              category,
+              rewardFrequency,
+              solanaPoolAddress: res.data.poolAddress,
+              splToken,
+            },
+          };
+          const { data } = await UpdateInvoiceApi(id, body, token);
           dispatch({ type: "loadingStop" });
-          return;
+
+          if (data.type === "success") {
+            toast.success(data.msg);
+            navigate(`/app/invoice/readOne/readAllPool/${id}`);
+          } else {
+            toast.error("Something went wrong");
+          }
+        } else {
+          toast.error("Something went wrong");
         }
-        let result = await solConnection.confirmTransaction(transactionData.tx);
       } else {
         const body = {
           funds: amount,
           startTime,
+          isRaid,
           timeLimit,
           category,
           rewardFrequency,

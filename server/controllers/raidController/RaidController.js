@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
 const Wallet = require("../../model/walletModel");
-// const CheckRoleAccess = require("../../util/CheckRoleAccess");
-// const { encryptFunc } = require("../../util/cryptoFunc");
+const User = require("../../model/userModel");
+const mongoose = require("mongoose");
 const { Program, web3 } = require("@project-serum/anchor");
 const anchor = require("@project-serum/anchor");
-const bs58 = require("bs58");
+const nacl = require("tweetnacl");
+
 const {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -20,68 +20,56 @@ const {
   Keypair,
 } = require("@solana/web3.js");
 const fs = require("fs");
-const CreateInvoiceController = require("../invoice/CreateInvoiceController");
-
-// import { Program, web3 } from "@project-serum/anchor";
-// import * as anchor from "@project-serum/anchor";
-// import {
-//     TOKEN_PROGRAM_ID,
-//     ASSOCIATED_TOKEN_PROGRAM_ID,
-//     NATIVE_MINT,
-//     Token,
-//   } from "@solana/spl-token";
 
 const PROGRAM_ID = new anchor.web3.PublicKey(
-  "7k437JyhS6h4d5Uzqc2PzgvpCbj8zep7rmAKtyRNMU1h"
+  "5UR1VYhWxH9iy5C7mdQWDztgDHLeGZoSyEjye4vzHcjs"
 );
 const idl = JSON.parse(
-  fs.readFileSync(__dirname + "/twitter_program.json", "utf8")
+  fs.readFileSync(__dirname + "/raid_program.json", "utf8")
 );
 
 anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("devnet")));
 // const solConnection = anchor.getProvider().connection;
 var solConnection = new web3.Connection(web3.clusterApiUrl("devnet"), {
   commitment: "confirmed",
-  confirmTransactionInitialTimeout: 12000,
+  confirmTransactionInitialTimeout: 120000,
 });
 const program = new anchor.Program(idl, PROGRAM_ID);
 
-const mintAddress = NATIVE_MINT;
-// const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
-// const projectName = "test-with-api-2";
-const tweetId = "test-id-3";
-// const clientAddress = oldWallet.publicKey;
+const sleep = async (ms) => {
+  return new Promise((r) => setTimeout(r, ms));
+};
 
 let privateKey = null;
 const createWallet = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { twitterId } = req.body;
 
-    let wallet = await Wallet.findOne({
-      accountHolder: mongoose.Types.ObjectId(userId),
-    });
-    if (!wallet) {
-      const newWallet = Keypair.generate();
-      privateKey = newWallet.secretKey;
-      const walletData = new Wallet({
-        accountHolder: mongoose.Types.ObjectId(userId),
-        publicKey: newWallet.publicKey.toString(),
-        privateKey: newWallet.secretKey,
-      });
-      await walletData.save();
-      return res.send({
-        msg: "Wallet Created Successfully",
-        PublicKey: newWallet.publicKey.toString(),
-        type: "success",
-      });
-    } else {
-      return res.send({
-        msg: "Wallet Already Exist",
-        type: "success",
-      });
+    const newWallet = Keypair.generate();
+    console.log(newWallet.publicKey.toString());
+    privateKey = newWallet.secretKey.toString();
+    console.log(privateKey);
+    let newp = privateKey.split(",");
+    for (i = 0; i < newp.length; i++) {
+      newp[i] = parseInt(newp[i]);
     }
+    console.log(newp);
+    const secondWallet = Keypair.fromSecretKey(new Uint8Array(newp));
+    console.log(secondWallet.publicKey.toString());
+
+    const wallet = new Wallet({
+      twitterId,
+      publicKey: newWallet.publicKey.toString(),
+      privateKey: newWallet.secretKey,
+    });
+    // await wallet.save()
+    res.send({
+      msg: "Wallet Created Successfully",
+      PublicKey: newWallet.publicKey.toString(),
+      type: "success",
+    });
   } catch (e) {
-    console.log(e.message, " err-in createWalletController");
+    console.log(e.message, " err-in createUserController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
@@ -97,23 +85,15 @@ const airDrop = async (req, res) => {
         arrayString[i] = parseInt(arrayString[i]);
       }
       let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
-      const { usersArray, splToken, projectName, isRaid } = req.body;
-      let poolType;
-      if (isRaid) {
-        poolType = "raid";
-      } else {
-        poolType = "mention";
-      }
+      const { usersArray, splToken, projectName } = req.body;
       let clientAddress = oldWallet.publicKey;
       let tx = new Transaction();
-
       var usersPublicKey = [];
       const mintAddress = new PublicKey(splToken);
       for (i = 0; i < usersArray.length; i++) {
         usersPublicKey.push(new PublicKey(usersArray[i].users));
       }
       const users = usersPublicKey;
-
       let clientAta = (
         await PublicKey.findProgramAddress(
           [
@@ -131,7 +111,6 @@ const airDrop = async (req, res) => {
           clientAddress.toBuffer(),
           mintAddress.toBuffer(),
           Buffer.from(projectName),
-          Buffer.from(poolType),
         ],
         program.programId
       );
@@ -184,25 +163,22 @@ const airDrop = async (req, res) => {
       const txID = await solConnection.sendTransaction(tx, [oldWallet]);
 
       res.send({
-        msg: "under development",
+        msg: "airdrop completed",
         YourWallet: oldWallet.publicKey.toString(),
         tx: txID,
         type: "success",
       });
-      // res.send({ msg: "under development", YourWallet: oldWallet.publicKey.toString(), type: "success" });
     } else {
       alert("SomeThing went wrong");
     }
   } catch (e) {
-    console.log(e.message, " err-in createWalletController");
+    console.log(e.message, " err-in createUserController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
 const initializeUserPool = async (req, res) => {
   try {
-    const blockhashResponse = solConnection.getLatestBlockhashAndContext();
-    // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
     let walletObject = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -212,20 +188,18 @@ const initializeUserPool = async (req, res) => {
         arrayString[i] = parseInt(arrayString[i]);
       }
       let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
-      let { funds, startTime, timeLimit, splToken, projectName, isRaid } =
-        req.body;
-      let poolType;
-      if (isRaid) {
-        poolType = "raid";
-      } else {
-        poolType = "mention";
-      }
+      let { funds, startTime, timeLimit, splToken, projectName } = req.body;
       funds = funds * 1000000000;
       const mintAddress = new PublicKey(splToken);
+      const blockhashResponse =
+        await solConnection.getLatestBlockhashAndContext();
+      const lastValidBlockHeight = blockhashResponse.context.slot + 150;
+      let blockheight = await solConnection.getBlockHeight();
 
       const [globalAuth, globalBump] =
         await anchor.web3.PublicKey.findProgramAddress(
           [Buffer.from("global-authority")],
+          // new anchor.BN(47).toArrayLike(Buffer)],
           program.programId
         );
       console.log(globalAuth.toString(), "globalAuth");
@@ -236,7 +210,6 @@ const initializeUserPool = async (req, res) => {
           oldWallet.publicKey.toBuffer(),
           mintAddress.toBuffer(),
           Buffer.from(projectName),
-          Buffer.from(poolType),
         ],
         program.programId
       );
@@ -271,7 +244,6 @@ const initializeUserPool = async (req, res) => {
           oldWallet.publicKey.toBuffer(),
           mintAddress.toBuffer(),
           Buffer.from(projectName),
-          Buffer.from(poolType),
         ],
         program.programId
       );
@@ -280,6 +252,9 @@ const initializeUserPool = async (req, res) => {
         oldWallet.publicKey,
         { mint: mintAddress }
       );
+
+      const newTx = new Transaction();
+      newTx.recentBlockhash = blockhashResponse.value.blockhash;
 
       let instructions = [];
       if (userAtaCheck.value.length === 0) {
@@ -317,13 +292,8 @@ const initializeUserPool = async (req, res) => {
 
       console.log(oldWallet.publicKey.toString(), "public key");
 
-      const txNew = new Transaction();
-
-      txNew.feePayer = oldWallet.publicKey;
-      if (instructions.length > 0) txNew.add(instructions);
       const tx = program.instruction.initializeUserPool(
         projectName,
-        poolType,
         startTime,
         new anchor.BN(timeLimit),
         new anchor.BN(funds),
@@ -332,7 +302,6 @@ const initializeUserPool = async (req, res) => {
             client: oldWallet.publicKey,
             globalAuthority: globalAuth,
             pool: poolAddress,
-            // poolSol: poolSolAddress,
             poolAta: poolAta,
             poolMint: mintAddress,
             clientAta: clientAta,
@@ -340,31 +309,45 @@ const initializeUserPool = async (req, res) => {
             tokenProgram: TOKEN_PROGRAM_ID,
             rent: SYSVAR_RENT_PUBKEY,
           },
-          // signers: [oldWallet],
-          // instructions,
+          signers: [oldWallet],
+          instructions,
         }
       );
-      txNew.add(tx);
+      newTx.feePayer = oldWallet.publicKey;
+      if (instructions.length > 0) {
+        newTx.add(instructions);
+        console.log(instructions, "instruction");
+      }
+      newTx.add(tx);
 
-      let response = await solConnection.sendTransaction(txNew, [oldWallet]);
-      await solConnection.confirmTransaction(response);
-      console.log(response, "tx response");
-      res.send({
-        msg: "pool created",
-        YourWallet: oldWallet.publicKey.toString(),
-        tx: response,
-        poolAddress,
-        type: "success",
-      });
+      const message = newTx.serializeMessage();
+      const signature = nacl.sign.detached(message, oldWallet.secretKey);
+      newTx.addSignature(oldWallet.publicKey, Buffer.from(signature));
+      const rawTransaction = newTx.serialize();
+
+      let response = "";
+      while (blockheight < lastValidBlockHeight) {
+        const response = await solConnection.sendTransaction(newTx, [
+          oldWallet,
+        ]);
+        if (response !== {} || response !== "") {
+          res.send({
+            msg: "pool created",
+            YourWallet: oldWallet.publicKey.toString(),
+            tx: response,
+            type: "success",
+          });
+          return;
+        }
+      }
     } else {
       res.send({
-        // msg: "pool created",
         YourWallet: "Wallet Not Found",
         type: "fail",
       });
     }
   } catch (e) {
-    console.log(e.message, " err-in mentionController");
+    console.log(e.message, " err-in raidController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
@@ -382,14 +365,9 @@ const createTweet = async (req, res) => {
       let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
       const clientAddress = oldWallet.publicKey;
 
-      let { tweetId, splToken, projectName, isRaid } = req.body;
+      let { tweetId, splToken, projectName } = req.body;
 
-      let poolType;
-      if (isRaid) {
-        poolType = "raid";
-      } else {
-        poolType = "mention";
-      }
+      console.log(tweetId, splToken, projectName, "hjkhkjhjk");
 
       const mintAddress = new PublicKey(splToken);
       const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
@@ -398,7 +376,6 @@ const createTweet = async (req, res) => {
           // userAddress.publicKey.toBuffer(),
           Buffer.from(tweetId),
           Buffer.from(projectName),
-          Buffer.from(poolType),
         ],
         program.programId
       );
@@ -409,7 +386,6 @@ const createTweet = async (req, res) => {
           clientAddress.toBuffer(),
           mintAddress.toBuffer(),
           Buffer.from(projectName),
-          Buffer.from(poolType),
         ],
         program.programId
       );
@@ -497,7 +473,6 @@ const createTweet = async (req, res) => {
       const tx = await program.rpc.createTweet(
         globalBump,
         projectName,
-        poolType,
         tweetId,
         {
           accounts: {
@@ -592,7 +567,6 @@ const tweetAction = async (req, res) => {
             // provider.wallet.publicKey.toBuffer(),
             Buffer.from(tweetId),
             Buffer.from(projectName),
-            Buffer.from(poolType),
           ],
           program.programId
         );
@@ -603,7 +577,6 @@ const tweetAction = async (req, res) => {
             clientAddress.toBuffer(),
             mintAddress.toBuffer(),
             Buffer.from(projectName),
-            Buffer.from(poolType),
           ],
           program.programId
         );
@@ -614,7 +587,6 @@ const tweetAction = async (req, res) => {
             clientAddress.toBuffer(),
             mintAddress.toBuffer(),
             Buffer.from(projectName),
-            Buffer.from(poolType),
           ],
           program.programId
         );
@@ -785,6 +757,6 @@ module.exports = {
   createWallet,
   airDrop,
   initializeUserPool,
-  tweetAction,
   createTweet,
+  tweetAction,
 };

@@ -21,6 +21,7 @@ const Pool = ({ currentUser, pool, projectDetail }) => {
                 currentUser={currentUser}
                 projectDetail={projectDetail}
                 poolData={{
+                  splToken: pool?.splToken,
                   rewardCategory: pool?.category,
                   startTime: pool.startTime,
                   endTime: pool?.endTime || pool[" endTime"],

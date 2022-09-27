@@ -99,20 +99,11 @@ function App(props) {
                 {/* <NavigationBar /> */}
 
                 <Routes>
-                  {/* <Route path="/" element={<Home />} /> */}
                   <Route path="/" element={<Landing />} />
+                  {/* <Route path="/" element={<Home />} /> */}
 
                   <Route path="/user">
                     <Route path="loginPage" element={<LoginPage />} />
-                    <Route
-                      path="resetPassword/:resetString"
-                      element={<ResetPassword />}
-                    />
-                    <Route
-                      path="activate/:activationId"
-                      element={<EmailActivation />}
-                    />
-                    <Route path="" element={<NotFound />} />
                   </Route>
 
                   <Route

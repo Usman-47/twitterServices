@@ -6,7 +6,6 @@ const OtherProjects = ({
   currentUser,
   userProjectsForMention,
   userProjectsForRaid,
-  // props, data
 }) => {
   return (
     <>
@@ -24,12 +23,12 @@ const OtherProjects = ({
       {currentUser &&
         userProjectsForRaid.map((data) => (
           <>
-            {console.log(data, "data past project")}
             <Tweet
               currentUser={currentUser}
               data={data.tweet}
               projectDetail={data.projectDetail}
               poolData={{
+                splToken: data?.pool?.splToken,
                 startTime: data?.pool?.startTime,
                 endTime: data?.pool?.endTime,
                 rewardCategory: data?.pool?.rewardCategory,
