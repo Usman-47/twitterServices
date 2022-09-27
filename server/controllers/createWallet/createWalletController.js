@@ -21,6 +21,7 @@ const {
 } = require("@solana/web3.js");
 const fs = require("fs");
 const CreateInvoiceController = require("../invoice/CreateInvoiceController");
+const { publicKey } = require("@project-serum/anchor/dist/cjs/utils");
 
 // import { Program, web3 } from "@project-serum/anchor";
 // import * as anchor from "@project-serum/anchor";
@@ -240,6 +241,7 @@ const initializeUserPool = async (req, res) => {
         ],
         program.programId
       );
+      console.log(oldWallet.publicKey.toString(), "jhkjhjk");
       console.log(poolAddress.toString(), "poolAddress");
 
       const [poolSolAddress] = await anchor.web3.PublicKey.findProgramAddress(
@@ -322,8 +324,8 @@ const initializeUserPool = async (req, res) => {
       txNew.feePayer = oldWallet.publicKey;
       if (instructions.length > 0) txNew.add(instructions);
       const tx = program.instruction.initializeUserPool(
-        projectName,
         poolType,
+        projectName,
         startTime,
         new anchor.BN(timeLimit),
         new anchor.BN(funds),
@@ -340,8 +342,8 @@ const initializeUserPool = async (req, res) => {
             tokenProgram: TOKEN_PROGRAM_ID,
             rent: SYSVAR_RENT_PUBKEY,
           },
-          // signers: [oldWallet],
-          // instructions,
+          signers: [oldWallet],
+          instructions,
         }
       );
       txNew.add(tx);
@@ -364,7 +366,7 @@ const initializeUserPool = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log(e.message, " err-in mentionController");
+    console.log(e.message, " err-in createWalletController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };

@@ -60,6 +60,21 @@ const useStyles = makeStyles((theme) => ({
 
     color: "white",
   },
+  ConnectTwitterScreens: {
+    position: "relative",
+    backgroundImage: `url(${Images.ConnectTwitterScreens})`,
+    height: "55vh",
+    backgroundSize: "100% 100%",
+
+    backgroundRepeat: "no-repeat",
+    paddingTop: "60px",
+    paddingBottom: "60px",
+    marginTop: "60px",
+    marginBottom: "40px",
+
+    color: "white",
+  },
+
   backs: {
     // height: '100vh',
     width: "50%",
@@ -277,6 +292,52 @@ const Home = (props) => {
                 </NavLink>
               </Grid>
             </Grid>
+          </Grid>
+        </Container>
+        <Container maxWidth="md">
+          <Grid
+            container
+            md={12}
+            lg={12}
+            display={"flex"}
+            className={classes.ConnectTwitterScreens}
+          >
+            <Grid item md={12} sm={12} lg={12}>
+              <Grid item md={5} sm={5} lg={5} className={classes.backs}>
+                <Typography variant="p" gutterBottom className="reward_text">
+                  SET UP YOUR REWARD <br /> PROGRAMME
+                </Typography>
+                <Typography
+                  variant="body1"
+                  id="reward_pro_para"
+                  gutterBottom
+                  className="reward_desc"
+                >
+                  Decide on time frame and how much you would like to reward
+                  them with
+                </Typography>
+                <NavLink style={{ textDecoration: "none" }} to="/Signup">
+                  <Button className="registeration" variant="contained">
+                    Registeration
+                  </Button>
+                </NavLink>
+              </Grid>
+            </Grid>
+            {/* <Grid
+              item
+              xs={5}
+              md={3}
+              lg={3}
+              justifyContent="center"
+              display={"flex"}
+              alignItems="center"
+            >
+              <NavLink style={{ textDecoration: "none" }} to="/Signup">
+                <Button className="registeration" variant="contained">
+                  Registeration
+                </Button>
+              </NavLink>
+            </Grid> */}
           </Grid>
         </Container>
 

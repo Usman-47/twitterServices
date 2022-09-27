@@ -293,8 +293,13 @@ padding: 12px 32px !important;
 .registeration {
   background-color: #00acee !important;
   color: #ffffff;
-  border-top-left-radius: 30px !important;
-  border-bottom-right-radius: 30px !important;
+  border-radius: 30px !important;
+  font-size: 15px ;
+  font-weight: 700 !important;
+  
+  /* width: 184px !important; */
+  margin: auto 0;
+ 
   font-family: Poppins !important;
 }
 .card_des {
@@ -309,10 +314,48 @@ padding: 12px 32px !important;
 .reward_text {
   font-family: raleway !important;
   font-weight: 600 !important;
+  font-size: 37px ;
+  display: flex !important;
+  justify-content: center !important;
+
+}
+.reward_subtext{
+  font-family: raleway !important;
+  font-weight: 600 !important;
+  font-size: 40px ;
+  display: flex !important;
+  justify-content: center !important;
+  color: #00ACEE;
+  
+
+}
+.reward_heading{
+  /* font-family: 'Roclette Pro' !important; */
+font-style: normal !important;
+font-weight: 600 !important;
+  font-size: 90px ;
+  display: flex !important;
+  justify-content: center !important;
+  color: white;
+
+}
+.reward_subheading{
+  font-style: normal !important;
+font-weight: 100 !important;
+  font-size: 90px ;
+  display: flex !important;
+  justify-content: center !important;
+  color: #00ACEE;
+
 }
 .reward_desc {
   font-family: Poppins !important;
+  font-size: 17px ;
   margin-bottom: 20px !important;
+  display: flex !important;
+  justify-content: center !important;
+  text-align: center;
+  font-weight: 700 !important;
 }
 .formback {
   background-image: url("../src/assets/images/formimg.png");
@@ -718,9 +761,7 @@ color: white !important;
     font-size: 10px !important;
   }
 
-  .registeration {
-    font-size: 10px !important;
-  }
+  
   .wallet-btn {
     padding: 10px !important;
     font-size: 8px !important;
