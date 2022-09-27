@@ -55,7 +55,7 @@ const CreateInvoice = ({ auth }) => {
       userId: auth?.userId,
     };
     const res = await axios.post(
-      `${process.env.REACT_APP_SERVERURL}/mention/new`,
+      `${process.env.REACT_APP_SERVERURL}/wallet/new`,
       body,
       {
         headers: {
@@ -97,6 +97,7 @@ const CreateInvoice = ({ auth }) => {
         navigate("/app/invoice/readAll");
       } else {
         toast.error(data.msg);
+        dispatch({ type: "loadingStop" });
       }
     } else {
       toast.error("Something went wrong");

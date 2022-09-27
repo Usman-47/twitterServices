@@ -123,43 +123,32 @@ const UserMentions = ({ currentUser, data }) => {
           )
         )[0];
 
-        console.log(
-          associatedTokenAccountPubkey.toString(),
-          "associatedTokenAccountPubkey"
-        );
-        console.log(tweetAta.toString(), bump, "tweetAta");
-        console.log(poolAddress.toString(), "poolAddress");
+        const data = {
+          rewardStatus: {
+            rewardToken,
+            tweetId,
+            projectName,
+            tweetText: tweetTextForTweetCreation,
+            tweetCreatedAt: moment().unix(),
+          },
+          twitterId: currentUser?.id,
+        };
 
-        if (true) {
-          const data = {
-            rewardStatus: {
-              rewardToken,
-              tweetId,
-              projectName,
-              tweetText: tweetTextForTweetCreation,
-              tweetCreatedAt: moment().unix(),
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVERURL}/api/addUserRewardToken`,
+          data,
+          {
+            headers: {
+              Authorization: `BEARER ${currentUser.token}`,
             },
-            twitterId: currentUser?.id,
-          };
-
-          const response = await axios.patch(
-            `${process.env.REACT_APP_SERVERURL}/api/addUserRewardToken`,
-            data,
-            {
-              headers: {
-                Authorization: `BEARER ${currentUser.token}`,
-              },
-            }
-          );
-          if (response) {
-            window.location.reload();
           }
+        );
+        if (response) {
+          window.location.reload();
         }
-        // console.log(tx, "tx");
-        // return tx;
-      } else {
-        alert("connect wallet");
       }
+      // console.log(tx, "tx");
+      // return tx;
     } catch (e) {
       console.log(e);
       alert("Something went wrong");
