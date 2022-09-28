@@ -42,5 +42,6 @@ const Images = {
   Asset2,
   raidcardImg,
   mentionCardImg
+  // Frame1122,
 };
 export default Images;

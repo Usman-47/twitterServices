@@ -449,7 +449,7 @@ const UserMentions = ({ currentUser, data }) => {
       return;
     }
     if (userCreatedTweetAt + rewardFrequencyToClaimReward > moment().unix()) {
-      alert("you tweet must be old enough");
+      toast.error("you tweet must be old enough");
       return;
     }
     try {
