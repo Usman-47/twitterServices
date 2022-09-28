@@ -11,7 +11,13 @@
   font-family: raleway;
 }
 
-
+.edit-icon{
+  width: 28.58px;
+height: 28.58px;
+margin-left: 10px !important;
+background: radial-gradient(50% 50% at 50% 50%, #00ACEE 0%, #47DDFC 100%);
+border-radius: 28.5753px;
+}
 .signup-background {
   background-color: aquamarine !important;
 }
@@ -19,7 +25,9 @@
 .navBar-background {
   background-color: #7fffd4 !important;
 }
-
+.raids_card{
+  font-family: raleway !important;
+}
 .active_icon2 {
   width: 5px;
   height: 5px;
@@ -43,11 +51,11 @@
 }
 
 .dasbboard_icons {
-  min-width: 35px !important;
+  min-width: 60px !important;
 }
 /* =============== */
 
-.penta {
+/* .penta {
   -webkit-clip-path: polygon(
     24.5% 0,
     100% 0,
@@ -71,9 +79,9 @@
   left: 0px;
   top: 0px;
 
-}
+} */
 
-.triangle {
+/* .triangle {
   -webkit-clip-path: polygon(0 1%, 0% 100%, 100% 0);
   clip-path: polygon(0 1%, 0% 100%, 100% 0);
   position: absolute;
@@ -81,12 +89,7 @@
   height: 81.63px;
   left: 15px;
   top: 16px;
-
-
-  /* Purple/purple-400 */
-
-  /* background: #9c4eff; */
-}
+} */
 .mail_logo{
   /* left: 50px !important; */
   transform: translate(8px, 10px);
@@ -668,12 +671,14 @@ font-weight: 100 !important;
   background-color: unset !important;
 }
 .rewards_card{
-  box-shadow: 5px 10px 17px rgba(0, 0, 0, 0.25) !important;
+  /* box-shadow: 5px 10px 17px rgba(0, 0, 0, 0.25) !important; */
+  background: linear-gradient(98.08deg, rgba(24, 24, 24, 0.04) 6.13%, rgba(49, 49, 49, 0.56) 103.17%) !important;
+  box-shadow: inset 26px -26px 33px rgba(0, 0, 0, 0.18) !important;
+  border-radius: 8px !important;
 
   text-align: center; 
-  padding-top: 50px; 
-  padding-bottom: 20px;
-  background-color: #333333 !important;
+  padding: 19px 16px 19px 10px;
+  /* background-color: #333333 !important; */
   color: white;
 }
 .rewards_card2{

@@ -122,8 +122,9 @@ const useStyles = makeStyles((theme) => ({
 const Landing = () => {
   const classes = useStyles();
   return (
-    // <InteractiveList />
-    // <RecipeReviewCard />
+   <>
+     {/* <InteractiveList /> */}
+    {/* <RecipeReviewCard /> */}
     <Grid
       container
       md={12}
@@ -210,6 +211,7 @@ const Landing = () => {
         </Grid>
       </Grid>
     </Grid>
+   </>
   );
 };
 

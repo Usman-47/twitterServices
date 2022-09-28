@@ -17,6 +17,8 @@ import imagebanner from "./images/imagebanner.png";
 import profile1 from "./images/profile1.png";
 import ConnectTwitterScreens from "./images/ConnectTwitterScreens.png";
 import Asset2 from "./images/Asset2.png";
+import raidcardImg from './images/raidcard-img.png'
+import mentionCardImg from './images/mention-img.png'
 
 const Images = {
   VectorWallet,
@@ -38,5 +40,7 @@ const Images = {
   profile1,
   ConnectTwitterScreens,
   Asset2,
+  raidcardImg,
+  mentionCardImg
 };
 export default Images;

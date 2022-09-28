@@ -27,8 +27,9 @@ const UserDashboard = ({
         className="tabs_container"
         sx={{ width: "95%", margin: "0 auto", typography: "body1" }}
       >
+      
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "#00ACEE" }}>
+          <Box>
             <TabList
               sx={{ gap: "5px" }}
               onChange={handleChange}
@@ -42,20 +43,21 @@ const UserDashboard = ({
               /> */}
               <Tab
                 className="dashboard_tabs"
-                sx={{ color: "white" }}
+                sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
                 label="OTHER PROJECTS"
                 value="2"
+
               />
               <Tab
                 className="dashboard_tabs"
-                sx={{ color: "white" }}
+                sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
                 label="PAST PROJECTS"
                 value="3"
               />
             </TabList>
           </Box>
 
-          <Typography
+          {/* <Typography
             className="search_div"
             component="div"
             sx={{ display: "flex", width: "50%", marginTop: "40px" }}
@@ -84,9 +86,10 @@ const UserDashboard = ({
                 </div>
               </Grid>
             </Grid>
-          </Typography>
+          </Typography> */}
 
           <ThreadModal />
+          
           <TabPanel
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="2"

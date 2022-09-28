@@ -3,10 +3,17 @@ import axios from "axios";
 // import moment from "moment";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-
+import Collapse from "@mui/material/Collapse";
 import { toast } from "react-toastify";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import Avatar from "@mui/material/Avatar";
+import Images from "../assets/Images";
+import CardHeader from "@mui/material/CardHeader";
+import { red } from "@mui/material/colors";
 import useStatesFunc from "../hooks/useStatesFunc";
-
+import { HiChevronDoubleDown } from "react-icons/hi";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
   useWalletModal,
@@ -45,9 +52,25 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import Grid from "@mui/material/Grid";
 const moment = require("moment");
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  margin: "auto ",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 // ====================
 
 const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   const [{ token, loading }] = useStatesFunc();
 
   const [getTweetLikes, setGetTweetLikes] = useState();
@@ -826,10 +849,304 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
   return (
     <>
-      {/* <Grid container spacing={2}> */}
       <Grid item xs={12} md={6} lg={4} sx={{ position: "relative" }}>
-        <div className="penta gon ">
+ 
+         
           <Card
+            sx={{
+              maxWidth: 345,
+              margin:"0 auto" ,
+              background: "rgba(0, 0, 0, 0.5)",
+              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+              borderRadius: "17px",
+            }}
+            className="raids_card"
+          >
+            <Typography
+              component="div"
+              sx={{
+                background: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%) ,url("${Images.raidcardImg}")`,
+
+                height: "194px",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
+              }}
+            >
+              <CardHeader
+                sx={{
+                  position: "absolute",
+                  bottom: "0",
+                  left: "0",
+                  width: "100%",
+                  color: "white",
+                }}
+               
+                
+                avatar={
+                  <Avatar
+                    sx={{
+                      bgcolor: red[500],
+                    }}
+                    aria-label="recipe"
+                  >
+                    R
+                  </Avatar>
+                }
+                action={
+                  <IconButton
+                    aria-label="settings"
+                    sx={{
+                      color: "white",
+                    }}
+                  >
+                    {/* <MoreVertIcon /> */}
+                    <Typography  className="raids_card" component="div" sx={{width:"67px", fontSize: '17px', height:"44px", background: '#00ACEE', borderRadius: '50px 0px 0px 50px', display:"flex", justifyContent:"center", alignItems:"center", marginRight:"-15px"}}>
+                     + Raid
+                    </Typography>
+                  </IconButton>
+                }
+                title={projectName}
+                subheader={projectDetail?.projectTwitterUsername}
+              />
+            </Typography>
+           
+
+            <CardContent>
+              <Typography variant="body2" color="white"  className="raids_card" sx={{textAlign:"center"}}>
+              <Typography sx={{ display: "", justifyContent: "center" }}>
+                <Typography
+                  className="magic_eden"
+                  variant="h7"
+                  sx={{ fontSize: "19.4351px", justifyContent: "end" }}
+                >
+                  {projectName}
+                </Typography>
+                <br />
+                <Typography
+                  className="magic_eden"
+                  variant="h7"
+                  sx={{ fontSize: "18px", justifyContent: "end" }}
+                >
+                  {projectDetail?.projectTwitterUsername}
+                </Typography>
+              </Typography>
+              <Typography
+                className="magic_eden_desc"
+                sx={{ fontSize: "13.6045px", padding: "10px" }}
+              >
+                {data?.tweetText}
+              </Typography>
+              </Typography>
+            </CardContent>
+            <Typography
+              component="div"
+              sx={{ paddingLeft: "10px", paddingRight: "10px" }}
+            >
+              <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
+                  >
+                    <Icon icon="bi:clock-history" /> Date
+                  </IconButton>
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    <Typography className="active_icon"></Typography>
+
+                    {poolData?.startTime ? (
+                      <>
+                        {poolData?.startTime * 1000 > Date.now()
+                          ? " Active will be"
+                          : "Active"}
+                        ( {moment.unix(poolData?.startTime).fromNow()})
+                      </>
+                    ) : (
+                      "Not Started yet"
+                    )}
+                  </IconButton>
+                </CardActions>
+            </Typography>
+
+            <CardActions>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+                sx={{ color: "#47DDFC" }}
+              >
+                <HiChevronDoubleDown />
+              </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ paddingLeft: "10px", paddingRight: "10px" }}
+              >
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
+                  >
+                    <Icon icon="arcticons:rewards" /> Reward
+                  </IconButton>
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    0.025 (SOL)
+                  </IconButton>
+                </CardActions>
+
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid gray",
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
+                  >
+                    <Icon icon="bi:clock-history" /> Claimed Rewards
+                  </IconButton>
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    {tweetsStatus ? tweetsStatus : ""} (SOL)
+                  </IconButton>
+                </CardActions>
+
+                <CardActions
+                  sx={{
+                    justifyContent: "space-between",
+
+                    padding: "unset !important",
+                  }}
+                  disableSpacing
+                >
+                  <IconButton
+                    className="iconBtn"
+                    sx={{
+                      fontSize: "13px",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                    aria-label="add to favorites"
+                  >
+                    <Icon icon="charm:at-sign" /> Total Mentions
+                  </IconButton>
+
+                  <IconButton
+                    className="iconBtn"
+                    sx={{ fontSize: "12px", gap: "5px" }}
+                    aria-label="share"
+                  >
+                    155
+                  </IconButton>
+                </CardActions>
+              </Typography>
+             
+            </Collapse>
+            <CardActions
+                sx={{
+                  justifyContent: "space-between",
+                  background: "#636363",
+                  borderBottomLeftRadius: "10px",
+                  borderBottomRightRadius: "10px",
+                }}
+                disableSpacing
+              >
+                {!isTweetLike ? (
+                  <IconButton
+                    onClick={likeSpecificTweet}
+                    aria-label="add to favorites"
+                  >
+                    <Icon color="white" icon="ant-design:heart-filled" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => alert("You have already like the tweet")}
+                    aria-label="add to favorites"
+                  >
+                    <Icon
+                      color="rgb(249, 24, 128)"
+                      icon="ant-design:heart-filled"
+                    />
+                  </IconButton>
+                )}
+                {!isTweetRetweeted ? (
+                  <IconButton onClick={retweetATweet} aria-label="share">
+                    <Icon color="white" icon="ant-design:retweet-outlined" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => alert("You have already retweet the tweet")}
+                    aria-label="share"
+                  >
+                    <Icon
+                      color="rgb(0, 186, 124)"
+                      icon="ant-design:retweet-outlined"
+                    />
+                  </IconButton>
+                )}
+                <IconButton aria-label="share">
+                  <Icon
+                    color="white"
+                    onClick={() => setOpenModal(true)}
+                    icon="fa-regular:comment-dots"
+                  />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <Icon color="white" icon="ci:share" />
+                </IconButton>
+              </CardActions>
+          </Card>
+
+{/* ====================================================================================== */}
+         {/* <Card
             sx={{
               width: "100%",
               color: "white",
@@ -837,17 +1154,49 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               minHeight: "570px",
             }}
           >
-            {/* <CardHeader
-                className="card_header"
-                sx={{ marginLeft: "50px", marginTop: "30px", color: "white" }}
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
-                  </Avatar>
-                }
-                title={projectName}
-                subheader={projectDetail?.projectTwitterUsername}
-              /> */}
+            <Typography
+          component="div"
+          sx={{
+            backgroundImage: `url("${Images.raicardImg}")`,
+            height: "194px",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "relative",
+          }}
+        >
+          <CardHeader
+            sx={{
+              position: "absolute",
+              bottom: "0",
+              left: "0",
+              width: "100%",
+
+              color: "white",
+            }}
+            avatar={
+              <Avatar
+                sx={{
+                  bgcolor: red[500],
+                }}
+                aria-label="recipe"
+              >
+                R
+              </Avatar>
+            }
+            action={
+              <IconButton
+                aria-label="settings"
+                sx={{
+                  color: "white",
+                }}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title="Shrimp and Chorizo Paella"
+            subheader="@nouman"
+          />
+        </Typography>
 
             <Typography
               variant="body2"
@@ -940,6 +1289,9 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
               </CardActions>
             </Typography>
 
+
+       
+
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 <CardActions
@@ -982,6 +1334,23 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                   </IconButton>
                 </CardActions>
 
+                <CardActions>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+            sx={{ color: "#47DDFC" }}
+          >
+            <HiChevronDoubleDown />
+          </ExpandMore>
+        </CardActions>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ paddingLeft: "10px", paddingRight: "10px" }}
+          >
                 <CardActions
                   sx={{
                     justifyContent: "space-between",
@@ -999,7 +1368,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     }}
                     aria-label="add to favorites"
                   >
-                    <Icon icon="arcticons:rewards" /> Rewardd
+                    <Icon icon="arcticons:rewards" /> Reward
                   </IconButton>
 
                   <IconButton
@@ -1068,7 +1437,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     155
                   </IconButton>
                 </CardActions>
-                {/* {currentUserr&&<UserMentions currentUser={currentUserr} data={dataa} />} */}
+               
 
                 <Typography
                   sx={{
@@ -1079,16 +1448,14 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                     borderBottom: "1px solid gray",
                   }}
                 >
-                  {/* <Button
-                    className="raid_btn"
-                    sx={{ paddingLeft: "70px", paddingRight: "70px" }}
-                    variant="contained"
-                  >
-                    Raid
-                  </Button> */}
+                 
                 </Typography>
               </Typography>
+              </Collapse>
+              </Typography>
+           
             </CardContent>
+            
             <CardActions
               sx={{
                 justifyContent: "center",
@@ -1106,14 +1473,13 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                 <Icon color="white" icon="akar-icons:discord-fill" />
               </IconButton>
             </CardActions>
-          </Card>
-        </div>
+          </Card> */}
 
-        <div className="triangle" style={{ background: "#FFA34E" }}>
+        {/* <div className="triangle" style={{ background: "#FFA34E" }}>
           <img className="mail_logo" src="r.png" alt="" />
-        </div>
+        </div> */}
       </Grid>
-      {/* </Grid> */}
+     
 
       <ThreadModal
         allReplyOfATweet={allReplyOfATweet}
