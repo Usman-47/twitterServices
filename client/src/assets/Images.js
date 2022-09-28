@@ -17,6 +17,7 @@ import imagebanner from "./images/imagebanner.png";
 import profile1 from "./images/profile1.png";
 import ConnectTwitterScreens from "./images/ConnectTwitterScreens.png";
 import Asset2 from "./images/Asset2.png";
+import Frame1122 from "./images/Frame1122.png"
 
 const Images = {
   VectorWallet,
@@ -38,5 +39,6 @@ const Images = {
   profile1,
   ConnectTwitterScreens,
   Asset2,
+  Frame1122,
 };
 export default Images;

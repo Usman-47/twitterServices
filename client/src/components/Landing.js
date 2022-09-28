@@ -120,6 +120,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Landing = () => {
+
+  const [istrue, setIsTrue] = React.useState(1)
+
+  const handleCheck = (value) => {
+    if (value == 2) {
+      setIsTrue(value);
+    }
+    else if (value == 3) {
+      setIsTrue(value);
+    }
+    else if (value == 4) {
+      setIsTrue(value);
+    }
+  }
+
+
+
+
+
   const classes = useStyles();
   return (
     // <InteractiveList />
@@ -133,7 +152,9 @@ const Landing = () => {
     >
       <Grid item container md={12} sm={12} lg={12}>
         <Grid item md={6} sm={6} lg={6}>
-          <img src={`${Images.Asset2}?w=164&h=164&fit=crop&auto=format`} />
+          <div className="grid-img-div">
+            <img className={istrue == 1 ? "grid-img1" : istrue == 2 ? "grid-img2" : "grid-img3"} src={`${Images.Asset2}?w=164&h=164&fit=crop&auto=format`} />
+          </div>
         </Grid>
 
         <Grid item md={6} sm={6} lg={6} className={classes.backs}>
@@ -155,7 +176,7 @@ const Landing = () => {
               BOX
             </Typography>
           </Typography>
-          <Typography
+          {istrue == 1 ? (<><Typography
             variant="p"
             gutterBottom
             className="reward_text"
@@ -174,39 +195,272 @@ const Landing = () => {
               TWITTER
             </Typography>
           </Typography>
-          <Typography
-            variant="body1"
-            id="reward_pro_para"
-            gutterBottom
-            className="reward_desc"
-            sx={{
-              fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
-            }}
-          >
-            Link Natterbox with your twitter so we can know <br /> more about
-            you.
-          </Typography>
-          <NavLink
-            style={{
-              textDecoration: "none",
-              display: "flex",
-              justifyContent: "center",
-            }}
-            to="/Signup"
-          >
-            <Button
-              className="registeration"
-              variant="contained"
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="reward_desc"
               sx={{
-                fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
               }}
             >
-              <span style={{ marginRight: "5px" }}>
-                <BsTwitter />
-              </span>
-              Connect Your Twitter
-            </Button>
-          </NavLink>
+              Link Natterbox with your twitter so we can know <br /> more about
+              you.
+            </Typography></>) : null}
+
+
+          {istrue == 1 ? (<>
+            <div
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(2) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  <BsTwitter />
+                </span>
+                Connect Your Twitter
+              </Button>
+            </div></>) : null}
+
+
+          {istrue == 2 ? (<>
+            <div className="T_connect_heading">
+              <Typography
+                component="span"
+                className=" step2-textHeading2-1"
+                sx={{
+                  fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
+                }}
+              >
+                TWITTER
+              </Typography>
+              <Typography
+                component="span"
+                className="step2-textHeading2-2"
+                sx={{
+                  fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
+                }}
+              >
+                CONNECTED
+              </Typography>
+            </div>
+
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="reward_desc"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              Link Natterbox with your twitter so we can know <br /> more about
+              you.
+            </Typography>
+
+            <div className="account_profile_img">
+              <img src={`${Images.Frame30}`} />
+            </div>
+
+            <Typography
+              id="account_name"
+              className="account_name"
+            >
+              id name
+            </Typography>
+
+            <Typography
+              id="change_account"
+              className="change_account"
+            >
+              Change Twitter Account
+            </Typography>
+
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(3) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  {/* <BsTwitter /> */}
+                </span>
+                Continue
+              </Button>
+            </div></>) : null}
+
+
+
+
+          {istrue == 3 ? (<>
+            <Typography
+              variant="p"
+              gutterBottom
+              className="reward_text"
+              sx={{
+                fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+              }}
+            >
+              CONNECT YOUR
+              <Typography
+                component="span"
+                className=" reward_subtext"
+                sx={{
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                Wallet
+              </Typography>
+            </Typography>
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="reward_desc"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              Link your wallet to continue
+            </Typography>
+
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(4) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  {/* <BsTwitter /> */}
+                </span>
+                Connect Wallet
+              </Button>
+            </div>
+
+          </>) : null}
+
+          {istrue == 4 ? (<>
+            <Typography
+              variant="p"
+              gutterBottom
+              className="reward_text"
+              sx={{
+                fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+              }}
+            >
+              CONNECT YOUR
+              <Typography
+                component="span"
+                className=" reward_subtext"
+                sx={{
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                Wallet
+              </Typography>
+            </Typography>
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="reward_desc"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              Link your wallet to continue
+            </Typography>
+
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="wallet_info"
+                variant="contained"
+                sx={{
+                  backgroundColor: { backgroundColor: "black" },
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(3) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  {/* <BsTwitter /> */}
+                </span>
+                Wallet num
+              </Button>
+            </div>
+
+
+
+
+
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(4) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  {/* <BsTwitter /> */}
+                </span>
+                Connect Wallet
+              </Button>
+            </div>
+
+          </>) : null}
+
+
+
         </Grid>
       </Grid>
     </Grid>
