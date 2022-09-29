@@ -7,6 +7,7 @@ import { BsTwitter } from "react-icons/bs";
 import RecipeReviewCard from "./RecipeReviewCard";
 import AlignItemsList from "./InteractiveList";
 import InteractiveList from "./InteractiveList";
+import { display } from "@mui/system";
 const useStyles = makeStyles((theme) => ({
   MenuItem: {
     backgroundImage: `url(${Images.LandingPageimage})`,
@@ -78,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
     // paddingLeft: "20px",
     // paddingRight: "20px",
     color: "black",
+    display: "flex-Block",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
+    alignItems: "center"
   },
 
   FontFamilyGet: {
@@ -133,6 +140,12 @@ const Landing = () => {
     else if (value == 4) {
       setIsTrue(value);
     }
+    else if (value == 5) {
+      setIsTrue(value);
+    }
+    else if (value == 6) {
+      setIsTrue(value);
+    }
   }
 
 
@@ -153,7 +166,8 @@ const Landing = () => {
       <Grid item container md={12} sm={12} lg={12}>
         <Grid item md={6} sm={6} lg={6}>
           <div className="grid-img-div">
-            <img className={istrue == 1 ? "grid-img1" : istrue == 2 ? "grid-img2" : "grid-img3"} src={`${Images.Asset2}?w=164&h=164&fit=crop&auto=format`} />
+            <img className={istrue == 3 ? "grid-img2" : istrue == 4 ? "grid-img2" : istrue == 5 ? "grid-img3" : istrue == 6 ? "grid-img3" : "grid-img1"}
+              src={`${Images.Asset2}?w=164&h=164&fit=crop&auto=format`} />
           </div>
         </Grid>
 
@@ -176,25 +190,27 @@ const Landing = () => {
               BOX
             </Typography>
           </Typography>
-          {istrue == 1 ? (<><Typography
-            variant="p"
-            gutterBottom
-            className="reward_text"
-            sx={{
-              fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
-            }}
-          >
-            CONNECT YOUR
+          {istrue == 1 ? (<>
             <Typography
-              component="span"
-              className=" reward_subtext"
+              variant="p"
+              gutterBottom
+              className="twitter_connect1"
               sx={{
                 fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
               }}
             >
-              TWITTER
+              CONNECT YOUR
+              <Typography
+                component="span"
+                className=" twitter_connect2"
+                sx={{
+                  marginLeft: { marginLeft: "6px" },
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                TWITTER
+              </Typography>
             </Typography>
-          </Typography>
             <Typography
               variant="body1"
               id="reward_pro_para"
@@ -249,6 +265,7 @@ const Landing = () => {
                 component="span"
                 className="step2-textHeading2-2"
                 sx={{
+                  marginLeft: { marginLeft: "6px" },
                   fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
                 }}
               >
@@ -316,18 +333,19 @@ const Landing = () => {
 
           {istrue == 3 ? (<>
             <Typography
-              variant="p"
+              // variant="p"
               gutterBottom
-              className="reward_text"
+              className="twitter_connect1"
               sx={{
                 fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
               }}
             >
               CONNECT YOUR
               <Typography
-                component="span"
-                className=" reward_subtext"
+                // component="span"
+                className=" twitter_connect2"
                 sx={{
+                  marginLeft: { marginLeft: "6px" },
                   fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
                 }}
               >
@@ -374,18 +392,19 @@ const Landing = () => {
 
           {istrue == 4 ? (<>
             <Typography
-              variant="p"
+              // variant="p"
               gutterBottom
-              className="reward_text"
+              className="twitter_connect1"
               sx={{
                 fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
               }}
             >
               CONNECT YOUR
               <Typography
-                component="span"
-                className=" reward_subtext"
+                // component="span"
+                className=" twitter_connect2"
                 sx={{
+                  marginLeft: { marginLeft: "6px" },
                   fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
                 }}
               >
@@ -420,7 +439,7 @@ const Landing = () => {
                   backgroundColor: { backgroundColor: "black" },
                   fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
                 }}
-                onClick={() => { handleCheck(3) }}
+              // onClick={() => { handleCheck(4) }}
               >
                 <span style={{ marginRight: "5px" }}>
                   {/* <BsTwitter /> */}
@@ -428,10 +447,6 @@ const Landing = () => {
                 Wallet num
               </Button>
             </div>
-
-
-
-
 
             <div
               style={{
@@ -448,18 +463,201 @@ const Landing = () => {
                 sx={{
                   fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
                 }}
-                onClick={() => { handleCheck(4) }}
+                onClick={() => { handleCheck(5) }}
               >
                 <span style={{ marginRight: "5px" }}>
                   {/* <BsTwitter /> */}
                 </span>
-                Connect Wallet
+                Continue
               </Button>
             </div>
 
           </>) : null}
 
 
+          {istrue == 5 ? (<>
+            <Typography
+              // variant="p"
+              gutterBottom
+              className="nft_verification1"
+              sx={{
+                fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+              }}
+            >
+              NFTs
+              <Typography
+                // component="span"
+                className="nft_verification2"
+                sx={{
+                  marginLeft: { marginLeft: "6px" },
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                Verification
+              </Typography>
+            </Typography>
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="nft_verification_text"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              You need to hold at least 1 Anubis Punt to gain Access.
+            </Typography>
+
+
+            <div className="account_profile_img">
+              <img src={`${Images.loadingBuffer}`} />
+            </div>
+
+
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="nft_verification_text"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              If the loading takes too much time
+            </Typography>
+
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="nft_verification_text"
+              sx={{
+                color: { color: "red !important" },
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              This means you do not have NFTs
+            </Typography>
+
+
+
+            {/* Dummy Button for testing */}
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+                onClick={() => { handleCheck(6) }}
+              >
+                <span style={{ marginRight: "5px" }}>
+                  {/* <BsTwitter /> */}
+                </span>
+                Go to NFTs
+              </Button>
+            </div>
+
+          </>) : null}
+
+
+          {istrue == 6 ? (<>
+            <Typography
+              // variant="p"
+              gutterBottom
+              className="nft_verification1"
+              sx={{
+                fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+              }}
+            >
+              NFTs
+              <Typography
+                // component="span"
+                className="nft_verification2"
+                sx={{
+                  marginLeft: { marginLeft: "6px" },
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                Verification
+              </Typography>
+            </Typography>
+            <Typography
+              variant="body1"
+              id="reward_pro_para"
+              gutterBottom
+              className="nft_verification_text"
+              sx={{
+                fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+              }}
+            >
+              You need to hold at least 1 Anubis Punt to gain Access.
+            </Typography>
+
+
+            <div className="account_nfts_div">
+              <div className="account_nfts_imgs">
+                <img src={`${Images.dummyNft1}`} />
+                <img src={`${Images.dummyNft2}`} />
+                <img src={`${Images.dummyNft3}`} />
+                <img src={`${Images.dummyNft4}`} />
+              </div>
+            </div>
+
+            <Typography
+              // variant="p"
+              gutterBottom
+              className="account_name1"
+              sx={{
+                fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+              }}
+            >
+              Holy
+              <Typography
+                component="span"
+                className="account_name2"
+                sx={{
+                  marginLeft: { marginLeft: "6px" },
+                  fontSize: { xs: "15px", md: "20px", lg: "30px", xl: "40px" },
+                }}
+              >
+                Angels
+              </Typography>
+            </Typography>
+
+            <div
+              style={{
+                marginTop: "10px",
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            // to="/Signup"
+            >
+              <Button
+                className="registeration"
+                variant="contained"
+                sx={{
+                  fontSize: { xs: "7px", md: "9px", lg: "11px", xl: "15px" },
+                }}
+              // onClick={() => { handleCheck(6) }}
+              >
+                Confirm
+                <span style={{ marginLeft: "5px" }}>
+                  <img src={`${Images.confirmVector}`} />
+                </span>
+              </Button>
+            </div>
+
+          </>) : null}
 
         </Grid>
       </Grid>
