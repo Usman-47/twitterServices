@@ -1,6 +1,6 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import {
   WalletMultiButton,
@@ -136,6 +136,7 @@ const Landing = (props) => {
     useWallet();
   const [istrue, setIsTrue] = React.useState(1);
 
+  useEffect(() => {}, [props]);
   const handleCheck = (value) => {
     if (value == 2) {
       setIsTrue(value);
@@ -266,26 +267,47 @@ const Landing = (props) => {
                   }}
                   // to="/Signup"
                 >
-                  <Button
-                    className="registeration"
-                    variant="contained"
-                    sx={{
-                      fontSize: {
-                        xs: "7px",
-                        md: "9px",
-                        lg: "11px",
-                        xl: "15px",
-                      },
-                    }}
-                    onClick={() => {
-                      handleCheck(2);
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>
-                      <BsTwitter />
-                    </span>
-                    Connect Your Twitter
-                  </Button>
+                  {props?.auth ? (
+                    <Button
+                      className="registeration"
+                      variant="contained"
+                      sx={{
+                        fontSize: {
+                          xs: "7px",
+                          md: "9px",
+                          lg: "11px",
+                          xl: "15px",
+                        },
+                      }}
+                      onClick={() => {
+                        handleCheck(2);
+                      }}
+                    >
+                      <span style={{ marginRight: "5px" }}>
+                        <BsTwitter />
+                      </span>
+                      Connect Your Twitter
+                    </Button>
+                  ) : (
+                    <Link
+                      to="/user/LoginPage"
+                      className="registeration"
+                      variant="contained"
+                      sx={{
+                        fontSize: {
+                          xs: "7px",
+                          md: "9px",
+                          lg: "11px",
+                          xl: "15px",
+                        },
+                      }}
+                    >
+                      <span style={{ marginRight: "5px" }}>
+                        <BsTwitter />
+                      </span>
+                      Connect Your Twitter
+                    </Link>
+                  )}
                 </div>
               </>
             ) : null}
@@ -342,7 +364,7 @@ const Landing = (props) => {
                 </div>
 
                 <Typography id="account_name" className="account_name">
-                  id name
+                  {props?.auth?.userName}
                 </Typography>
 
                 <Typography id="change_account" className="change_account">
@@ -435,6 +457,7 @@ const Landing = (props) => {
                   }}
                   // to="/Signup"
                 >
+                  <WalletMultiButton className="registeration" />;
                   <Button
                     className="registeration"
                     variant="contained"
@@ -453,7 +476,7 @@ const Landing = (props) => {
                     <span style={{ marginRight: "5px" }}>
                       {/* <BsTwitter /> */}
                     </span>
-                    Connect Wallet
+                    Continue With This Wallet
                   </Button>
                 </div>
               </>
@@ -529,7 +552,7 @@ const Landing = (props) => {
                     <span style={{ marginRight: "5px" }}>
                       {/* <BsTwitter /> */}
                     </span>
-                    Wallet num
+                    {publicKey.toString()}
                   </Button>
                 </div>
 

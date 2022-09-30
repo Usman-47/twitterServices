@@ -10,7 +10,7 @@ module.exports = (app) => {
     "/oauth/callback/twitter.com",
     passport.authenticate("twitter"),
     (req, res) => {
-      res.redirect("http://localhost:3000");
+      res.redirect("http://localhost:3000/Landing");
       // res.redirect("https://sols.game");
     }
   );
