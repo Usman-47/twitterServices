@@ -44,6 +44,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import MentionProjects from "./MentionProjects";
 // import Account from "./Account";
 import Rewards from "./Rewards";
+import MainDashboard from "./MainDashboard";
 // ====================
 
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
@@ -116,11 +117,12 @@ const Tweets = (props) => {
           { text: "Mention to Earn", icon: "bx:at" },
           { text: "Raid to Earn", icon: "la:retweet" },
           { text: "Sweep to Earn", icon: "la:retweet" },
+          { text: "Profile", icon: "bx:user" },
           { text: "Rewards", icon: "arcticons:rewards" },
           { text: "Account", icon: "gridicons:stats" },
-          { text: "Stats", icon: "bx:user" },
-          { text: "Profile", icon: "ant-design:setting-filled" },
-          { text: "Setting", icon: "healthicons:exercise-walk-supported" },
+          { text: "Stats",  icon: "healthicons:exercise-walk-supported"},
+         
+          { text: "Setting", icon: "ant-design:setting-filled" },
           { text: "Support", icon: "ic:twotone-space-dashboard" },
         ].map((obj, index) => (
           <ListItem key={index} disablePadding>
@@ -484,7 +486,8 @@ const Tweets = (props) => {
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <>
-            <Grid container>
+            <MainDashboard/>
+            {/* <Grid container>
              <Grid item xs={12} sm={8} md={9}>
                   <Typography>
                   <Grid container sx={{marginBottom:"20px"}}>
@@ -511,7 +514,7 @@ const Tweets = (props) => {
                     </Button>
                   </Typography>
                 </Grid>
-             </Grid>
+             </Grid> */}
             </>
           ) : selectedComponent === "Mention to Earn" ? (
             <>
@@ -733,13 +736,44 @@ const Tweets = (props) => {
           ) : selectedComponent === "Rewards" ? (
             <Rewards />
           ) : selectedComponent === "Profile" ? (
-            <Profledescription currentUser={props?.auth} />
+          
+            <>
+            {/* <Profledescription currentUser={props?.auth} /> */}
+            <Grid container>
+             <Grid item xs={12} sm={8} md={9}>
+                  <Typography>
+                  <Grid container sx={{marginBottom:"20px"}}>
+                      <Account/>
+                   </Grid>   
+                  </Typography>
+                  <Typography sx={{color:"white", fontSize:"36px", fontWeight:"600", marginLeft:"25px"}}>Activities</Typography>
+                <UserDashboard
+                  currentUser={props?.auth}
+                  userProjectsForMention={userProjectsForMention}
+                  userProjectsForRaid={userProjectsForRaid}
+                  userNotIncludeProjectsForMention={
+                    userNotIncludeProjectsForMention
+                  }
+                  userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
+                />
+                 </Grid>
+                <Grid sm={4} md={3} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px',height:"100vh"}}>
+                 <TopRaiders/>
+                 <Typography style={{textAlign:"center", marginTop:"20px"}}>
+                    <Button variant="outlined" style={{border: '1px solid #1A1A1A',
+                        borderRadius: '8px', fontSize:"14px", color:"white"}}>
+                      View all <Icon icon="bi:chevron-double-down" />
+                    </Button>
+                  </Typography>
+                </Grid>
+             </Grid>
+            </>
           ) : selectedComponent === "Setting" ? (
             <Setting />
           ) : selectedComponent === "Stats" ? (
             <Progressbr />
           ) : (
-            {/* <Cardsupport /> */}
+            <Cardsupport />
           )}
         </Box>
       </Box>
