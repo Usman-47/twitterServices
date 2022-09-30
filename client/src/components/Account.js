@@ -30,7 +30,7 @@ const Account = () => {
       >
         <RewardCards />
 
-        <Grid container className="justify-content-xl-center">
+        {/* <Grid container className="justify-content-xl-center">
           {array.map((item) => {
             return (
               <>
@@ -39,15 +39,13 @@ const Account = () => {
                     <Typography sx={{ margin: "0 30px 0 30px" }}>
                       <Typography
                         sx={{
-                          borderBottom: "1px solid gray",
-
-                          // paddingBottom: "20px",
+                          borderBottom: "1px solid gray",    
                         }}
                         component="div"
                       >
                         <Typography
                           gutterBottom
-                          //   variant="h7"
+                          
                           color="white"
                           component="div"
                           sx={{
@@ -62,7 +60,7 @@ const Account = () => {
                           {item.title}
                         </Typography>
                       </Typography>
-                      {/* <Divider/> */}
+                      
                       <CardContent>
                         <Typography color="white" variant="body2">
                           Lorem Ipsum is simply dummy text of the printing and
@@ -94,7 +92,7 @@ const Account = () => {
                 >
                   <Typography
                     gutterBottom
-                    //   variant="h7"
+                   
                     color="white"
                     component="div"
                     sx={{
@@ -149,7 +147,7 @@ const Account = () => {
               </Typography>
             </Card>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Typography>
     </>
   );

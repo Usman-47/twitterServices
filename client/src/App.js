@@ -68,6 +68,7 @@ import DeletePool from "./pages/private/CRUD/Invoice/DeletePool";
 import Tweets from "./components/Tweets";
 import ReadAllTweets from "./pages/private/CRUD/Invoice/ReadAllTweets";
 import Landing from "./components/Landing";
+import LandingHome from "./components/LandingHome";
 
 function App(props) {
   require("@solana/wallet-adapter-react-ui/styles.css");
@@ -99,8 +100,9 @@ function App(props) {
                 {/* <NavigationBar /> */}
 
                 <Routes>
-                  {/* <Route path="/" element={<Landing />} /> */}
-                  <Route path="/" element={<Home />} />
+                  <Route path="/Landing" element={<Landing />} />
+                  <Route path="/" element={<LandingHome />} />
+                  {/* <Route path="/" element={<Home />} /> */}
 
                   <Route path="/user">
                     <Route path="loginPage" element={<LoginPage />} />

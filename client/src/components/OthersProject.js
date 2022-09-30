@@ -11,19 +11,7 @@ const OtherProjects = ({
 }) => {
   return (
     <>
-      {currentUser &&
-        userNotIncludeProjectsForMention &&
-        userNotIncludeProjectsForMention?.map((data) => (
-          <>
-            <MentionProjects
-              currentUsers={currentUser}
-              datas={data}
-              mention={true}
-            />
-          </>
-        ))}
-
-      {currentUser &&
+     {currentUser &&
         userNotIncludeProjectsForRaid &&
         userNotIncludeProjectsForRaid.map((data) => (
           <>
@@ -40,6 +28,19 @@ const OtherProjects = ({
             />
           </>
         ))}
+      {currentUser &&
+        userNotIncludeProjectsForMention &&
+        userNotIncludeProjectsForMention?.map((data) => (
+          <>
+            <MentionProjects
+              currentUsers={currentUser}
+              datas={data}
+              mention={true}
+            />
+          </>
+        ))}
+
+     
     </>
   );
 };
