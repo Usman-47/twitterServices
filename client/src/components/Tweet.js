@@ -54,6 +54,9 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const [retweetStatus, setRetweetStatus] = useState();
   const [quoteTweets, setQuoteTweets] = useState();
   const [isTweetLike, setIsTweetLike] = useState();
+  const [isTweetReplied, setIsTweetReplied] = useState();
+  const [isStarted, setIsStarted] = useState(false);
+  const [isEnded, setIsEnded] = useState(false);
   const [projectName, setProjectName] = useState();
   const [isTweetRetweeted, setIsTweetRetweeted] = useState();
   const [allReplyOfATweet, setAllReplyOfATweet] = useState();
@@ -62,7 +65,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const [updateReplyFlag, setUpdateReplyFlag] = useState();
   const [rewards, setreward] = useState();
   const [tweetsStatus, settweetStatus] = useState();
-
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
 
@@ -83,7 +85,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   );
   const getCurrentUserFollower = async () => {
     if (!currentUser?.id) {
-      alert("Please sigin first");
+      toast.error("Please sigin first");
       return;
     }
     const res = await axios.get(
@@ -116,6 +118,10 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const handleReplyData = async (data) => {
     await replyToSpecificTweet(data);
     setUpdateReplyFlag(!updateReplyFlag);
+  };
+
+  const handleIsReply = async (data) => {
+    setIsTweetReplied(data);
   };
 
   // <<<<<<< HEAD
@@ -264,7 +270,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
   const checkUserNumberOfFollower = async () => {
     if (!currentUser) {
-      alert("Please sigin first");
+      toast.error("Please sigin first");
       return;
     }
     const res = await axios.get(
@@ -275,7 +281,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         },
       }
     );
-    alert(res.data.data.length);
+    toast.success(res.data.data.length);
   };
 
   const checkQuoteTweets = async () => {
@@ -293,6 +299,19 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       return false;
     }
   };
+
+  useEffect(() => {
+    if (poolData?.endTime * 1000 < Date.now()) {
+      setIsEnded(true);
+    } else {
+      setIsEnded(false);
+    }
+    if (poolData?.startTime * 1000 < Date.now()) {
+      setIsStarted(true);
+    } else {
+      setIsStarted(false);
+    }
+  }, [poolData]);
 
   const LikeTweet = async (number) => {
     var reward = 0;
@@ -512,13 +531,25 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         return tx;
       }
     } else {
-      alert("connect wallet");
+      toast.error("connect wallet");
     }
   };
   const likeSpecificTweet = async () => {
     try {
       if (!data?.tweetId || !projectName) {
         toast.error("Tweet id or project name not found");
+        return;
+      }
+      if (!isStarted) {
+        toast.error("Not Started");
+        return;
+      }
+      if (isEnded) {
+        toast.error("Ended");
+        return;
+      }
+      if (isTweetLike) {
+        toast.error("Tweet is Already liked");
         return;
       }
       let body = {
@@ -543,7 +574,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           numberOfFollowes: currentUserFallowers,
           tweetId: data?.tweetId,
           projectName,
-          clientId: projectDetail?.invoiceCreater._id,
+          clientId: projectDetail?.invoiceCreater?._id,
           splToken: poolData.splToken,
         };
         const resData = await axios.post(
@@ -607,6 +638,18 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
 
   const replyToSpecificTweet = async (reply) => {
     try {
+      if (!isStarted) {
+        toast.error("Not Started");
+        return;
+      }
+      if (isEnded) {
+        toast.error("Ended");
+        return;
+      }
+      if (isTweetReplied) {
+        toast.error("You have already make reply for this tweet");
+        return;
+      }
       let body = {
         tweetReply: reply,
         accessToken: currentUser?.accessToken,
@@ -690,8 +733,32 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (data?.tweetId) {
+      currentUser?.raidStatus?.likeStatus?.map((tweetStatus) => {
+        if (tweetStatus?.tweetId === data?.tweetId) {
+          console.log("gsdfghsdgfjs");
+          setIsTweetReplied(true);
+        }
+      });
+    }
+  }, [currentUser, data?.tweetId]);
+
   const retweetATweet = async () => {
     try {
+      if (!isStarted) {
+        toast.error("Not Started");
+        return;
+      }
+      if (isEnded) {
+        toast.error("Ended");
+        return;
+      }
+      if (isTweetRetweeted) {
+        toast.error("Tweet Already retweeted");
+        return;
+      }
       let body = {
         userId: currentUser?.id,
         accessToken: currentUser?.accessToken,
@@ -815,12 +882,12 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     if (quoteTweets) {
       retweetStatus?.map((status) => {
         if (status?.username === currentUser.userName) {
-          alert("you have quote the tweet");
+          toast.success("you have quote the tweet");
           isUserExist = true;
         }
       });
       if (!isUserExist) {
-        alert("you have not quote the tweet");
+        toast.error("you have not quote the tweet");
       }
     }
   }, [quoteTweets]);
@@ -904,7 +971,9 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                   </IconButton>
                 ) : (
                   <IconButton
-                    onClick={() => alert("You have already like the tweet")}
+                    onClick={() =>
+                      toast.error("You have already like the tweet")
+                    }
                     aria-label="add to favorites"
                   >
                     <Icon
@@ -919,7 +988,9 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
                   </IconButton>
                 ) : (
                   <IconButton
-                    onClick={() => alert("You have already retweet the tweet")}
+                    onClick={() =>
+                      toast.error("You have already retweet the tweet")
+                    }
                     aria-label="share"
                   >
                     <Icon
@@ -1122,6 +1193,7 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
         openModal={openModal ? openModal : false}
         handleModal={handleModal}
         handleReplyData={handleReplyData}
+        handleIsReply={handleIsReply}
       />
     </>
   );

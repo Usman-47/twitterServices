@@ -99,8 +99,8 @@ function App(props) {
                 {/* <NavigationBar /> */}
 
                 <Routes>
-                  <Route path="/" element={<Landing />} />
-                  {/* <Route path="/" element={<Home />} /> */}
+                  {/* <Route path="/" element={<Landing />} /> */}
+                  <Route path="/" element={<Home />} />
 
                   <Route path="/user">
                     <Route path="loginPage" element={<LoginPage />} />

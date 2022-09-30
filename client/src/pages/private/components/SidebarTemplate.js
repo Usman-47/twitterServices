@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import PublicNavBar from "../../../components/Navbar/PublicNavBar";
 import useStatesFunc from "../../../hooks/useStatesFunc";
@@ -7,9 +8,31 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
-const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
-  const [{ sidebar }] = useStatesFunc();
 
+const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
+  const [{ sidebar, token }] = useStatesFunc();
+  const [clientAddress, setClientAddress] = useState();
+  const [solBalance, setSolBalance] = useState();
+
+  const getWallet = async () => {
+    const resData = await axios.get(
+      `${process.env.REACT_APP_SERVERURL}/wallet/getWallet`,
+
+      {
+        headers: {
+          Authorization: `BEARER ${token}`,
+        },
+      }
+    );
+
+    if (resData?.data?.publicKey) {
+      setClientAddress(resData?.data?.publicKey);
+      setSolBalance((resData?.data?.solBalance / 1000000000).toFixed(2));
+    }
+  };
+  useEffect(() => {
+    getWallet();
+  }, []);
   return (
     <>
       <div
@@ -18,7 +41,7 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
           top: "0",
           minHeight: "100vh",
           zIndex: "999",
-          background:"#262626"
+          background: "#262626",
         }}
         className={
           sidebar
@@ -26,7 +49,7 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
             : "d-none"
         }
       >
-        <div className="containe-fluid" sx={{ position: "relative", }}>
+        <div className="containe-fluid" sx={{ position: "relative" }}>
           <Button
             className="d-md-none"
             sx={{ position: "absolute", right: "0", top: "10px" }}
@@ -47,6 +70,8 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
           </Typography>
           <nav className="overflow-hidden mt-5">
             <ul className="navbar-nav mb-2 mb-lg-0 py-4">
+              {clientAddress ? <li>Your Wallet: {clientAddress}</li> : null}
+              {solBalance ? <li>Balance: {solBalance} sol</li> : null}
               {navArray &&
                 navArray.map((navElement, index) => (
                   <li
@@ -54,20 +79,26 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
                     key={navElement.href}
                     // onClick={() => setShowSideBar(false)}
                   >
-                  
-                   
                     <NavLink
-                      sx={{ color: "white",}}
+                      sx={{ color: "white" }}
                       className={({ isActive }) =>
                         isActive
-                          ? "nav-link text-info active border-bottom border-2 border-info fw-bold" 
+                          ? "nav-link text-info active border-bottom border-2 border-info fw-bold"
                           : "nav-link text-white"
                       }
                       to={navElement.href}
                       key={navElement.id}
                     >
-                    <Typography>{index=== 0 ? <Icon icon="ic:twotone-space-dashboard" />: index===1 || index===2 ? <Icon icon="codicon:project" />:<Icon icon="bx:user" />}</Typography>
-                       <Typography> {navElement.name}</Typography>
+                      <Typography>
+                        {index === 0 ? (
+                          <Icon icon="ic:twotone-space-dashboard" />
+                        ) : index === 1 || index === 2 ? (
+                          <Icon icon="codicon:project" />
+                        ) : (
+                          <Icon icon="bx:user" />
+                        )}
+                      </Typography>
+                      <Typography> {navElement.name}</Typography>
                     </NavLink>
                   </li>
                 ))}
@@ -76,21 +107,22 @@ const SidebarTemplate = ({currentUser, navArray, setShowSideBar }) => {
 
           <Typography
             sx={{
-             
-              position:"absolute",
-              bottom:"0",
-              left:"50%",
-              width:"100%",
-              transform:"translateX(-50%)"
-             
+              position: "absolute",
+              bottom: "0",
+              left: "50%",
+              width: "100%",
+              transform: "translateX(-50%)",
             }}
           >
             <CardHeader
-              sx={{ color: "white", }}
+              sx={{ color: "white" }}
               avatar={
                 <Avatar sx={{ backgroundColor: "white" }} aria-label="recipe">
-              <Icon color="rgb(29, 155, 240)" icon="akar-icons:twitter-fill" />
-            </Avatar>
+                  <Icon
+                    color="rgb(29, 155, 240)"
+                    icon="akar-icons:twitter-fill"
+                  />
+                </Avatar>
               }
               title={currentUser?.userName}
               subheader="Membership Status: STANDARD"

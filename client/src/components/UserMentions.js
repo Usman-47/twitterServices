@@ -73,56 +73,7 @@ const UserMentions = ({ currentUser, data }) => {
         return;
       }
       let tweetId = tweetForReward;
-      const mintAddress = new PublicKey(rewardToken);
-      const clientAddress = new PublicKey(data.invoiceCreaterPublicKey);
-      const id = parseInt(Math.random() * 250);
-      const id2 = parseInt(Math.random() * 250);
-      console.log(id, "id");
-      console.log(id2, "id2");
-      // const tweetId = "11dtsaar3441";
       if (publicKey) {
-        const [tweetAta, bump] = await anchor.web3.PublicKey.findProgramAddress(
-          [
-            anchor.utils.bytes.utf8.encode("tweets"),
-            // provider.wallet.publicKey.toBuffer(),
-            Buffer.from(tweetId),
-            Buffer.from(projectName),
-          ],
-          program.programId
-        );
-
-        const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-          [
-            anchor.utils.bytes.utf8.encode("pool"),
-            clientAddress.toBuffer(),
-            mintAddress.toBuffer(),
-            Buffer.from(projectName),
-          ],
-          program.programId
-        );
-
-        const [globalAuth, globalBump] =
-          await anchor.web3.PublicKey.findProgramAddress(
-            [Buffer.from("global-authority")],
-            // new anchor.BN(id).toArrayLike(Buffer)],
-            program.programId
-          );
-        const prizeTokenAccount = await solConnection.getTokenAccountsByOwner(
-          provider.wallet.publicKey,
-          { mint: mintAddress }
-        );
-
-        let associatedTokenAccountPubkey = (
-          await PublicKey.findProgramAddress(
-            [
-              provider.wallet.publicKey.toBuffer(),
-              TOKEN_PROGRAM_ID.toBuffer(),
-              mintAddress.toBuffer(), // mint address
-            ],
-            ASSOCIATED_TOKEN_PROGRAM_ID
-          )
-        )[0];
-
         const data = {
           rewardStatus: {
             rewardToken,
@@ -437,22 +388,29 @@ const UserMentions = ({ currentUser, data }) => {
     }
   }, [userSelectTweetForClaim]);
   const claimRewardWithSolana = async () => {
-    if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
-      alert("reward claim time is not reached after start time");
-      return;
-    }
-    if (
-      parseInt(rewardClaimTime) + rewardFrequencyToClaimReward >
-      moment().unix()
-    ) {
-      alert("early claim is not allowed after the claim of another tweet");
-      return;
-    }
-    if (userCreatedTweetAt + rewardFrequencyToClaimReward > moment().unix()) {
-      toast.error("you tweet must be old enough");
-      return;
-    }
     try {
+      if (isRewardPaid) {
+        toast.error("you have applied");
+        return;
+      }
+
+      if (claimStartTime + rewardFrequencyToClaimReward > moment().unix()) {
+        toast.error("reward claim time is not reached after start time");
+        return;
+      }
+      if (
+        parseInt(rewardClaimTime) + rewardFrequencyToClaimReward >
+        moment().unix()
+      ) {
+        toast.error(
+          "early claim is not allowed after the claim of another tweet"
+        );
+        return;
+      }
+      if (userCreatedTweetAt + rewardFrequencyToClaimReward > moment().unix()) {
+        toast.error("you tweet must be old enough");
+        return;
+      }
       var isClaimAble = true;
       var countNfts = 0;
       if (data?.mintCreatorAddress) {
@@ -487,12 +445,7 @@ const UserMentions = ({ currentUser, data }) => {
         return;
       }
       if (!data && !mentionUserFallowers) {
-        alert("No tweet data found");
-        return;
-      }
-
-      if (isRewardPaid) {
-        alert("Reward Already Paid");
+        toast.error("No tweet data found");
         return;
       }
 

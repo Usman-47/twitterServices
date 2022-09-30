@@ -36,7 +36,6 @@ const PublicRoute = require("./routes/PublicRoute");
 const PrivateRoute = require("./routes/PrivateRoute");
 const InvoiceCrudRoute = require("./routes/InvoiceCrudRoute");
 const CreateWalletRoute = require("./routes/CreateWalletRoute");
-const RaidRoute = require("./routes/RaidRoute");
 const UserCrudRoute = require("./routes/UserCrudRoute");
 const tweets = require("./routes/tweets");
 const reward = require("./routes/reward");

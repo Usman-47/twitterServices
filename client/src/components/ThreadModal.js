@@ -39,6 +39,7 @@ export default function ThreadModal({
   openModal,
   handleModal,
   handleReplyData,
+  handleIsReply,
 }) {
   const [open, setOpen] = React.useState();
   const [replyData, setReplyData] = React.useState();
@@ -59,6 +60,7 @@ export default function ThreadModal({
       return;
     }
     handleReplyData(replyData);
+    handleIsReply(true);
     setReplyData("");
   };
   return (

@@ -61,6 +61,7 @@ const AddPool = ({ auth }) => {
   const [stateValues, setStateValues] = useState(initialState);
   const [projectName, setProjectName] = useState();
   const [isRaid, setIsRaid] = useState(false);
+  const [apiError, setApiError] = useState();
   const [flag, setFlag] = useState(false);
 
   const solConnection = new web3.Connection(
@@ -125,273 +126,6 @@ const AddPool = ({ auth }) => {
       </>
     );
   }
-
-  const initializeUserPool = async () => {
-    var limit = 1;
-    if (stateValues.rewardFrequency === "week") {
-      limit = 7;
-    } else if (stateValues.rewardFrequency === "month") {
-      limit = 30;
-    }
-    const mintAddress = new PublicKey(stateValues?.splToken);
-    const startTime = stateValues.startTime;
-    const timeLimit = limit;
-    const funds = stateValues.amount * 1000000000; //
-    if (publicKey) {
-      const [globalAuth, globalBump] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [Buffer.from("global-authority")],
-          // new anchor.BN(47).toArrayLike(Buffer)],
-          program.programId
-        );
-      console.log(globalAuth.toString(), "globalAuth");
-
-      const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      console.log(poolAddress.toString(), "poolAddress");
-
-      let clientAta = (
-        await PublicKey.findProgramAddress(
-          [
-            provider.wallet.publicKey.toBuffer(),
-            TOKEN_PROGRAM_ID.toBuffer(),
-            mintAddress.toBuffer(), // mint address
-          ],
-          ASSOCIATED_TOKEN_PROGRAM_ID
-        )
-      )[0];
-
-      console.log(clientAta.toString(), "associatedTokenAccountPubkey");
-      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("poolAta"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      console.log(poolAta.toString(), "poolAta");
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        provider.wallet.publicKey,
-        { mint: mintAddress }
-      );
-
-      let instructions = [];
-      if (userAtaCheck.value.length === 0) {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintAddress,
-              clientAta,
-              provider.wallet.publicKey,
-              provider.wallet.publicKey
-            ),
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("wrapped");
-        }
-      } else {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            // Token.createTransferInstruction(TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000)
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            // TOKEN_PROGRAM_ID, provider.wallet.publicKey, clientAta, provider.wallet.publicKey, [], 100000000
-            // await Token.createWrappedNativeAccount(solConnection, TOKEN_PROGRAM_ID, provider.wallet.publicKey, provider.wallet, 100000000)
-            // ,
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-        }
-      }
-      try {
-        const tx = await program.rpc.initializeUserPool(
-          projectName,
-          startTime,
-          new anchor.BN(timeLimit),
-          new anchor.BN(funds),
-          {
-            accounts: {
-              client: provider.wallet.publicKey,
-              globalAuthority: globalAuth,
-              pool: poolAddress,
-              poolAta: poolAta,
-              poolMint: mintAddress,
-              clientAta: clientAta,
-              systemProgram: SystemProgram.programId,
-              tokenProgram: TOKEN_PROGRAM_ID,
-              rent: SYSVAR_RENT_PUBKEY,
-            },
-            instructions,
-          }
-        );
-        console.log(tx, "tx");
-        return { tx, poolAddress: poolAddress.toString() };
-      } catch (err) {
-        console.log(err, "err");
-      }
-    }
-  };
-
-  const initializeUserPoolForRaid = async () => {
-    let limit = 1;
-    if (stateValues.rewardFrequency === "week") {
-      limit = 7;
-    } else if (stateValues.rewardFrequency === "month") {
-      limit = 30;
-    }
-    // const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
-    const mintAddress = new PublicKey(stateValues?.splToken);
-    const startTime = stateValues.startTime;
-    const timeLimit = limit;
-    const funds = stateValues.amount * 1000000000; // 10 SPL
-    if (publicKey) {
-      const [globalAuth, globalBump] =
-        await anchor.web3.PublicKey.findProgramAddress(
-          [Buffer.from("global-authority")],
-          // new anchor.BN(47).toArrayLike(Buffer)],
-          program.programId
-        );
-      console.log(globalAuth.toString(), "globalAuth");
-
-      const [poolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      console.log(poolAddress.toString(), "poolAddress");
-
-      const [poolSolAddress] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("pool"),
-          provider.wallet.publicKey.toBuffer(),
-          //  mintAddress.toBuffer(),
-          //  Buffer.from(projectName),
-        ],
-        SystemProgram.programId
-      );
-      console.log(poolSolAddress.toString(), "poolSolAddress");
-
-      let clientAta = (
-        await PublicKey.findProgramAddress(
-          [
-            provider.wallet.publicKey.toBuffer(),
-            TOKEN_PROGRAM_ID.toBuffer(),
-            mintAddress.toBuffer(), // mint address
-          ],
-          ASSOCIATED_TOKEN_PROGRAM_ID
-        )
-      )[0];
-      console.log(mintAddress.toString(), "mint Address");
-      console.log(NATIVE_MINT == mintAddress, "Mint native");
-      // let temp = await Token.getAssociatedTokenAddress(ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID, NATIVE_MINT, provider.wallet.publicKey)
-      // console.log(temp.toString(), "temp")
-
-      console.log(clientAta.toString(), "associatedTokenAccountPubkey");
-      const [poolAta] = await anchor.web3.PublicKey.findProgramAddress(
-        [
-          anchor.utils.bytes.utf8.encode("poolAta"),
-          provider.wallet.publicKey.toBuffer(),
-          mintAddress.toBuffer(),
-          Buffer.from(projectName),
-        ],
-        program.programId
-      );
-      // const walletCTemp = Keypair.generate();
-      console.log(poolAta.toString(), "poolAta");
-      const userAtaCheck = await solConnection.getTokenAccountsByOwner(
-        provider.wallet.publicKey,
-        { mint: mintAddress }
-      );
-
-      let instructions = [];
-      if (userAtaCheck.value.length === 0) {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintAddress,
-              clientAta,
-              provider.wallet.publicKey,
-              provider.wallet.publicKey
-            ),
-
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("wrapped");
-        }
-      } else {
-        if (NATIVE_MINT.toString() === mintAddress.toString()) {
-          instructions.push(
-            SystemProgram.transfer({
-              fromPubkey: provider.wallet.publicKey,
-              toPubkey: clientAta,
-              lamports: funds,
-            }),
-            Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
-          );
-          console.log("else");
-        }
-      }
-      try {
-        const tx = await program.rpc.initializeUserPool(
-          projectName,
-          startTime,
-          new anchor.BN(timeLimit),
-          new anchor.BN(funds),
-          {
-            accounts: {
-              client: provider.wallet.publicKey,
-              globalAuthority: globalAuth,
-              pool: poolAddress,
-              poolAta: poolAta,
-              poolMint: mintAddress,
-              clientAta: clientAta,
-              systemProgram: SystemProgram.programId,
-              tokenProgram: TOKEN_PROGRAM_ID,
-              rent: SYSVAR_RENT_PUBKEY,
-            },
-            instructions,
-          }
-        );
-        console.log(tx, "tx");
-        return { tx, poolAddress: poolAddress.toString() };
-      } catch (err) {
-        console.log(err, "err");
-      }
-    }
-  };
   const SubmitForm = async (ev) => {
     try {
       ev.preventDefault();
@@ -490,15 +224,19 @@ const AddPool = ({ auth }) => {
           splToken,
           projectName,
         };
-        const res = await axios.post(
-          `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
-          body,
-          {
-            headers: {
-              Authorization: `BEARER ${token}`,
-            },
-          }
-        );
+        const res = await axios
+          .post(
+            `${process.env.REACT_APP_SERVERURL}/wallet/initializeUserPool`,
+            body,
+            {
+              headers: {
+                Authorization: `BEARER ${token}`,
+              },
+            }
+          )
+          .catch((err) => {
+            setApiError(err.response.data.msg);
+          });
         if (res.data.tx) {
           const body = {
             pool: {
@@ -525,8 +263,7 @@ const AddPool = ({ auth }) => {
         }
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      toast.error(apiError);
       dispatch({ type: "loadingStop" });
     }
   };
@@ -740,8 +477,8 @@ const AddPool = ({ auth }) => {
               <option value="RkhPCnaMogmgpLWfZX64oejPCDdAnHRkdy2rvGHdE7D">
                 LUV
               </option>
-              <option value="RkhPCnaMogmgpLWfZX64oejPCDdAnHRkdy2rvGHdE7D">
-                DUST
+              <option value="Ewf86g35EWcr5dyLSunQkCt5pcnR3hY6bnDAPCKcaye">
+                FLNT
               </option>
               <option value="OTHER">OTHER</option>
             </select>
