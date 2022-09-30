@@ -123,6 +123,31 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
   const handleIsReply = async (data) => {
     setIsTweetReplied(data);
   };
+  // const airDropForRaid = async () => {
+  //   let body = {
+  //     usersArray: [publicKey],
+  //     isRaid: true,
+  //     splToken: poolData?.splToken,
+  //     projectName: projectDetail.projectName,
+  //     client
+  //   };
+
+  //   const response = await axios.post(
+  //     `${process.env.REACT_APP_SERVERURL}/wallet/airdrop`,
+  //     body,
+  //     {
+  //       headers: {
+  //         Authorization: `BEARER ${token}`,
+  //       },
+  //     }
+  //   );
+  //   if (response.data.tx) {
+  //     console.log(response.data.tx);
+  //     toast.success("Transfer Successfully");
+  //   } else {
+  //     toast.error("Something went wrong");
+  //   }
+  // };
 
   // <<<<<<< HEAD
   // ==========for table =========
@@ -607,6 +632,8 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           if (response) {
             const body = {
               tweetId: data?.tweetId,
+              userId: currentUser?.userId,
+              tweetStatus: "like",
               projectName,
               mintAddress: poolData?.splToken,
               isRaid: true,
@@ -705,6 +732,8 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           if (response) {
             const body = {
               tweetId: data?.tweetId,
+              userId: currentUser?.userId,
+              tweetStatus: "reply",
               projectName,
               mintAddress: poolData?.splToken,
               isRaid: true,
@@ -738,7 +767,6 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
     if (data?.tweetId) {
       currentUser?.raidStatus?.likeStatus?.map((tweetStatus) => {
         if (tweetStatus?.tweetId === data?.tweetId) {
-          console.log("gsdfghsdgfjs");
           setIsTweetReplied(true);
         }
       });
@@ -816,6 +844,8 @@ const Tweet = ({ currentUser, data, projectDetail, poolData }) => {
           if (response) {
             const body = {
               tweetId: data?.tweetId,
+              userId: currentUser?.userId,
+              tweetStatus: "retweet",
               projectName,
               mintAddress: poolData?.splToken,
               isRaid: true,

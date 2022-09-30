@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Wallet = require("../../model/walletModel");
-// const CheckRoleAccess = require("../../util/CheckRoleAccess");
+const CheckRoleAccess = require("../../util/CheckRoleAccess");
 // const { encryptFunc } = require("../../util/cryptoFunc");
 const { Program, web3 } = require("@project-serum/anchor");
 const anchor = require("@project-serum/anchor");
@@ -51,6 +51,15 @@ var solConnection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"), {
 const program = new anchor.Program(idl, PROGRAM_ID);
 
 const getWallet = async (req, res) => {
+  const { role } = req.userObj;
+  const isEligible = CheckRoleAccess(["admin", "manager"], role);
+  if (!isEligible) {
+    return res.status(401).send({
+      msg: "You are not allowed to access this service...contact your admin..",
+      type: "error",
+    });
+  }
+
   let wallet = await Wallet.findOne({
     accountHolder: mongoose.Types.ObjectId(req.userObj.id),
   });
@@ -74,6 +83,14 @@ const getWallet = async (req, res) => {
 };
 const createWallet = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     const { userId } = req.body;
 
     let wallet = await Wallet.findOne({
@@ -107,6 +124,14 @@ const createWallet = async (req, res) => {
 
 const airDrop = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     let wallet = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -220,6 +245,14 @@ const airDrop = async (req, res) => {
 
 const initializeUserPool = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     // const blockhashResponse = solConnection.getLatestBlockhashAndContext();
     // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
     let walletObject = await Wallet.findOne({
@@ -406,6 +439,14 @@ const initializeUserPool = async (req, res) => {
 
 const createTweet = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     let walletObject = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -592,17 +633,6 @@ const tweetAction = async (req, res) => {
       clientId,
       splToken,
     } = req.body;
-    console.log(
-      userAddress,
-      number,
-      isRaid,
-      numberOfFollowes,
-      tweetId,
-      projectName,
-      clientId,
-      splToken,
-      "sjdfhkjsdhfkj"
-    );
     var poolType;
     if (isRaid) {
       poolType = "raid";

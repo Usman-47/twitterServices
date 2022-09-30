@@ -1,5 +1,6 @@
 const express = require("express");
 const Reward = require("../model/reward");
+const Invoice = require("../model/invoiceModel");
 const CheckRoleAccess = require("../util/CheckRoleAccess");
 
 var router = express.Router();
@@ -34,7 +35,8 @@ router.patch("/addRewardRecord", async function (req, res) {
   try {
     const {
       tweetId,
-      isPaid,
+      userId,
+      tweetStatus,
       reawrdAmount,
       projectName,
       mintAddress,
@@ -44,6 +46,60 @@ router.patch("/addRewardRecord", async function (req, res) {
     } = req.body;
     // for (let i = 0; i < 50; i++) {
     // console.log(i);
+
+    // var poolData;
+    // if (isRaid) {
+    //   poolData = await Invoice.find({
+    //     $and: [
+    //       { projectName },
+    //       { isRaid },
+    //       { "pool.splToken": mintAddress },
+    //       { "pool.tweets.tweetId": tweetId },
+    //     ],
+    //   });
+    //   if (!poolData) {
+    //     return res.send({
+    //       msg: "No project Found",
+    //       type: "failed",
+    //     });
+    //   }
+    // } else {
+    //   poolData = await Invoice.find({
+    //     $and: [{ projectName }, { isRaid }, { "pool.splToken": mintAddress }],
+    //   });
+    //   if (!poolData) {
+    //     return res.send({
+    //       msg: "No project Found",
+    //       type: "failed",
+    //     });
+    //   }
+    // }
+    // var rewardRecord = await Reward.findOne({
+    //   $and: [
+    //     {
+    //       users: { $elemMatch: { projectName } },
+    //     },
+    //     {
+    //       users: { $elemMatch: { mintAddress } },
+    //     },
+    //     {
+    //       users: { $elemMatch: { userId } },
+    //     },
+    //     {
+    //       users: { $elemMatch: { tweetId } },
+    //     },
+    //     {
+    //       users: { $elemMatch: { tweetStatus } },
+    //     },
+    //   ],
+    // });
+
+    // if (rewardRecord) {
+    //   return res.send({
+    //     msg: "You have already applied",
+    //     type: "error",
+    //   });
+    // }
 
     var reward = await Reward.findOneAndUpdate(
       {
@@ -61,6 +117,8 @@ router.patch("/addRewardRecord", async function (req, res) {
           users: [
             {
               tweetId,
+              userId,
+              tweetStatus,
               isPaid: false,
               reawrdAmount: 0,
               projectName,
@@ -78,7 +136,9 @@ router.patch("/addRewardRecord", async function (req, res) {
         users: [
           {
             tweetId,
-            isPaid,
+            userId,
+            tweetStatus,
+            isPaid: false,
             reawrdAmount,
             projectName,
             mintAddress,

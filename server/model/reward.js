@@ -8,6 +8,12 @@ const rewardSchema = schema({
       tweetId: {
         type: String,
       },
+      userId: {
+        type: String,
+      },
+      tweetStatus: {
+        type: String,
+      },
       isPaid: {
         type: Boolean,
         default: false,
