@@ -19,6 +19,13 @@ import ConnectTwitterScreens from "./images/ConnectTwitterScreens.png";
 import Asset2 from "./images/Asset2.png";
 import raidcardImg from './images/raidcard-img.png'
 import mentionCardImg from './images/mention-img.png'
+import Frame1122 from "./images/Frame1122.png";
+import loadingBuffer from "./images/25.gif";
+import dummyNft1 from "./images/dummyNft1.png";
+import dummyNft2 from "./images/dummyNft2.png";
+import dummyNft3 from "./images/dummyNft3.png";
+import dummyNft4 from "./images/dummyNft4.png";
+import confirmVector from "./images/ConfirmVector.png";
 
 const Images = {
   VectorWallet,
@@ -41,7 +48,14 @@ const Images = {
   ConnectTwitterScreens,
   Asset2,
   raidcardImg,
-  mentionCardImg
+  mentionCardImg,
   // Frame1122,
+  Frame1122,
+  loadingBuffer,
+  dummyNft1,
+  dummyNft2,
+  dummyNft3,
+  dummyNft4,
+  confirmVector,
 };
 export default Images;
