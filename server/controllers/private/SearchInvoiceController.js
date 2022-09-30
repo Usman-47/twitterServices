@@ -29,7 +29,7 @@ const SearchInvoiceController = async (req, res) => {
 
     res.send({ msg: "Data Found", type: "success", dataFoundArray });
   } catch (e) {
-    console.log(e.message, " err-SearchInvoiceController");
+    console.log(e.message, " err-SearchProjectController");
     res.status(500).send({ msg: e.message, type: "error" });
   }
 };
