@@ -7,6 +7,7 @@ import { BsTwitter } from "react-icons/bs";
 import RecipeReviewCard from "./RecipeReviewCard";
 import AlignItemsList from "./InteractiveList";
 import InteractiveList from "./InteractiveList";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     MenuItem: {
         backgroundImage: `url(${Images.LandingPageimage})`,
@@ -122,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LandingHome = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
     return (
         // <InteractiveList />
         // <RecipeReviewCard />
@@ -175,6 +177,7 @@ const LandingHome = () => {
                         // to="/Signup"
                         >
                             <Button
+                            onClick={()=>navigate("/Landing")}
                                 className="raider_btn1"
                                 variant="contained"
                                 sx={{
@@ -199,6 +202,7 @@ const LandingHome = () => {
                         // to="/Signup"
                         >
                             <Button
+                             onClick={()=>navigate("/Landing")}
                                 className="raider_btn2"
                                 variant="contained"
                                 sx={{

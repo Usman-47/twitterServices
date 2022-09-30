@@ -1075,7 +1075,7 @@ border-radius: 28.5753px;
   transform: translateY(-390px);
   /* transform: translateY(2rem); */
   transition: 2s;
-  /* position: relative; */
+  /* position: relative; */ 
 }
 
 .grid-img2 {
@@ -1181,7 +1181,7 @@ border-radius: 28.5753px;
 .twitter_connect1 {
   font-family: "Roclette Pro" !important;
   font-weight: 600 !important;
-  font-size: 37px;
+  font-size: 40px !important;
   display: flex !important;
   justify-content: center !important;
 }
@@ -1189,7 +1189,7 @@ border-radius: 28.5753px;
 .twitter_connect2 {
   font-family: "Roclette Pro" !important;
   font-weight: 600 !important;
-  font-size: 40px;
+  font-size: 40px !important;
   display: flex !important;
   justify-content: center !important;
   color: #00acee;
@@ -1376,4 +1376,87 @@ border-radius: 28.5753px;
   color: #00acee;
   /* line-height: 84px; */
   text-transform: uppercase;
+}
+
+@media (min-width: 975px) and (max-width: 1060px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 350px;
+  }
+  
+}
+
+@media (min-width: 915px) and (max-width: 974px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 330px;
+  }
+  
+}
+@media (min-width: 890px) and (max-width: 914px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 310px;
+  }
+  
+}
+@media (min-width: 861px) and (max-width: 889px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 295px;
+  }
+  .twitter_connect1, .twitter_connect2{
+    font-size: 20px !important;
+  }
+  
+}
+
+@media (min-width: 825px) and (max-width: 889px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 280px;
+    transform: translateY(-320px) !important;
+  }
+  .grid-img2{
+    transform: translateY(-150px) !important;
+  }
+  .grid-img3{
+    transform: translateY(1.5rem) !important;
+  }
+  .twitter_connect1, .twitter_connect2{
+    font-size: 20px !important;
+  }
+  
+  
+}
+
+@media (min-width: 762px) and (max-width: 824px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 250px;
+    transform: translateY(-260px) !important;
+  }
+  .grid-img2{
+    transform: translateY(-120px) !important;
+  }
+  .grid-img3{
+    transform: translateY(1.5rem) !important;
+  }
+  .twitter_connect1, .twitter_connect2{
+    font-size: 20px !important;
+  }
+  
+  
+}
+
+@media (min-width: 500px) and (max-width: 761px) {
+  .grid-img1, .grid-img2, .grid-img3{
+    width: 220px;
+    transform: translateY(-220px) !important;
+  }
+  .grid-img2{
+    transform: translateY(-100px) !important;
+  }
+  .grid-img3{
+    transform: translateY(4rem) !important;
+  }
+  .twitter_connect1, .twitter_connect2{
+    font-size: 20px !important;
+  }
+  
+  
 }

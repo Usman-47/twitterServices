@@ -165,14 +165,14 @@ const Landing = () => {
       className={classes.ConnectTwitterScreens}
     >
       <Grid item container md={12} sm={12} lg={12}>
-        <Grid item md={6} sm={6} lg={6}>
+        <Grid item md={7} sm={6} lg={7}>
           <div className="grid-img-div">
             <img className={istrue == 3 ? "grid-img2" : istrue == 4 ? "grid-img2" : istrue == 5 ? "grid-img3" : istrue == 6 ? "grid-img3" : "grid-img1"}
               src={`${Images.Asset2}?w=164&h=164&fit=crop&auto=format`} />
           </div>
         </Grid>
 
-        <Grid item md={6} sm={6} lg={6} className={classes.backs}>
+        <Grid item md={5} sm={6} lg={5} className={classes.backs}>
           <Typography
             gutterBottom
             className="reward_heading"

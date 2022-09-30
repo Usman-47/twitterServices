@@ -100,8 +100,8 @@ function App(props) {
                 {/* <NavigationBar /> */}
 
                 <Routes>
-                  <Route path="/" element={<Landing />} />
-                  {/* <Route path="/" element={<LandingHome />} /> */}
+                  <Route path="/Landing" element={<Landing />} />
+                  <Route path="/" element={<LandingHome />} />
                   {/* <Route path="/" element={<Home />} /> */}
 
                   <Route path="/user">
