@@ -9,7 +9,6 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import Images from "../assets/Images";
 import useUserFunc from "../hooks/useUserFunc";
-import SigninFunction from "../apis/public/auth/SigninFunction";
 import useDispatchFunc from "../hooks/useDispatchFunc";
 import { connect } from "react-redux";
 import img from "../../src/assets/images/Group1.png";
