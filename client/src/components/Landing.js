@@ -182,7 +182,15 @@ const Landing = (props) => {
             </div>
           </Grid>
 
-          <Grid item md={5} sm={6} lg={5} className={classes.backs}>
+          <Grid
+            id="right_box"
+            item
+            xs={12}
+            md={5}
+            sm={6}
+            lg={5}
+            className={`right_box ${classes.backs}`}
+          >
             <Typography
               gutterBottom
               className="reward_heading"
