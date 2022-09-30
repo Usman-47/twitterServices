@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Wallet = require("../../model/walletModel");
-const User = require("../../model/userModel");
-// const CheckRoleAccess = require("../../util/CheckRoleAccess");
+const CheckRoleAccess = require("../../util/CheckRoleAccess");
 // const { encryptFunc } = require("../../util/cryptoFunc");
 const { Program, web3 } = require("@project-serum/anchor");
 const anchor = require("@project-serum/anchor");
@@ -42,23 +41,56 @@ const idl = JSON.parse(
   fs.readFileSync(__dirname + "/twitter_program.json", "utf8")
 );
 
-anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("devnet")));
-// const solConnection = anchor.getProvider().connection;
-var solConnection = new web3.Connection(web3.clusterApiUrl("devnet"), {
+// anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("devnet")));
+anchor.setProvider(anchor.Provider.local(web3.clusterApiUrl("mainnet-beta")));
+// var solConnection = new web3.Connection(web3.clusterApiUrl("devnet"), {
+var solConnection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"), {
   commitment: "confirmed",
   confirmTransactionInitialTimeout: 12000,
 });
 const program = new anchor.Program(idl, PROGRAM_ID);
 
-const mintAddress = NATIVE_MINT;
-// const mintAddress = new PublicKey("3pCLx1uK3PVFGQ3siyxurvXXSLijth2prgBEK4cS33XF");
-// const projectName = "test-with-api-2";
-const tweetId = "test-id-3";
-// const clientAddress = oldWallet.publicKey;
+const getWallet = async (req, res) => {
+  const { role } = req.userObj;
+  const isEligible = CheckRoleAccess(["admin", "manager"], role);
+  if (!isEligible) {
+    return res.status(401).send({
+      msg: "You are not allowed to access this service...contact your admin..",
+      type: "error",
+    });
+  }
 
-let privateKey = null;
+  let wallet = await Wallet.findOne({
+    accountHolder: mongoose.Types.ObjectId(req.userObj.id),
+  });
+  if (wallet) {
+    var arrayString = wallet.privateKey.split(",");
+    for (i = 0; i < arrayString.length; i++) {
+      arrayString[i] = parseInt(arrayString[i]);
+    }
+    let oldWallet = Keypair.fromSecretKey(new Uint8Array(arrayString));
+    let balance = await solConnection.getBalance(oldWallet.publicKey);
+    return res.send({
+      publicKey: oldWallet.publicKey,
+      solBalance: balance,
+      msg: "success",
+    });
+  } else {
+    return res.send({
+      msg: "wallet Not found",
+    });
+  }
+};
 const createWallet = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     const { userId } = req.body;
 
     let wallet = await Wallet.findOne({
@@ -92,6 +124,14 @@ const createWallet = async (req, res) => {
 
 const airDrop = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     let wallet = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -205,7 +245,15 @@ const airDrop = async (req, res) => {
 
 const initializeUserPool = async (req, res) => {
   try {
-    const blockhashResponse = solConnection.getLatestBlockhashAndContext();
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
+    // const blockhashResponse = solConnection.getLatestBlockhashAndContext();
     // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
     let walletObject = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
@@ -224,7 +272,8 @@ const initializeUserPool = async (req, res) => {
       } else {
         poolType = "mention";
       }
-      funds = funds * 1000000000;
+      funds = parseFloat(funds) * 1000000000;
+
       const blockhashResponse =
         await solConnection.getLatestBlockhashAndContext();
       const lastValidBlockHeight = blockhashResponse.context.slot + 150;
@@ -288,7 +337,8 @@ const initializeUserPool = async (req, res) => {
         oldWallet.publicKey,
         { mint: mintAddress }
       );
-
+      const newTx = new Transaction();
+      newTx.recentBlockhash = blockhashResponse.value.blockhash;
       let instructions = [];
       if (userAtaCheck.value.length === 0) {
         if (NATIVE_MINT.toString() === mintAddress.toString()) {
@@ -300,12 +350,16 @@ const initializeUserPool = async (req, res) => {
               clientAta,
               oldWallet.publicKey,
               oldWallet.publicKey
-            ),
+            )
+          );
+          instructions.push(
             SystemProgram.transfer({
               fromPubkey: oldWallet.publicKey,
               toPubkey: clientAta,
               lamports: funds,
-            }),
+            })
+          );
+          instructions.push(
             Token.createSyncNativeInstruction(TOKEN_PROGRAM_ID, clientAta)
           );
           console.log("wrapped");
@@ -325,12 +379,12 @@ const initializeUserPool = async (req, res) => {
 
       console.log(oldWallet.publicKey.toString(), "public key");
 
-      const txNew = new Transaction();
-      txNew.recentBlockhash = blockhashResponse.value.blockhash;
+      // const txNew = new Transaction();
+      // txNew.recentBlockhash = blockhashResponse.value.blockhash;
 
-      txNew.feePayer = oldWallet.publicKey;
+      // txNew.feePayer = oldWallet.publicKey;
       if (instructions.length > 0) txNew.add(instructions);
-      const tx = program.instruction.initializeUserPool(
+      const tx = await program.rpc.initializeUserPool(
         poolType,
         projectName,
         startTime,
@@ -353,20 +407,20 @@ const initializeUserPool = async (req, res) => {
           instructions,
         }
       );
-      txNew.add(tx);
+      // txNew.add(tx);
 
-      const message = txNew.serializeMessage();
-      const signature = nacl.sign.detached(message, oldWallet.secretKey);
-      txNew.addSignature(oldWallet.publicKey, Buffer.from(signature));
-      const rawTransaction = txNew.serialize();
+      // const message = txNew.serializeMessage();
+      // const signature = nacl.sign.detached(message, oldWallet.secretKey);
+      // txNew.addSignature(oldWallet.publicKey, Buffer.from(signature));
+      // const rawTransaction = txNew.serialize();
 
-      let response = await solConnection.sendTransaction(txNew, [oldWallet]);
-      await solConnection.confirmTransaction(response);
-      console.log(response, "tx response");
+      // let response = await solConnection.sendTransaction(txNew, [oldWallet]);
+      // await solConnection.confirmTransaction(response);
+      // console.log(response, "tx response");
       res.send({
         msg: "pool created",
         YourWallet: oldWallet.publicKey.toString(),
-        tx: response,
+        tx: tx,
         poolAddress,
         type: "success",
       });
@@ -385,6 +439,14 @@ const initializeUserPool = async (req, res) => {
 
 const createTweet = async (req, res) => {
   try {
+    const { role } = req.userObj;
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
     let walletObject = await Wallet.findOne({
       accountHolder: mongoose.Types.ObjectId(req.userObj.id),
     });
@@ -397,7 +459,6 @@ const createTweet = async (req, res) => {
       const clientAddress = oldWallet.publicKey;
 
       let { tweetId, splToken, projectName, isRaid } = req.body;
-      console.log(tweetId, splToken, projectName, isRaid, "jlkjkl");
 
       var poolType;
       if (isRaid) {
@@ -485,8 +546,10 @@ const createTweet = async (req, res) => {
           basePubkey: oldWallet.publicKey, // clientAddress
           seed: `like-${tweetId}`,
           newAccountPubkey: userForLikeAddress,
-          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-          space: 336,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(
+            16016
+          ),
+          space: 16016,
           programId: program.programId,
         }),
         SystemProgram.createAccountWithSeed({
@@ -494,8 +557,10 @@ const createTweet = async (req, res) => {
           basePubkey: oldWallet.publicKey, // clientAddress
           seed: `retweet-${tweetId}`,
           newAccountPubkey: userForRetweetAddress,
-          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-          space: 336,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(
+            16016
+          ),
+          space: 16016,
           programId: program.programId,
         }),
         SystemProgram.createAccountWithSeed({
@@ -503,8 +568,10 @@ const createTweet = async (req, res) => {
           basePubkey: oldWallet.publicKey, // clientAddress
           seed: `comment-${tweetId}`,
           newAccountPubkey: userForCommentAddress,
-          lamports: await solConnection.getMinimumBalanceForRentExemption(336),
-          space: 336,
+          lamports: await solConnection.getMinimumBalanceForRentExemption(
+            16016
+          ),
+          space: 16016,
           programId: program.programId,
         }),
       ];
@@ -566,17 +633,6 @@ const tweetAction = async (req, res) => {
       clientId,
       splToken,
     } = req.body;
-    console.log(
-      userAddress,
-      number,
-      isRaid,
-      numberOfFollowes,
-      tweetId,
-      projectName,
-      clientId,
-      splToken,
-      "sjdfhkjsdhfkj"
-    );
     var poolType;
     if (isRaid) {
       poolType = "raid";
@@ -817,4 +873,5 @@ module.exports = {
   initializeUserPool,
   tweetAction,
   createTweet,
+  getWallet,
 };

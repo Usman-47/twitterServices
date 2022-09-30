@@ -44,7 +44,7 @@ const Rewards = () => {
               onChange={handleChange}
               aria-label="lab API tabs example"
             >
-            <Tab
+              <Tab
                 className="dashboard_tabs"
                 sx={{ color: "white" }}
                 label="REWARDS"
@@ -74,7 +74,7 @@ const Rewards = () => {
             value="1"
           >
             <Grid container spacing={2}>
-            <LiveRewards/>
+              <LiveRewards />
             </Grid>
           </TabPanel>
           <TabPanel
@@ -82,12 +82,11 @@ const Rewards = () => {
               color: "white",
               padding: "0 !important",
               marginTop: "30px",
-             
             }}
             value="2"
           >
-           <Grid container spacing={2}>
-            <LiveRewards/>
+            <Grid container spacing={2}>
+              <LiveRewards />
             </Grid>
           </TabPanel>
         </TabContext>

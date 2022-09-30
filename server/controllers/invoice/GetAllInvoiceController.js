@@ -22,7 +22,7 @@ const GetAllInvoiceController = async (req, res) => {
       }).populate("invoiceCreater");
     }
     if (invoiceArray.length < 1) {
-      return res.status(404).send({ msg: "No invoices Found", type: "error" });
+      return res.status(404).send({ msg: "No Project Found", type: "error" });
     }
     res.send({ invoiceArray, msg: "Listed array", type: "success" });
   } catch (e) {

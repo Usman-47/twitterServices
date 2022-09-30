@@ -1,7 +1,6 @@
 const Invoice = require("../../model/invoiceModel");
 
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
-const mailerFunc = require("../../util/mailerFunc");
 
 const CreateInvoiceController = async (req, res) => {
   const { role, publicKey, id } = req.userObj;

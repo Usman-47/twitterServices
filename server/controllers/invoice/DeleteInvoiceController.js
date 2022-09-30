@@ -15,13 +15,13 @@ const DeleteInvoiceController = async (req, res) => {
     //
     const invoiceAvailable = await Invoice.findById(id);
     if (!invoiceAvailable) {
-      return res.status(404).send({ msg: "no invoice found", type: "error" });
+      return res.status(404).send({ msg: "no Project found", type: "error" });
     }
 
     await Invoice.deleteOne({ _id: id });
     res.send({ msg: "deleted Project successfully", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in DeleteInvoiceController");
+    console.log(e.message, " err-in DeleteProjectController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };

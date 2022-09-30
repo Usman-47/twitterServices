@@ -29,7 +29,7 @@ const DeleteInvoicePoolController = async (req, res) => {
     );
     res.send({ msg: "deleted Pool successfully", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in DeleteInvoicePoolController");
+    console.log(e.message, " err-in DeleteProjectPoolController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };

@@ -259,6 +259,8 @@ const Tweets = (props) => {
               projectName: invoice.projectName,
               projectTwitterUsername: invoice.projectTwitterUsername,
               invoiceCreaterPublicKey: invoice.invoiceCreaterPublicKey,
+              invoiceCreater: invoice.invoiceCreater,
+              isRaid: invoice.isRaid,
             };
             var pool = {
               startTime: data.startTime,

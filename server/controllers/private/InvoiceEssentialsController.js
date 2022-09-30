@@ -31,11 +31,11 @@ const InvoiceEssentialsController = async (req, res) => {
 
     res.send({
       invoiceEssentialData,
-      msg: "Invoice essential Data Ready",
+      msg: "project essential Data Ready",
       type: "success",
     });
   } catch (e) {
-    console.log(e.message, " err-in InvoiceEssentialsController");
+    console.log(e.message, " err-in ProjectEssentialsController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };

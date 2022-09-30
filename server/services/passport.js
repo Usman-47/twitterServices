@@ -51,37 +51,3 @@ passport.use(
     }
   )
 );
-// passport.use( new GoogleStrategy({
-//     clientID: keys.googleClientId,
-//     clientSecret: keys.googleClientSecret,
-//     callbackURL: '/auth/google/callback',
-//     proxy: true
-//   },
-//   async (accessToken,refreshToken,profile,done) => {
-//     console.log(profile);
-//     const existingUser = await User.findOne({ googleId : profile.id});
-//     if(existingUser) {
-//       return done(null,existingUser);
-//     } else {
-//       const user = await new User({twitterId: profile.id}).save();
-//       return done(null,user);
-//     }
-//   }
-// ));
-// passport.use( new FacebookStrategy({
-//     clientID: keys.facebookAppID,
-//     clientSecret: keys.facebookAppSecret,
-//     callbackURL: '/auth/facebook/callback',
-//     proxy: true
-//   },
-//   async (accessToken,refreshToken,profile,done) => {
-//     console.log(profile);
-//     const existingUser = await User.findOne({ facebookId : profile.id});
-//     if(existingUser) {
-//       return done(null,existingUser);
-//     } else {
-//       const user = await new User({facebookId: profile.id}).save();
-//       return done(null,user);
-//     }
-//   }
-// ));

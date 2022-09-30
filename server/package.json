@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index",
-    "set_wallet": "set ANCHOR_WALLET=testing.json"
+    "set_wallet": "set ANCHOR_WALLET=testing.json" 
   },
   "keywords": [],
   "author": "",

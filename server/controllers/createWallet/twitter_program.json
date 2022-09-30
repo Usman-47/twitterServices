@@ -980,7 +980,7 @@
           {
             "name": "users",
             "type": {
-              "array": ["publicKey", 10]
+              "array": ["publicKey", 500]
             }
           },
           {
@@ -998,7 +998,7 @@
           {
             "name": "users",
             "type": {
-              "array": ["publicKey", 10]
+              "array": ["publicKey", 500]
             }
           },
           {
@@ -1016,7 +1016,7 @@
           {
             "name": "users",
             "type": {
-              "array": ["publicKey", 10]
+              "array": ["publicKey", 500]
             }
           },
           {

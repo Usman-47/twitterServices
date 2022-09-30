@@ -58,12 +58,12 @@ const UpdateInvoiceController = async (req, res) => {
     if (!updatedInvoice) {
       return res
         .status(400)
-        .send({ msg: "couldnot update Invoice...,try again", type: "error" });
+        .send({ msg: "couldnot update project...,try again", type: "error" });
     }
 
     res.send({ msg: "Updated Successfully", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in UpdateInvoiceController");
+    console.log(e.message, " err-in UpdateProjectController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
