@@ -11,6 +11,7 @@ const TopRaiders = () => {
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <>
+    <Typography component="div" sx={{background: '#2C2C2E', borderRadius: '10.0883px', paddingBottom:"10px"}}>
     <Typography
                 style={{
                   padding: "20px 20px 0 16px",
@@ -19,7 +20,7 @@ const TopRaiders = () => {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="h5" color="white">
+                <Typography variant="h5" color="white" className="top-raiders">
                   Top Raiders
                 </Typography>
                 <Icon
@@ -34,6 +35,7 @@ const TopRaiders = () => {
             <Typography>
               
               <CardHeader
+              className="nft-blaze"
                 sx={{
                   // position: "absolute",
                   padding:"10px 10px 0 10px",
@@ -41,6 +43,7 @@ const TopRaiders = () => {
                   left: "0",
                   width: "100%",
                   color: "white",
+                  
                 }}
                 avatar={
                   <Avatar
@@ -57,6 +60,7 @@ const TopRaiders = () => {
                     aria-label="settings"
                     sx={{
                       color: "white",
+                     
                     }}
                   >
                     {/* <MoreVertIcon /> */}
@@ -85,6 +89,14 @@ const TopRaiders = () => {
           </>
         );
       })}
+      <Typography style={{textAlign:"center", marginTop:"20px"}}>
+                    <Button variant="outlined" style={{border: '1px solid #1A1A1A',
+                        borderRadius: '8px', fontSize:"14px", color:"white"}}>
+                      View all <Icon icon="bi:chevron-double-down" />
+                    </Button>
+                  </Typography>
+      </Typography>
+      
     </>
   );
 };

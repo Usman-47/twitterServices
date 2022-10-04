@@ -12,9 +12,34 @@
   src: url("./assets/fonts/Roclette/WebFonts/Normal/RoclettePro-SemiBold.woff")
     format("truetype");
 }
+@font-face {
+  font-family: "Roclette light";
+  src: url("./assets/fonts/Roclette/WebFonts/Normal/RoclettePro-Light.woff")
+    format("truetype");
+}
 
 * {
-  font-family: raleway;
+  font-family: Poppins;
+}
+
+.signin_twitter_div h2{
+  font-family: Roclette Pro !important;
+  letter-spacing: 0.04em !important;
+}
+.project_form label{
+  font-family: Poppins !important;
+}
+.project_form input{
+  font-family: Poppins !important;
+}
+.project_info{
+  font-family: Roclette Pro !important;
+  letter-spacing: 0.04em !important;
+
+}
+.top-raiders{
+  font-family: Roclette Pro !important;
+  letter-spacing: 0.04em !important;
 }
 
 .edit-icon{
@@ -121,8 +146,8 @@ border-radius: 28.5753px;
 
 .form-select {
   /* border: 2px solid gold; */
-  background-color: black !important;
-  color: white;
+  
+  color: #2C2C2E;
   padding-top: unset !important;
   padding-bottom: unset !important;
   height: 2.4rem !important;
@@ -299,16 +324,17 @@ border-radius: 28.5753px;
 /* @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap'); */
 
 .registeration {
-  background-color: #00acee !important;
   color: #ffffff;
   border-radius: 30px !important;
   font-size: 15px;
   font-weight: 700 !important;
-
-  /* width: 184px !important; */
+  padding: 10px 32px !important;
   margin: auto 0;
-
+  background: #00ACEE !important;
+  box-shadow: inset -6px -6px 8px rgba(69, 55, 185, 0.7);
+  border-radius: 60px;
   font-family: Poppins !important;
+  gap: 10px;
 }
 .card_des {
   font-family: Poppins !important;
@@ -335,7 +361,7 @@ border-radius: 28.5753px;
   color: #00acee;
 }
 .reward_heading {
-  /* font-family: 'Roclette Pro' !important; */
+  font-family: 'Roclette Pro' !important;
   font-style: normal !important;
   font-weight: 600 !important;
   font-size: 90px;
@@ -344,8 +370,9 @@ border-radius: 28.5753px;
   color: white;
 }
 .reward_subheading {
+  font-family: Roclette light !important;
   font-style: normal !important;
-  font-weight: 100 !important;
+  font-weight: 500 !important;
   font-size: 90px;
   display: flex !important;
   justify-content: center !important;
@@ -359,6 +386,7 @@ border-radius: 28.5753px;
   justify-content: center !important;
   text-align: center;
   font-weight: 700 !important;
+  color: #333333 !important;
 }
 .formback {
   background-image: url("../src/assets/images/formimg.png");
@@ -413,18 +441,19 @@ border-radius: 28.5753px;
 }
 .signin_twitter_div {
   width: 50%;
+
 }
 .btn {
   width: 40%;
-  border-top-left-radius: 15px;
-  border-bottom-right-radius: 15px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 7px;
   padding-bottom: 7px;
   border-color: "#00ACEE" !important;
-  border: 2px solid #00acee;
   text-align: center;
+  font-family: Poppins !important;
+  background: linear-gradient(180deg, rgba(28, 28, 28, 0.47) 0%, rgba(74, 75, 75, 0.58) 100%);
+  border-radius: 40px;
   /* font-size: small !important; */
   /* display: flex;
   justify-content: center;
@@ -625,13 +654,13 @@ border-radius: 28.5753px;
 
 /* header style  */
 .header_left {
-  margin-left: 170px !important;
+  margin-left: 30px !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .header_right {
-  margin-right: 165px !important;
+  margin-right: 30px !important;
 }
 .wallet-icon {
   font-size: 55px;
@@ -640,9 +669,9 @@ border-radius: 28.5753px;
   font-size: 30px;
 }
 .wallet-btn {
-  border-top-left-radius: 18px !important;
-  border-bottom-right-radius: 18px !important;
-  background: #00acee !important;
+ 
+  background: linear-gradient(180deg, rgba(75, 60, 189, 0.22) 0%, rgba(82, 68, 195, 0.33) 100%);
+  border-radius: 40px !important;
   text-transform: capitalize !important;
   /* font-size: 12px !important; */
   /* width: 155px !important; */
@@ -1110,23 +1139,18 @@ border-radius: 28.5753px;
 
 /* Landing Home Page */
 .welcome_heading {
-  font-family: "Roclette Pro" !important;
+  font-family: Roclette Pro !important;
   font-style: normal !important;
   font-weight: 600 !important;
   font-size: 90px;
   display: flex !important;
-  justify-content: center !important;
   color: white;
 }
 
 .welcome_text {
-  font-family: poppins !important;
-  display: flex !important;
-  justify-content: center !important;
-  /* font-family: Poppins; */
+  font-family: Poppins !important;
   font-size: 30px;
   font-weight: 300;
-  line-height: 45px;
   letter-spacing: 0.04em;
   text-align: center;
 }
@@ -1151,7 +1175,7 @@ border-radius: 28.5753px;
   font-weight: 700 !important;
 
   /* width: 184px !important; */
-  margin: auto 0;
+  /* margin: auto 0; */
 
   font-family: Poppins !important;
 }
@@ -1164,7 +1188,7 @@ border-radius: 28.5753px;
 .landingHome-btns {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  margin-top: 30px;
 }
 
 .landingHome-img {
@@ -1184,6 +1208,7 @@ border-radius: 28.5753px;
   font-size: 40px !important;
   display: flex !important;
   justify-content: center !important;
+  color: #333333 !important;
 }
 
 .twitter_connect2 {
@@ -1526,6 +1551,29 @@ border-radius: 28.5753px;
 @media (min-width: 600px) and (max-width: 1161px) {
   .account_name1{
     margin-top: 100px !important;
+  }
+  
+}
+
+
+@media screen and (max-width: 890px) {
+  .home-natterbox-div{
+    left: 20% !important;
+    top: 40% !important;
+    transform: translate(-20%, -40%) !important;
+    /* background-color: red; */
+    width: 400px !important;
+  }
+  
+}
+
+@media screen and (max-width: 430px) {
+  .home-natterbox-div{
+    left: 20% !important;
+    top: 40% !important;
+    transform: translate(-20%, -40%) !important;
+    /* background-color: red; */
+    width: 300px !important;
   }
   
 }

@@ -42,9 +42,11 @@ const ReadOneInvoice = () => {
 
   return (
     <div>
-      <div className="border border-1 rounded-3 my-5 container" style={{background:"#333333"}}>
+      <div className="my-5 container" style={{background: '#2C2C2E',
+boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+borderRadius: '19.5591px'}}>
         <div className="">
-          <div className="display-2 p-3 m-3 text-center text-white">
+          <div className="display-5 p-3 m-3 text-center text-white project_info">
             Project Info
           </div>
           <div className="d-flex flex-column flex-md-row ms-auto justify-content-evenly align-content-center row p-md-5 py-2 ">

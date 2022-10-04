@@ -38,8 +38,10 @@ const ReadAllInvoices = () => {
   return (
     <>
       <div
-        className=" container  p-md-5 rounded-3 my-3 text-dark fw-bold "
-        style={{ background: "#333333" }}
+        className=" container  p-md-5 my-3 text-dark fw-bold "
+        style={{ background: '#2C2C2E',
+boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+borderRadius: '19.5591px'}}
       >
         <div className="px-md-4 pt-2 pb-2">
           <div className="col border border-1" style={{overflowX:"auto"}}>

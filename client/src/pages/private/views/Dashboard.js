@@ -52,7 +52,12 @@ const Dashboard = (props) => {
     if (role !== USER) {
       return (
         <>
-          <div className=" bg-black">
+          <div style={{
+            background: '#171717',
+/* Black/black-400 */
+          border: '1px solid #333333',
+          boxShadow: 'inset -8px -8px 8px rgba(0, 0, 0, 0.4), inset 8px 8px 14px rgba(58, 58, 58, 0.25)'
+          }}>
             <div className="row dashboard_main_row">
               {/* this is sidebar */}
 

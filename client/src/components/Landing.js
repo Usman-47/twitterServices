@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { Icon } from '@iconify/react';
 import axios from "axios";
 import {
   WalletMultiButton,
@@ -173,7 +174,7 @@ const Landing = (props) => {
         <Grid id="right_box" item xs={12} md={5} sm={6} lg={5} className={`right_box ${classes.backs}`}>
       
             <Typography
-              gutterBottom
+          
               className="reward_heading"
               sx={{
                 fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
@@ -182,7 +183,7 @@ const Landing = (props) => {
               NATTER
               <Typography
                 component="span"
-                className=" reward_subheading"
+                className="reward_subheading"
                 sx={{
                   fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
                 }}
@@ -228,7 +229,7 @@ const Landing = (props) => {
                   gutterBottom
                   className="reward_desc"
                   sx={{
-                    fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+                    fontSize: { xs: "10px", md: "12px", lg: "12px", xl: "17px" },
                   }}
                 >
                   Link Natterbox with your twitter so we can know <br /> more
@@ -262,10 +263,10 @@ const Landing = (props) => {
                       handleCheck(2);
                     }}
                   >
-                    <span style={{ marginRight: "5px" }}>
-                      <BsTwitter />
-                    </span>
-                    Connect Your Twitter
+                
+                      <Icon color="#47DDFC" icon="akar-icons:twitter-fill" />
+                  
+                        Connect Your Twitter
                   </Button>
                 </div>
               </>

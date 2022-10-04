@@ -19,7 +19,7 @@ export default function RewardCards() {
     <>
       <Grid className="justify-content-xl-center" container sx={{width: "100%", marginBottom:"10px", marginTop:"5px"}}>
         {array.map((item, i) => {
-          return (
+          return (  
             <Grid item xs={11} md={6} xl={4} padding="5px">
               <Card className="rewards_card" sx={{ width:"100%", }}>
                 <Typography sx={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
@@ -28,6 +28,7 @@ export default function RewardCards() {
                     display:"flex",
                     alignItems:"center",
                     gap:"10px",
+                   
                   }}
                   component="div"
                 >
@@ -51,8 +52,9 @@ export default function RewardCards() {
                 </CardContent>
                 <CardActions sx={{ justifyContent: "center" }}>
                   <Button sx={{background: 'linear-gradient(95.18deg, #55EEFF 25.5%, #A431D0 108%)',
-                            borderRadius: '38.1004px', color:"white", fontSize:"13px"}} size="large">
-                  <img width={"30px"} height={"30px"} src={item.src}/> {item.btnText}
+                            borderRadius: '38.1004px', color:"white", fontSize:"10px"}} size="large">
+                  <img width={"30px"} height={"30px"} src={item.src}/> 
+                  {item.btnText}
                   </Button>
                   <Typography color="white" className="edit-icon">
                       <Icon icon="ant-design:edit-outlined" />

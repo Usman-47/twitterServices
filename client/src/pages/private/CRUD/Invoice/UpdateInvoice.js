@@ -96,10 +96,12 @@ const UpdateInvoice = (props) => {
     <>
       {state && (
         <div
-          className="container my-5 p-3 border border-1 rounded-3"
-          style={{ background: "#333333" }}
+          className="container my-5 p-3"
+          style={{ background: '#2C2C2E',
+            boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+            borderRadius: '19.5591px' }}
         >
-          <form className="p-md-3 text-white ">
+          <form className="p-md-3 text-white project_form">
             <div className="mb-5">
               <label className="form-label" htmlFor="invoiceLogoImg">
                 Project Name

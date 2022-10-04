@@ -56,7 +56,9 @@ const ReadUser = () => {
   }
   return (
     <>
-      <div className="row border border-1 border-info rounded-3 p-md-5   my-3 text-dark fw-bold ">
+      <div className="row p-md-5   my-3 text-dark fw-bold" style={{background: '#2C2C2E',
+boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+borderRadius: '19.5591px'}}>
         <div className="col border border-1">
           <table className="table table-responsive text-white">
             <thead>

@@ -560,9 +560,9 @@ const ReadOneInvoice = ({ auth }) => {
 
   return (
     <div>
-      <div className="border border-1 border-info rounded-3 my-5 container">
+      <div className="my-5 container" style={{background: '#2C2C2E', boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)', borderRadius: '10px'}}>
         <div className="">
-          <div className="display-2 p-3 m-3 text-center text-white">
+          <div className="display-4 p-3 m-3 text-center text-white project_info">
             Pool Info
           </div>
           <div className="d-flex flex-column flex-md-row ms-auto justify-content-evenly align-content-center row p-md-5 py-2 ">
@@ -583,7 +583,7 @@ const ReadOneInvoice = ({ auth }) => {
             {isRaid ? (
               <div className="col-8 col-md-6 m-3">
                 <button
-                  className="btn btn-info border-info text-white w-100 my-2"
+                  className="btn text-white w-100 my-2"
                   onClick={fundUserPoolForRaid}
                 >
                   Subcription
@@ -592,7 +592,7 @@ const ReadOneInvoice = ({ auth }) => {
             ) : (
               <div className="col-8 col-md-6 m-3">
                 <button
-                  className="btn btn-info border-info text-white w-100 my-2"
+                  className="btn text-white w-100 my-2"
                   onClick={fundUserPool}
                 >
                   Subcription
@@ -603,7 +603,7 @@ const ReadOneInvoice = ({ auth }) => {
               <>
                 <div className="col-8 col-md-6 m-3">
                   <button
-                    className="btn btn-info border-info text-white w-100 my-2"
+                    className="btn text-white w-100 my-2"
                     onClick={fundUserPoolForRaid}
                   >
                     Fund Pool
@@ -611,7 +611,7 @@ const ReadOneInvoice = ({ auth }) => {
                 </div>
                 <div className="col-8 col-md-6 m-3">
                   <button
-                    className="btn btn-info border-info text-white w-100 my-2"
+                    className="btn text-white w-100 my-2"
                     onClick={airDropForRaid}
                   >
                     Air Drop
@@ -622,7 +622,7 @@ const ReadOneInvoice = ({ auth }) => {
               <>
                 <div className="col-8 col-md-6 m-3">
                   <button
-                    className="btn btn-info border-info text-white w-100 my-2"
+                    className="btn text-white w-100 my-2"
                     onClick={fundUserPool}
                   >
                     Fund Pool
@@ -630,7 +630,7 @@ const ReadOneInvoice = ({ auth }) => {
                 </div>
                 <div className="col-8 col-md-6 m-3">
                   <button
-                    className="btn btn-info border-info text-white w-100 my-2"
+                    className="btn text-white w-100 my-2"
                     onClick={airDrop}
                   >
                     Air Drop
@@ -641,7 +641,7 @@ const ReadOneInvoice = ({ auth }) => {
 
             <div className="col-8 col-md-6 m-3">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn  text-white w-100 my-2"
                 onClick={() =>
                   navigate(`/app/invoice/readOne/readAllPool/update/${id}`)
                 }
@@ -651,7 +651,7 @@ const ReadOneInvoice = ({ auth }) => {
             </div>
             <div className="col-8 col-md-6 m-3">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn  text-white w-100 my-2"
                 onClick={() =>
                   navigate(`/app/invoice/readOne/readAllPool/delete/${id}`)
                 }
