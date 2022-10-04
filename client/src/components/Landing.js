@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import axios from "axios";
 import {
   WalletMultiButton,
@@ -202,7 +203,7 @@ const Landing = (props) => {
         className={classes.ConnectTwitterScreens}
       >
         <Grid item container md={12} sm={12} lg={12}>
-          <Grid item md={7} sm={6} lg={7}>
+          <Grid item xs={12} md={7} sm={6} lg={7}>
             <div className="grid-img-div">
               <img
                 className={
@@ -231,7 +232,6 @@ const Landing = (props) => {
             className={`right_box ${classes.backs}`}
           >
             <Typography
-              gutterBottom
               className="reward_heading"
               sx={{
                 fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
@@ -240,7 +240,7 @@ const Landing = (props) => {
               NATTER
               <Typography
                 component="span"
-                className=" reward_subheading"
+                className="reward_subheading"
                 sx={{
                   fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
                 }}
@@ -286,7 +286,12 @@ const Landing = (props) => {
                   gutterBottom
                   className="reward_desc"
                   sx={{
-                    fontSize: { xs: "7px", md: "9px", lg: "12px", xl: "17px" },
+                    fontSize: {
+                      xs: "10px",
+                      md: "12px",
+                      lg: "12px",
+                      xl: "17px",
+                    },
                   }}
                 >
                   Link Natterbox with your twitter so we can know <br /> more
@@ -322,7 +327,7 @@ const Landing = (props) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>
-                        <BsTwitter />
+                        <Icon color="#47DDFC" icon="akar-icons:twitter-fill" />
                       </span>
                       Continue
                     </Button>
@@ -341,7 +346,7 @@ const Landing = (props) => {
                       }}
                     >
                       <span style={{ marginRight: "5px" }}>
-                        <BsTwitter />
+                        <Icon color="#47DDFC" icon="akar-icons:twitter-fill" />
                       </span>
                       Connect Your Twitter
                     </Link>

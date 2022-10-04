@@ -12,8 +12,8 @@ const PublicNavBar = ({ setShowSideBar, showSideBar, home }) => {
   return (
     <>
       <div
-        className="bg-black pb-4 ps-2 pe-2"
-        style={{ marginBottom: "40px", marginTop: "20px" }}
+        className="pb-4 ps-2 pe-2"
+        style={{ marginBottom: "40px", marginTop: "20px", background:"#2C2C2E" }}
       >
         <Grid
           container
@@ -30,7 +30,7 @@ const PublicNavBar = ({ setShowSideBar, showSideBar, home }) => {
             </Typography>
             <Grid container >
               <Grid item xs={1}>
-              {(home) ?<Icon className="wallet-icon text-white" icon="clarity:wallet-line" />: null}
+             <Icon className="wallet-icon text-white" icon="clarity:wallet-line" />
               </Grid>
             </Grid>
           </Grid>

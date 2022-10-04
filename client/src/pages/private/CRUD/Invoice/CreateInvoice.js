@@ -107,8 +107,8 @@ const CreateInvoice = ({ auth }) => {
   return (
     <>
       <div
-        className="container my-5 border border-1 rounded-3 p-3"
-        style={{ background: "#333333" }}
+        className="container my-5 p-3"
+        style={{ background: "#2C2C2E", borderRadius: '19.5591px' }}
       >
         <FormGroup>
           <FormControlLabel
@@ -227,7 +227,8 @@ const CreateInvoice = ({ auth }) => {
             )}
 
             <button
-              className="btn btn-dark border-white text-white w-100"
+            style={{borderRadius: '19.5591px'}}
+              className="btn btn-dark border-dark text-white w-100"
               type="button"
               onClick={(ev) => SubmitForm(ev)}
             >

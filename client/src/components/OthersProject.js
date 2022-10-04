@@ -28,7 +28,7 @@ const OtherProjects = ({
             />
           </>
         ))}
-      {currentUser &&
+      {/* {currentUser &&
         userNotIncludeProjectsForMention &&
         userNotIncludeProjectsForMention?.map((data) => (
           <>
@@ -38,7 +38,7 @@ const OtherProjects = ({
               mention={true}
             />
           </>
-        ))}
+        ))} */}
 
      
     </>

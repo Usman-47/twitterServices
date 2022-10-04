@@ -23,9 +23,11 @@ const TotalRaids = () => {
                     <Icon icon="ant-design:retweet-outlined" />
                   </Typography> */}
 
-            
+                 
+                  {/* <Typography component="div" sx={{background: '#2C2C2E',}}> */}
               <Grid item md={6}>
-              <Typography component="div" sx={{padding:"10px"}}>
+             
+              <Typography component="div" sx={{padding:"10px",}}>
               <CardHeader
                 sx={{
                   // position: "absolute",
@@ -84,10 +86,10 @@ const TotalRaids = () => {
               />
                 
               </Typography>
-              
+             
               </Grid>
              
-            
+              {/* </Typography> */}
           </>
         );
       })}

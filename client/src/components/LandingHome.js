@@ -129,19 +129,18 @@ const LandingHome = () => {
         // <RecipeReviewCard />
         <Grid
             container
-            md={12}
-            lg={12}
+          style={{position:"relative"}}
             // display={"flex"}
             className={classes.ConnectTwitterScreens}
         >
 
-            <Grid item container md={12} sm={12} lg={12}>
-                <Grid item md={6} sm={6} lg={6} className="left-grid">
+            <div className="home-natterbox-div" style={{width:"800px", position:"absolute", top:"50%", left:"15%", transform:"translate(-15%, -50%)"}}>
+               
                     <Typography
-                        gutterBottom
+                        // gutterBottom
                         className="welcome_heading"
                         sx={{
-                            fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
+                            fontSize: { xs: "50px", md: "50px", lg: "60px", xl: "90px" },
                         }}
                     >
                         NATTER
@@ -149,7 +148,7 @@ const LandingHome = () => {
                             component="span"
                             className=" reward_subheading"
                             sx={{
-                                fontSize: { xs: "30px", md: "40px", lg: "60px", xl: "90px" },
+                                fontSize: { xs: "50px", md: "50px", lg: "60px", xl: "90px" },
                             }}
                         >
                             BOX
@@ -160,7 +159,8 @@ const LandingHome = () => {
                         gutterBottom
                         className="welcome_text"
                         sx={{
-                            fontSize: { xs: "10px", md: "15px", lg: "20px", xl: "40px" },
+                            fontWeight:"600",
+                            fontSize: { xs: "14px", md: "15px", lg: "20px", xl: "25px" },
                         }}
                     >
                         Raid to Earn platform on the SOLANA Blockchain
@@ -171,10 +171,8 @@ const LandingHome = () => {
                             style={{
                                 marginRight: "20px",
                                 textDecoration: "none",
-                                display: "flex",
-                                justifyContent: "center",
                             }}
-                        // to="/Signup"
+                       
                         >
                             <Button
                             onClick={()=>navigate("/Landing")}
@@ -186,7 +184,7 @@ const LandingHome = () => {
 
                             >
                                 <span style={{ marginRight: "5px" }}>
-                                    {/* <BsTwitter /> */}
+                                   
                                 </span>
                                 I AM A RAIDER
                             </Button>
@@ -196,10 +194,10 @@ const LandingHome = () => {
                         <div
                             style={{
                                 textDecoration: "none",
-                                display: "flex",
-                                justifyContent: "center",
+                                // display: "flex",
+                                // justifyContent: "center",
                             }}
-                        // to="/Signup"
+                       
                         >
                             <Button
                              onClick={()=>navigate("/Landing")}
@@ -211,21 +209,22 @@ const LandingHome = () => {
 
                             >
                                 <span style={{ marginRight: "5px" }}>
-                                    {/* <BsTwitter /> */}
+                                   
                                 </span>
                                 I NEED RAIDER
                             </Button>
                         </div>
                     </div>
-                </Grid>
+                
 
-                <Grid item md={6} sm={6} lg={6} className="right-grid">
-                    <div className="landingHome-img">
+               
+                   
+                
+            </div>
+            <div className="landingHome-img">
                         <img src={`${Images.Frame1122}`} />
                     </div>
-                </Grid>
-            </Grid>
-        </Grid >
+        </Grid>
 
     )
 }

@@ -56,7 +56,9 @@ const CreateUser = () => {
 
   return (
     <>
-      <div className="container my-5 p-3 border border-1 border-info rounded-3">
+      <div className="container my-5 p-3" style={{background: '#2C2C2E',
+boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+borderRadius: '19.5591px'}}>
         <form className="p-md-3 text-white">
           <div className="mb-3">
             <label className="form-label" htmlFor="userName">
@@ -131,7 +133,7 @@ const CreateUser = () => {
             )}
 
             <button
-              className="btn btn-outline-primary w-100"
+              className="btn text-white w-100"
               type="button"
               onClick={(ev) => SubmitForm(ev)}
             >

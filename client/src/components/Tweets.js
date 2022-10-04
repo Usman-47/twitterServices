@@ -45,6 +45,7 @@ import MentionProjects from "./MentionProjects";
 // import Account from "./Account";
 import Rewards from "./Rewards";
 import MainDashboard from "./MainDashboard";
+import TotalRaids from "./TotalRaids";
 // ====================
 
 // import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
@@ -742,13 +743,13 @@ const Tweets = (props) => {
             <>
             {/* <Profledescription currentUser={props?.auth} /> */}
             <Grid container>
-             <Grid item xs={12} sm={8} md={9}>
+             <Grid item xs={12} sm={8} md={8}>
                   <Typography>
                   <Grid container sx={{marginBottom:"20px"}}>
                       <Account/>
                    </Grid>   
                   </Typography>
-                  <Typography sx={{color:"white", fontSize:"36px", fontWeight:"600", marginLeft:"25px"}}>Activities</Typography>
+                  <Typography sx={{color:"white", fontSize:"36px", fontWeight:"600", marginLeft:"25px", marginBottom:"10px"}}>Activities</Typography>
                 <UserDashboard
                   currentUser={props?.auth}
                   userProjectsForMention={userProjectsForMention}
@@ -759,14 +760,17 @@ const Tweets = (props) => {
                   userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
                 />
                  </Grid>
-                <Grid sm={4} md={3} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px',height:"100vh"}}>
-                 <TopRaiders/>
-                 <Typography style={{textAlign:"center", marginTop:"20px"}}>
-                    <Button variant="outlined" style={{border: '1px solid #1A1A1A',
-                        borderRadius: '8px', fontSize:"14px", color:"white"}}>
-                      View all <Icon icon="bi:chevron-double-down" />
-                    </Button>
-                  </Typography>
+                <Grid sm={4} md={4} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px', minHeight:"100vh"}}>
+               <Typography sx={{margin:"10px",}}>
+               <Grid container sx={{borderRadius: '10.0883px', background: '#2C2C2E'}}>
+                
+                <TotalRaids/>
+                </Grid>
+               </Typography>
+                <Typography component="div" sx={{margin:"10px"}}>
+                <TopRaiders/>
+                </Typography>
+                 
                 </Grid>
              </Grid>
             </>

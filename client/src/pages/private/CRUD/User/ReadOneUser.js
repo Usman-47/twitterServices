@@ -64,10 +64,12 @@ const ReadOneUser = () => {
   }
 
   return (
-    <div className="col border border-1 border-info rounded-3 p-5 bg-light">
-      <div className="card">
+    <div className="col p-5" style={{background: '#2C2C2E',
+    boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',
+    borderRadius: '19.5591px'}}>
+      <div className="card" style={{background: '#2C2C2E', boxShadow: '11.7355px 11.7355px 29.3386px rgba(0, 0, 0, 0.5)',}}>
         <div>
-          <table className="table border border-1 fw-bold">
+          <table className="table fw-bold text-white">
             <thead>
               <tr>
                 <th>PublicKey </th>
@@ -91,7 +93,7 @@ const ReadOneUser = () => {
           <div className="d-flex flex-column flex-md-row ms-auto justify-content-evenly align-content-center row p-md-5 py-2">
             <div className="col-6">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn  text-white w-100 my-2"
                 onClick={() => navigate(`/app/user/update/${id}`)}
               >
                 Update
@@ -99,7 +101,7 @@ const ReadOneUser = () => {
             </div>
             <div className="col-6">
               <button
-                className="btn btn-info border-info text-white w-100 my-2"
+                className="btn  text-white w-100 my-2"
                 onClick={() => navigate(`/app/user/delete/${id}`)}
               >
                 Delete

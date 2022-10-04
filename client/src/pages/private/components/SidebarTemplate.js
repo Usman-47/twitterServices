@@ -41,11 +41,11 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
           top: "0",
           minHeight: "100vh",
           zIndex: "999",
-          background: "#262626",
+          background: "#2C2C2E",
         }}
         className={
           sidebar
-            ? "side_bar col-8 col-sm-5 col-md-4 col-lg-3 col-xl-2 text-white fixed"
+            ? "side_bar col-8 col-sm-5 col-md-4 col-lg-3 col-xl-1 text-white fixed"
             : "d-none"
         }
       >
@@ -63,10 +63,10 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
               display: "flex",
               justifyContent: "center",
               marginBottom: "40px",
-              marginTop: "70px",
+              marginTop: "20px",
             }}
           >
-            <img src="/natter.png" alt="" />
+            <img width="50px" src="/natter.png" alt="" />
           </Typography>
           <nav className="overflow-hidden mt-5">
             <ul className="navbar-nav mb-2 mb-lg-0 py-4">
@@ -83,13 +83,13 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
                       sx={{ color: "white" }}
                       className={({ isActive }) =>
                         isActive
-                          ? "nav-link text-info active border-bottom border-2 border-info fw-bold"
+                          ? "nav-link text-info active fw-bold"
                           : "nav-link text-white"
                       }
                       to={navElement.href}
                       key={navElement.id}
                     >
-                      <Typography>
+                      <Typography style={{fontSize:"30px"}}>
                         {index === 0 ? (
                           <Icon icon="ic:twotone-space-dashboard" />
                         ) : index === 1 || index === 2 ? (
@@ -98,14 +98,14 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
                           <Icon icon="bx:user" />
                         )}
                       </Typography>
-                      <Typography> {navElement.name}</Typography>
+                      {/* <Typography> {navElement.name}</Typography> */}
                     </NavLink>
                   </li>
                 ))}
             </ul>
           </nav>
 
-          <Typography
+          {/* <Typography
             sx={{
               position: "absolute",
               bottom: "0",
@@ -127,7 +127,7 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
               title={currentUser?.userName}
               subheader="Membership Status: STANDARD"
             />
-          </Typography>
+          </Typography> */}
         </div>
       </div>
     </>

@@ -9,6 +9,8 @@ import Grid from "@mui/material/Grid";
 import OthersProject from "./OthersProject";
 import PastProjects from "./PastProjects";
 import ThreadModal from "./ThreadModal";
+import TransactionHistory from "./TransactionHistory";
+import MentionProjects from "./MentionProjects";
 const UserDashboard = ({
   currentUser,
   userProjectsForMention,
@@ -44,14 +46,14 @@ const UserDashboard = ({
               <Tab
                 className="dashboard_tabs"
                 sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
-                label="OTHER PROJECTS"
+                label="TWEETS YOU RAID"
                 value="2"
 
               />
               <Tab
                 className="dashboard_tabs"
                 sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
-                label="PAST PROJECTS"
+                label="TWEETS YOU MENTIONED"
                 value="3"
               />
             </TabList>
@@ -110,7 +112,20 @@ const UserDashboard = ({
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="3"
           >
-          <Grid container spacing={2}>
+         <Grid container spacing={2}>
+         {currentUser &&
+            userNotIncludeProjectsForMention &&
+            userNotIncludeProjectsForMention?.map((data) => (
+              <>
+            <MentionProjects
+              currentUsers={currentUser}
+              datas={data}
+              mention={true}
+            />
+          </>
+        ))}
+         </Grid>
+          {/* <Grid container spacing={2}>
             {currentUser && (
               <PastProjects
                 currentUser={currentUser}
@@ -118,7 +133,7 @@ const UserDashboard = ({
                 userProjectsForRaid={userProjectsForRaid}
               />
             )}
-            </Grid>
+            </Grid> */}
           </TabPanel>
         </TabContext>
       </Box>
@@ -127,6 +142,7 @@ const UserDashboard = ({
                                   datas={data}
                                   mention={true}
                                 /> */}
+      <TransactionHistory/>
     </>
   );
 };
