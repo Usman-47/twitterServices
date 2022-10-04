@@ -1,6 +1,6 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   WalletMultiButton,
@@ -132,11 +132,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Landing = (props) => {
+  const [dispatch] = useDispatchFunc();
+  const navigate = useNavigate();
+
   const { wallet, connect, sendTransaction, connecting, publicKey } =
     useWallet();
   const [istrue, setIsTrue] = React.useState(1);
 
   useEffect(() => {}, [props]);
+
+  const signinUser = async () => {
+    dispatch({ type: "loadingStart" });
+    const data = { publicKey, twitterId: props.auth.id };
+    const response = await axios.patch(
+      `${process.env.REACT_APP_SERVERURL}/api/addUserWalletPublicKey`,
+      data,
+      {
+        headers: {
+          Authorization: `BEARER ${props.auth.token}`,
+        },
+      }
+    );
+
+    dispatch({ type: "loadingStop" });
+    if (props.auth) {
+      // toast.success(data.msg);
+      //save it to localStorage
+      dispatch({
+        type: "signin",
+        payload: {
+          token: props.auth.token,
+          role: props.auth.role,
+          idVerified: props.auth.isVerified,
+          twitterId: props?.auth?.id,
+          accessToken: props?.auth?.accessToken,
+          accessTokenSecret: props?.auth?.accessTokenSecret,
+        },
+      });
+      navigate("/app/dashboard");
+    } else {
+      // toast.error(data.msg);
+    }
+  };
+
   const handleCheck = (value) => {
     if (value == 2) {
       setIsTrue(value);
@@ -286,7 +324,7 @@ const Landing = (props) => {
                       <span style={{ marginRight: "5px" }}>
                         <BsTwitter />
                       </span>
-                      Connect Your Twitter
+                      Continue
                     </Button>
                   ) : (
                     <Link
@@ -476,7 +514,7 @@ const Landing = (props) => {
                     <span style={{ marginRight: "5px" }}>
                       {/* <BsTwitter /> */}
                     </span>
-                    Continue With This Wallet
+                    Continue
                   </Button>
                 </div>
               </>
@@ -789,24 +827,29 @@ const Landing = (props) => {
                   }}
                   // to="/Signup"
                 >
-                  <Button
-                    className="registeration"
-                    variant="contained"
-                    sx={{
-                      fontSize: {
-                        xs: "7px",
-                        md: "9px",
-                        lg: "11px",
-                        xl: "15px",
-                      },
-                    }}
-                    // onClick={() => { handleCheck(6) }}
-                  >
-                    Confirm
-                    <span style={{ marginLeft: "5px" }}>
-                      <img src={`${Images.confirmVector}`} />
-                    </span>
-                  </Button>
+                  {publicKey && props?.auth ? (
+                    <Button
+                      className="registeration"
+                      variant="contained"
+                      onClick={signinUser}
+                      sx={{
+                        fontSize: {
+                          xs: "7px",
+                          md: "9px",
+                          lg: "11px",
+                          xl: "15px",
+                        },
+                      }}
+                      // onClick={() => { handleCheck(6) }}
+                    >
+                      Confirm
+                      <span style={{ marginLeft: "5px" }}>
+                        <img src={`${Images.confirmVector}`} />
+                      </span>
+                    </Button>
+                  ) : (
+                    <> {handleCheck(1)}</>
+                  )}
                 </div>
               </>
             ) : null}
