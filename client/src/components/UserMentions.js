@@ -549,9 +549,13 @@ const UserMentions = ({ currentUser, data }) => {
             }}
           >
             {!rewardToken ? <option value={""}>{"Select Token"}</option> : null}
-            {data?.pool?.map((pool) => (
+            {data?.pool?.map((pool, i) => (
               <>
-                <option style={{ fontSize: "12px" }} value={pool.splToken}>
+                <option
+                  key={i}
+                  style={{ fontSize: "12px" }}
+                  value={pool.splToken}
+                >
                   {pool.splToken}
                 </option>
               </>
@@ -581,9 +585,11 @@ const UserMentions = ({ currentUser, data }) => {
             {!tweetForReward ? (
               <option value={""}>{"Select Tweet"}</option>
             ) : null}
-            {mentionUserTweet.map((tweet) => (
+            {mentionUserTweet.map((tweet, i) => (
               <>
-                <option value={tweet.id}>{tweet.text}</option>
+                <option key={i} value={tweet.id}>
+                  {tweet.text}
+                </option>
               </>
             ))}
           </select>
@@ -623,9 +629,9 @@ const UserMentions = ({ currentUser, data }) => {
                 <option value={""}>{"Select Tweet For Claim"}</option>
               ) : null}
               {userCreatedTweets &&
-                userCreatedTweets?.map((tweet) => (
+                userCreatedTweets?.map((tweet, i) => (
                   <>
-                    <option value={tweet.tweetId}>
+                    <option key={i} value={tweet.tweetId}>
                       {tweet.tweetText ? tweet.tweetText : tweet.tweetId}
                     </option>
                   </>
@@ -635,10 +641,11 @@ const UserMentions = ({ currentUser, data }) => {
         </div>
       ) : null}
       {userCreatedTweets &&
-        userCreatedTweets?.map((tweet) => {
+        userCreatedTweets?.map((tweet, i) => {
           // if (tweet.projectName !== rewardPaidProjectName) {
           return (
             <Button
+              key={i}
               id="headings"
               style={{ marginBottom: "20px" }}
               variant="contained"

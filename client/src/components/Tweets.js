@@ -121,8 +121,8 @@ const Tweets = (props) => {
           { text: "Profile", icon: "bx:user" },
           { text: "Rewards", icon: "arcticons:rewards" },
           { text: "Account", icon: "gridicons:stats" },
-          { text: "Stats",  icon: "healthicons:exercise-walk-supported"},
-         
+          { text: "Stats", icon: "healthicons:exercise-walk-supported" },
+
           { text: "Setting", icon: "ant-design:setting-filled" },
           { text: "Support", icon: "ic:twotone-space-dashboard" },
         ].map((obj, index) => (
@@ -131,14 +131,12 @@ const Tweets = (props) => {
               // className="dashboard_list text-white"
               onClick={() => setSelectedComponent(obj.text)}
               className={`text-info justify-content-center fs-3 ${
-                selectedComponent === obj.text
-                  ? "text-info"
-                  : "text-white"
+                selectedComponent === obj.text ? "text-info" : "text-white"
               }`}
             >
               <ListItemIcon className="dasbboard_icons m-auto">
                 <Icon
-                className="m-auto"
+                  className="m-auto"
                   color={selectedComponent === obj.text && "#00acee"}
                   icon={obj.icon}
                 />
@@ -345,7 +343,7 @@ const Tweets = (props) => {
   }));
   return (
     <>
-      <Box sx={{ display: "flex", background: "#272727", minHeight: "100vh", }}>
+      <Box sx={{ display: "flex", background: "#272727", minHeight: "100vh" }}>
         <CssBaseline />
 
         <AppBar
@@ -421,7 +419,7 @@ const Tweets = (props) => {
                         Unlink from twitter
                       </Button>,
                     ].map((text, index) => (
-                      <ListItem key={text} disablePadding>
+                      <ListItem key={index} disablePadding>
                         <ListItemButton
                           href={`${process.env.REACT_APP_SERVERURL}/api/logout`}
                         >
@@ -438,7 +436,7 @@ const Tweets = (props) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        
+
         <Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -482,15 +480,15 @@ const Tweets = (props) => {
           component="main"
           sx={{
             flexGrow: 1,
-           
+
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >
           <Toolbar />
           {selectedComponent === "Dashboard" ? (
             <>
-            <MainDashboard/>
-            {/* <Grid container>
+              <MainDashboard />
+              {/* <Grid container>
              <Grid item xs={12} sm={8} md={9}>
                   <Typography>
                   <Grid container sx={{marginBottom:"20px"}}>
@@ -521,118 +519,140 @@ const Tweets = (props) => {
             </>
           ) : selectedComponent === "Mention to Earn" ? (
             <>
-             <Grid container>
-             <Grid item xs={12} sm={8} md={9}>
+              <Grid container>
+                <Grid item xs={12} sm={8} md={9}>
                   <Typography>
-                  <Grid container sx={{marginBottom:"20px"}}>
-                      <RaidsCountWidget/>
-                   </Grid>   
+                    <Grid container sx={{ marginBottom: "20px" }}>
+                      <RaidsCountWidget />
+                    </Grid>
                   </Typography>
-             <Box
-                className="tabs_container"
-                sx={{
-                  width: "95%",
-                  margin: "0 auto",
-                  typography: "body1",
-                }}
-              >
-                <TabContext value={value}>
-                  <Box>
-                    <TabList
-                      sx={{ gap: "5px" }}
-                      onChange={handleChange}
-                      aria-label="lab API tabs example"
-                      
-                    >
-                      <Tab
-                        className="dashboard_tabs"
-                        sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
-                        label="TWEETS TO MENTION"
-                        value="1"
-                      />
-                      <Tab
-                        className="dashboard_tabs,"
-                        sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
-                        label="PREVIOUS TWEETS"
-                        value="2"
-                      />
-                    </TabList>
-                  </Box>
-
                   <Box
                     className="tabs_container"
                     sx={{
+                      width: "95%",
                       margin: "0 auto",
                       typography: "body1",
                     }}
                   >
-                    <TabPanel
-                      sx={{
-                        color: "white",
-                        fontSize: "50px",
-                        textAlign: "center",
-                        marginTop: "70px",
-                      }}
-                      value="2"
-                    >
-                      COMING SOON...
-                    </TabPanel>
+                    <TabContext value={value}>
+                      <Box>
+                        <TabList
+                          sx={{ gap: "5px" }}
+                          onChange={handleChange}
+                          aria-label="lab API tabs example"
+                        >
+                          <Tab
+                            className="dashboard_tabs"
+                            sx={{
+                              color: "white",
+                              borderRadius: "20px 20px 0px 0px",
+                            }}
+                            label="TWEETS TO MENTION"
+                            value="1"
+                          />
+                          <Tab
+                            className="dashboard_tabs,"
+                            sx={{
+                              color: "white",
+                              borderRadius: "20px 20px 0px 0px",
+                            }}
+                            label="PREVIOUS TWEETS"
+                            value="2"
+                          />
+                        </TabList>
+                      </Box>
 
-                    <TabPanel
-                      sx={{
-                        color: "white",
-                        padding: "0 !important",
-                        marginTop: "40px",
-                      }}
-                      value="1"
-                    >
-                      <Grid container spacing={2}>
-                        {getAllInvoices?.map((data) => (
-                          <>
-                            {data?.isRaid === false ? (
+                      <Box
+                        className="tabs_container"
+                        sx={{
+                          margin: "0 auto",
+                          typography: "body1",
+                        }}
+                      >
+                        <TabPanel
+                          sx={{
+                            color: "white",
+                            fontSize: "50px",
+                            textAlign: "center",
+                            marginTop: "70px",
+                          }}
+                          value="2"
+                        >
+                          COMING SOON...
+                        </TabPanel>
+
+                        <TabPanel
+                          sx={{
+                            color: "white",
+                            padding: "0 !important",
+                            marginTop: "40px",
+                          }}
+                          value="1"
+                        >
+                          <Grid container spacing={2}>
+                            {getAllInvoices?.map((data, i) => (
                               <>
-                                {data?.pool?.length > 0 ? (
-                                  <MentionProjects
-                                    currentUsers={props?.auth}
-                                    datas={data}
-                                    mention={true}
-                                  />
+                                {data?.isRaid === false ? (
+                                  <>
+                                    {data?.pool?.length > 0 ? (
+                                      <MentionProjects
+                                        key={i}
+                                        currentUsers={props?.auth}
+                                        datas={data}
+                                        mention={true}
+                                      />
+                                    ) : null}
+                                    {/* <UserMentions currentUser={props?.auth} data={data} /> */}
+                                  </>
                                 ) : null}
-                                {/* <UserMentions currentUser={props?.auth} data={data} /> */}
                               </>
-                            ) : null}
-                          </>
-                        ))}
-                      </Grid>
-                    </TabPanel>
+                            ))}
+                          </Grid>
+                        </TabPanel>
+                      </Box>
+                    </TabContext>
                   </Box>
-                </TabContext>
-              </Box>
-              </Grid>
-                <Grid sm={4} md={3} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px',}}>
-                 <TopRaiders/>
-                 <Typography style={{textAlign:"center", marginTop:"20px"}}>
-                    <Button variant="outlined" style={{border: '1px solid #1A1A1A',
-                        borderRadius: '8px', fontSize:"14px", color:"white"}}>
+                </Grid>
+                <Grid
+                  sm={4}
+                  md={3}
+                  style={{
+                    background: "#161616",
+                    borderRadius: "0px 0px 0px 20px",
+                  }}
+                >
+                  <TopRaiders />
+                  <Typography
+                    style={{ textAlign: "center", marginTop: "20px" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      style={{
+                        border: "1px solid #1A1A1A",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "white",
+                      }}
+                    >
                       View all <Icon icon="bi:chevron-double-down" />
                     </Button>
                   </Typography>
                 </Grid>
-             </Grid>
+              </Grid>
             </>
           ) : selectedComponent === "Raid to Earn" ? (
             <>
               <Grid container>
                 <Grid item xs={12} sm={8} md={9}>
                   <Typography>
-                  <Grid container sx={{marginBottom:"20px"}}>
-                      <RaidsCountWidget/>
-                   </Grid>   
+                    <Grid container sx={{ marginBottom: "20px" }}>
+                      <RaidsCountWidget />
+                    </Grid>
                   </Typography>
                   <Box
                     className="tabs_container"
                     sx={{
-                      padding:"5px",
+                      padding: "5px",
                       width: "100%",
                       margin: "0 auto",
                       typography: "body1",
@@ -665,10 +685,10 @@ const Tweets = (props) => {
                           />
                         </TabList>
                       </Box>
-                      {getAllInvoices?.map((data) => (
+                      {getAllInvoices?.map((data, i) => (
                         <>
                           {data?.isRaid ? (
-                            <div>
+                            <div key={i}>
                               <TabPanel
                                 sx={{
                                   color: "white",
@@ -679,10 +699,11 @@ const Tweets = (props) => {
                               >
                                 <Grid container>
                                   {data?.isRaid &&
-                                    data?.pool?.map((pool) => (
+                                    data?.pool?.map((pool, i) => (
                                       <>
                                         {pool?.endTime * 1000 > Date.now() ? (
                                           <Pool
+                                            key={i}
                                             currentUser={props?.auth}
                                             pool={pool}
                                             projectDetail={data}
@@ -703,10 +724,11 @@ const Tweets = (props) => {
                               >
                                 <Grid container spacing={2}>
                                   {data?.isRaid &&
-                                    data?.pool?.map((pool) => (
+                                    data?.pool?.map((pool, i) => (
                                       <>
                                         {pool?.endTime * 1000 < Date.now() ? (
                                           <Pool
+                                            key={i}
                                             currentUser={props?.auth}
                                             pool={pool}
                                             projectDetail={data}
@@ -723,11 +745,27 @@ const Tweets = (props) => {
                     </TabContext>
                   </Box>
                 </Grid>
-                <Grid sm={4} md={3} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px'}}>
-                 <TopRaiders/>
-                 <Typography style={{textAlign:"center", marginTop:"20px"}}>
-                    <Button variant="outlined" style={{border: '1px solid #1A1A1A',
-                        borderRadius: '8px', fontSize:"14px", color:"white"}}>
+                <Grid
+                  sm={4}
+                  md={3}
+                  style={{
+                    background: "#161616",
+                    borderRadius: "0px 0px 0px 20px",
+                  }}
+                >
+                  <TopRaiders />
+                  <Typography
+                    style={{ textAlign: "center", marginTop: "20px" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      style={{
+                        border: "1px solid #1A1A1A",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "white",
+                      }}
+                    >
                       View all <Icon icon="bi:chevron-double-down" />
                     </Button>
                   </Typography>
@@ -739,40 +777,60 @@ const Tweets = (props) => {
           ) : selectedComponent === "Rewards" ? (
             <Rewards />
           ) : selectedComponent === "Profile" ? (
-          
             <>
-            {/* <Profledescription currentUser={props?.auth} /> */}
-            <Grid container>
-             <Grid item xs={12} sm={8} md={8}>
+              {/* <Profledescription currentUser={props?.auth} /> */}
+              <Grid container>
+                <Grid item xs={12} sm={8} md={8}>
                   <Typography>
-                  <Grid container sx={{marginBottom:"20px"}}>
-                      <Account/>
-                   </Grid>   
+                    <Grid container sx={{ marginBottom: "20px" }}>
+                      <Account />
+                    </Grid>
                   </Typography>
-                  <Typography sx={{color:"white", fontSize:"36px", fontWeight:"600", marginLeft:"25px", marginBottom:"10px"}}>Activities</Typography>
-                <UserDashboard
-                  currentUser={props?.auth}
-                  userProjectsForMention={userProjectsForMention}
-                  userProjectsForRaid={userProjectsForRaid}
-                  userNotIncludeProjectsForMention={
-                    userNotIncludeProjectsForMention
-                  }
-                  userNotIncludeProjectsForRaid={userNotIncludeProjectsForRaid}
-                />
-                 </Grid>
-                <Grid sm={4} md={4} style={{ background: "#161616", borderRadius: '0px 0px 0px 20px', minHeight:"100vh"}}>
-               <Typography sx={{margin:"10px",}}>
-               <Grid container sx={{borderRadius: '10.0883px', background: '#2C2C2E'}}>
-                
-                <TotalRaids/>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "36px",
+                      fontWeight: "600",
+                      marginLeft: "25px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Activities
+                  </Typography>
+                  <UserDashboard
+                    currentUser={props?.auth}
+                    userProjectsForMention={userProjectsForMention}
+                    userProjectsForRaid={userProjectsForRaid}
+                    userNotIncludeProjectsForMention={
+                      userNotIncludeProjectsForMention
+                    }
+                    userNotIncludeProjectsForRaid={
+                      userNotIncludeProjectsForRaid
+                    }
+                  />
                 </Grid>
-               </Typography>
-                <Typography component="div" sx={{margin:"10px"}}>
-                <TopRaiders/>
-                </Typography>
-                 
+                <Grid
+                  sm={4}
+                  md={4}
+                  style={{
+                    background: "#161616",
+                    borderRadius: "0px 0px 0px 20px",
+                    minHeight: "100vh",
+                  }}
+                >
+                  <Typography sx={{ margin: "10px" }}>
+                    <Grid
+                      container
+                      sx={{ borderRadius: "10.0883px", background: "#2C2C2E" }}
+                    >
+                      <TotalRaids />
+                    </Grid>
+                  </Typography>
+                  <Typography component="div" sx={{ margin: "10px" }}>
+                    <TopRaiders />
+                  </Typography>
                 </Grid>
-             </Grid>
+              </Grid>
             </>
           ) : selectedComponent === "Setting" ? (
             <Setting />

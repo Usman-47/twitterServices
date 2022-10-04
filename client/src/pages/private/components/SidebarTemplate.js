@@ -70,7 +70,9 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
           </Typography>
           <nav className="overflow-hidden mt-5">
             <ul className="navbar-nav mb-2 mb-lg-0 py-4">
-              {clientAddress ? <li>Your Wallet: {clientAddress}</li> : null}
+              {clientAddress ? (
+                <li style={{ width: "50px" }}>Your Wallet: {clientAddress}</li>
+              ) : null}
               {solBalance ? <li>Balance: {solBalance} sol</li> : null}
               {navArray &&
                 navArray.map((navElement, index) => (
@@ -89,7 +91,7 @@ const SidebarTemplate = ({ currentUser, navArray, setShowSideBar }) => {
                       to={navElement.href}
                       key={navElement.id}
                     >
-                      <Typography style={{fontSize:"30px"}}>
+                      <Typography style={{ fontSize: "30px" }}>
                         {index === 0 ? (
                           <Icon icon="ic:twotone-space-dashboard" />
                         ) : index === 1 || index === 2 ? (

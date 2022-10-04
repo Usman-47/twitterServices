@@ -29,7 +29,6 @@ const UserDashboard = ({
         className="tabs_container"
         sx={{ width: "95%", margin: "0 auto", typography: "body1" }}
       >
-      
         <TabContext value={value}>
           <Box>
             <TabList
@@ -45,14 +44,13 @@ const UserDashboard = ({
               /> */}
               <Tab
                 className="dashboard_tabs"
-                sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
+                sx={{ color: "white", borderRadius: "20px 20px 0px 0px" }}
                 label="TWEETS YOU RAID"
                 value="2"
-
               />
               <Tab
                 className="dashboard_tabs"
-                sx={{ color: "white", borderRadius: "20px 20px 0px 0px", }}
+                sx={{ color: "white", borderRadius: "20px 20px 0px 0px" }}
                 label="TWEETS YOU MENTIONED"
                 value="3"
               />
@@ -91,7 +89,7 @@ const UserDashboard = ({
           </Typography> */}
 
           <ThreadModal />
-          
+
           <TabPanel
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="2"
@@ -112,20 +110,19 @@ const UserDashboard = ({
             sx={{ color: "white", padding: "0 !important", marginTop: "40px" }}
             value="3"
           >
-         <Grid container spacing={2}>
-         {currentUser &&
-            userNotIncludeProjectsForMention &&
-            userNotIncludeProjectsForMention?.map((data) => (
-              <>
-            <MentionProjects
-              currentUsers={currentUser}
-              datas={data}
-              mention={true}
-            />
-          </>
-        ))}
-         </Grid>
-          {/* <Grid container spacing={2}>
+            <Grid container spacing={2}>
+              {currentUser &&
+                userNotIncludeProjectsForMention &&
+                userNotIncludeProjectsForMention?.map((data, i) => (
+                  <MentionProjects
+                    key={i}
+                    currentUsers={currentUser}
+                    datas={data}
+                    mention={true}
+                  />
+                ))}
+            </Grid>
+            {/* <Grid container spacing={2}>
             {currentUser && (
               <PastProjects
                 currentUser={currentUser}
@@ -142,7 +139,7 @@ const UserDashboard = ({
                                   datas={data}
                                   mention={true}
                                 /> */}
-      <TransactionHistory/>
+      <TransactionHistory />
     </>
   );
 };

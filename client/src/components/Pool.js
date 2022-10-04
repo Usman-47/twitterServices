@@ -14,20 +14,19 @@ const Pool = ({ currentUser, pool, projectDetail }) => {
     return (
       <>
         {pool?.tweets &&
-          pool?.tweets.map((data) => (
-            <>
-              <Tweet
-                data={data}
-                currentUser={currentUser}
-                projectDetail={projectDetail}
-                poolData={{
-                  splToken: pool?.splToken,
-                  rewardCategory: pool?.category,
-                  startTime: pool.startTime,
-                  endTime: pool?.endTime || pool[" endTime"],
-                }}
-              />
-            </>
+          pool?.tweets.map((data, i) => (
+            <Tweet
+              key={i}
+              data={data}
+              currentUser={currentUser}
+              projectDetail={projectDetail}
+              poolData={{
+                splToken: pool?.splToken,
+                rewardCategory: pool?.category,
+                startTime: pool.startTime,
+                endTime: pool?.endTime || pool[" endTime"],
+              }}
+            />
           ))}
       </>
     );

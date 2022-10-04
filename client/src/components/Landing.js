@@ -500,27 +500,29 @@ const Landing = (props) => {
                   }}
                   // to="/Signup"
                 >
-                  <WalletMultiButton className="registeration" />;
-                  <Button
-                    className="registeration"
-                    variant="contained"
-                    sx={{
-                      fontSize: {
-                        xs: "7px",
-                        md: "9px",
-                        lg: "11px",
-                        xl: "15px",
-                      },
-                    }}
-                    onClick={() => {
-                      handleCheck(4);
-                    }}
-                  >
-                    <span style={{ marginRight: "5px" }}>
-                      {/* <BsTwitter /> */}
-                    </span>
-                    Continue
-                  </Button>
+                  <WalletMultiButton className="registeration" />
+                  {publicKey ? (
+                    <Button
+                      className="registeration"
+                      variant="contained"
+                      sx={{
+                        fontSize: {
+                          xs: "7px",
+                          md: "9px",
+                          lg: "11px",
+                          xl: "15px",
+                        },
+                      }}
+                      onClick={() => {
+                        handleCheck(4);
+                      }}
+                    >
+                      <span style={{ marginRight: "5px" }}>
+                        {/* <BsTwitter /> */}
+                      </span>
+                      Continue
+                    </Button>
+                  ) : null}
                 </div>
               </>
             ) : null}

@@ -111,7 +111,8 @@ function App(props) {
                   <Route
                     path="projects/:projectName"
                     element={
-                      <Protected redirect={<LoginPage />}>
+                      // <Protected redirect={<LoginPage />}>
+                      <Protected redirect={<Landing />}>
                         <Tweets />
                       </Protected>
                     }
@@ -119,7 +120,8 @@ function App(props) {
                   <Route
                     path="projects/"
                     element={
-                      <Protected redirect={<LoginPage />}>
+                      // <Protected redirect={<LoginPage />}>
+                      <Protected redirect={<Landing />}>
                         <Tweets />
                       </Protected>
                     }
@@ -127,7 +129,8 @@ function App(props) {
                   <Route
                     path="/app"
                     element={
-                      <Protected redirect={<Home />}>
+                      // <Protected redirect={<Home />}>
+                      <Protected redirect={<Landing />}>
                         <Dashboard />
                       </Protected>
                     }
@@ -135,7 +138,8 @@ function App(props) {
                     <Route
                       path=""
                       element={
-                        <Protected redirect={<Home />}>
+                        // <Protected redirect={<Home />}>
+                        <Protected redirect={<Landing />}>
                           <MainScreen />
                         </Protected>
                       }
@@ -143,7 +147,8 @@ function App(props) {
                     <Route
                       path="dashboard"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <MainScreen />
                         </Protected>
                       }
@@ -153,7 +158,8 @@ function App(props) {
                     <Route
                       path="user/create"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <CreateUser />
                         </Protected>
                       }
@@ -161,7 +167,8 @@ function App(props) {
                     <Route
                       path="user/update/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <UpdateUser />
                         </Protected>
                       }
@@ -169,7 +176,8 @@ function App(props) {
                     <Route
                       path="user/readAll"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadUser />
                         </Protected>
                       }
@@ -177,7 +185,8 @@ function App(props) {
                     <Route
                       path="user/readOne/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadOneUser />
                         </Protected>
                       }
@@ -185,7 +194,8 @@ function App(props) {
                     <Route
                       path="user/delete/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <DeleteUser />
                         </Protected>
                       }
@@ -196,7 +206,8 @@ function App(props) {
                     <Route
                       path="invoice/create"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <CreateInvoice />
                         </Protected>
                       }
@@ -204,7 +215,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/addPool/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <AddPool />
                         </Protected>
                       }
@@ -212,7 +224,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/readOnePool/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadOnePool />
                         </Protected>
                       }
@@ -220,7 +233,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/update/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <UpdatePool />
                         </Protected>
                       }
@@ -228,7 +242,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/delete/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <DeletePool />
                         </Protected>
                       }
@@ -236,7 +251,8 @@ function App(props) {
                     <Route
                       path="invoice/update/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <UpdateInvoice />
                         </Protected>
                       }
@@ -244,7 +260,8 @@ function App(props) {
                     <Route
                       path="invoice/delete/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <DeleteInvoice />
                         </Protected>
                       }
@@ -252,7 +269,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadOneInvoice />
                         </Protected>
                       }
@@ -260,7 +278,8 @@ function App(props) {
                     <Route
                       path="invoice/readAll"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadAllInvoices />
                         </Protected>
                       }
@@ -268,7 +287,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadAllPool />
                         </Protected>
                       }
@@ -276,7 +296,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/readOnePool/readAllTweet/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <ReadAllTweets />
                         </Protected>
                       }
@@ -284,7 +305,8 @@ function App(props) {
                     <Route
                       path="invoice/readOne/readAllPool/readOnePool/readAllTweet/AddTweet/:id"
                       element={
-                        <Protected redirect={<LoginPage />}>
+                        // <Protected redirect={<LoginPage />}>
+                        <Protected redirect={<Landing />}>
                           <AddTweet />
                         </Protected>
                       }
